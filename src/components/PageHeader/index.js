@@ -16,7 +16,7 @@ export default function PageHeader() {
           <img src={AlfabeticalSorting} alt="Ordernar por ordem alfabetica" />
         </button>
       </S.FormatView>
-      <span>MERCADÃO ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</span>
+      <S.Span>Mercadão de Petrolia</S.Span>
       <S.FormatView>
         <button type="button">
           <img src={ListView} alt="Ordernar por categoria" />
