@@ -5,21 +5,23 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 2rem;
+  margin-bottom: 2rem;
 
-  span {
-    max-width: 15rem;
-    font-size: 2rem;
-    max-height: 5rem;
-    text-align: center;
-    word-break: break-word;
-    overflow-y: scroll;
-  }
+`;
+
+export const Span = styled.span`
+  width: 100%;
+  font-size: 2rem;
+  max-height: 5rem;
+  text-align: center;
+  word-break: break-word;
+  overflow-y: scroll;
+  padding: 0 0.5rem;
 
   @media(min-width: 700px) {
-    span {
-      max-width: 70rem;
-      font-size: 2rem;
-    }
+    font-size: 2rem;
+    overflow-y: hidden;
+
   }
 `;
 
@@ -42,7 +44,7 @@ export const FormatView = styled.div`
 
   @media(min-width: 700px) {
     img {
-    width: 3.5rem;
+    width: 3rem;
   }
   }
 `;
