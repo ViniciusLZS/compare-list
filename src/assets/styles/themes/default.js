@@ -3,8 +3,8 @@ export default {
     backgroundColor: '#EAEBFC',
     primary: {
       dark: '#ADB1F4',
-      main: '#D6D8FA',
-      light: '#C1C4F7',
+      main: '#C1C4F7',
+      light: '#D6D8FA',
       lighter: '#EAEBFC',
     },
     gray: {
