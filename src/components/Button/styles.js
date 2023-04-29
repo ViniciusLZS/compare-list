@@ -7,12 +7,26 @@ export const StyledButton = styled.button`
   height: 5rem;
   width: 100%;
   max-width: 30rem;
+  padding: 0 1.6rem;
   color: ${({ theme }) => theme.colors.default.black};
   font-size: 1.6rem;
-  border: 2px solid ${({ theme }) => theme.colors.primary.main};
-  background: ${({ theme }) => theme.colors.primary.main};
+  border: 2px solid ${({ theme }) => theme.colors.primary.light};
+  background: ${({ theme }) => theme.colors.primary.light};
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   border-radius: 10px;
   text-decoration: none;
   cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.primary.main};
+  }
+
+  &:active {
+    background-color: ${({ theme }) => theme.colors.primary.dark};
+  }
+
+  &[disabled] {
+    background: #CCCCCC;
+    cursor: default;
+  }
 `;
