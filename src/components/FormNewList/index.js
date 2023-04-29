@@ -38,6 +38,7 @@ export default function Form() {
           placeholder="Nome do estabelecimento ou marca"
           onChange={(event) => handleStoreChange(event)}
           value={nameStore}
+          maxLength="25"
         />
       </FormGroup>
 
