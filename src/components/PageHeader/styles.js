@@ -2,15 +2,18 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-top: 2rem;
   margin-bottom: 2rem;
-
+  width: 100%;
+  max-width: 98rem;
+  gap: 1rem;
 `;
 
 export const Span = styled.span`
   width: 100%;
+  max-width: 53rem;
   font-size: 2rem;
   max-height: 5rem;
   text-align: center;
