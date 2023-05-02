@@ -33,7 +33,7 @@ export const Card = styled.div`
   ${({ view }) => view === 'grid' && css`
     width: 100%;
     max-width: 15rem;
-    max-height: 30rem;
+    max-height: 25rem;
 
     @media(max-width: 340px) {
       width: 100%;
@@ -52,7 +52,6 @@ export const Content = styled.div`
 export const Title = styled.h2`
   position: absolute;
   top: 0;
-  left: 7rem;
 
   width: 100%;
   max-width: 25rem;
@@ -114,7 +113,7 @@ export const ContainerValue = styled.div`
   }
 
   @media(min-width: 700px) {
-    gap: 5rem;
+    gap: 2rem;
     width: 40rem;
   }
 
