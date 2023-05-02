@@ -22,7 +22,7 @@ export const Content = styled.div`
 
 export const ButtonContainer = styled.div`
   position: fixed;
-  bottom: 1rem;
+  bottom: 0;
 
   width: 100%;
   max-width: 98rem;
