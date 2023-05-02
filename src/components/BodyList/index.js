@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import * as S from './styles';
 
 import Apple from '../../assets/image/apple.svg';
@@ -6,9 +7,13 @@ import Trash from '../../assets/image/icons/bin.svg';
 export default function BodyList() {
   const layout = 'flex';
 
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight - window.innerHeight);
+  }, []);
+
   return (
     <S.Container layout={layout}>
-      <S.Card>
+      <S.Card layout={layout}>
         <S.Content>
           <S.Title>Maçã</S.Title>
 
