@@ -15,9 +15,9 @@ export default function PageHeader({
       <S.FormatView>
         <button type="button" onClick={onHandleOrderBy}>
           {orderBy === 'asc' ? (
-            <img src={AlfabeticalSorting} alt="Ordernar por ordem alfabetica" />
-          ) : (
             <img src={orderCategory} alt="Ordernar por categoria" />
+          ) : (
+            <img src={AlfabeticalSorting} alt="Ordernar por ordem alfabetica" />
           )}
         </button>
       </S.FormatView>
@@ -27,9 +27,9 @@ export default function PageHeader({
       <S.FormatView>
         <button type="button" onClick={onHandleView}>
           {view === 'flex' ? (
-            <img src={ListView} alt="Visualizar como lista" />
-          ) : (
             <img src={gridView} alt="Visualizar como grade" />
+          ) : (
+            <img src={ListView} alt="Visualizar como lista" />
           )}
         </button>
       </S.FormatView>
