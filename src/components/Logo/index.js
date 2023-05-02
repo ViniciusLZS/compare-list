@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 
 import * as S from './styles';
 
-import Logo from '../../assets/image/logo.svg';
+import LogoSvg from '../../assets/image/logo.svg';
 import ArrowBack from '../../assets/image/icons/arrow.svg';
 
-export default function Header({ size }) {
+export default function Logo({ size }) {
   function handleBack() {
     window.history.back();
   }
@@ -16,15 +16,15 @@ export default function Header({ size }) {
         <img src={ArrowBack} alt="Seta para voltar" />
       </S.Arrow>
 
-      <img src={Logo} alt="Logo" width={size} />
+      <img src={LogoSvg} alt="Logo" width={size} />
     </S.Container>
   );
 }
 
-Header.propTypes = {
+Logo.propTypes = {
   size: PropTypes.number,
 };
 
-Header.defaultProps = {
+Logo.defaultProps = {
   size: 100,
 };
