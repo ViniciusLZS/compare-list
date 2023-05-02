@@ -7,6 +7,8 @@ export const ContainerBar = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 `;
 
 export const Bar = styled.div`
@@ -21,7 +23,7 @@ export const Bar = styled.div`
   .progress {
     background: ${({ theme }) => theme.colors.primary.main};
     border-radius: 4rem;
-    width: 100%;
+    width: ${({ percentege }) => `${percentege}%`};
     height: 1.5rem;
     margin: 0 0.2rem;
     padding-left: 4rem;
