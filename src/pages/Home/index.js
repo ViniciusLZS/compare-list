@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import Header from '../../components/Header';
+import Logo from '../../assets/image/logo.svg';
 
 import * as S from './styles';
 import Button from '../../components/Button';
@@ -8,7 +8,7 @@ import Button from '../../components/Button';
 export default function Home() {
   return (
     <S.Container>
-      <Header size={200} />
+      <img src={Logo} alt="Logo" />
 
       <div className="buttons">
         <Link to="/new">
