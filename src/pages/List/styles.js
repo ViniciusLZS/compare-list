@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Header = styled.div`
   position: fixed;
 
   width: 100%;
   max-width: 98rem;
   padding-right: 2rem;
+  margin-top: 7rem;
   z-index: 100;
   background-color: ${({ theme }) => theme.colors.primary.lighter};
 

@@ -1,7 +1,6 @@
 import * as S from './styles';
 
 import BodyList from '../../components/BodyList';
-import Header from '../../components/Header';
 import PageHeader from '../../components/PageHeader';
 import ProgressBar from '../../components/ProgressBar';
 import Button from '../../components/Button';
@@ -10,12 +9,11 @@ export default function List() {
   return (
     <>
 
-      <S.Container>
-        <Header />
+      <S.Header>
         <ProgressBar />
 
         <PageHeader />
-      </S.Container>
+      </S.Header>
 
       <S.Content>
         <BodyList />

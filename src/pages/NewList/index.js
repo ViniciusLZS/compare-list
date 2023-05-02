@@ -1,12 +1,7 @@
-import Form from '../../components/FormNewList';
-
-import Header from '../../components/Header';
+import FormNewList from '../../components/FormNewList';
 
 export default function NewList() {
   return (
-    <>
-      <Header />
-      <Form />
-    </>
+    <FormNewList />
   );
 }
