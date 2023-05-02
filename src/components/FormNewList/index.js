@@ -8,7 +8,7 @@ import Button from '../Button';
 import * as S from './styles';
 import maskMoney from '../../utils/maskMoney';
 
-export default function Form() {
+export default function FormNewList() {
   const [nameStore, setNomeStore] = useState('');
   const [estimated, setStimed] = useState('');
 
