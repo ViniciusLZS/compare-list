@@ -38,4 +38,8 @@ export const ButtonContainer = styled.div`
     width: 100%;
     max-width: 25rem;
   }
+
+  @media(min-width: 700px) {
+    padding-right: 0;
+  }
 `;
