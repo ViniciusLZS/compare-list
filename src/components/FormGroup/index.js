@@ -8,7 +8,7 @@ export default function FormGroup({ children, error }) {
       <div className="form-item">
         {children}
       </div>
-      <small>{error}</small>
+      {error && <small>{error}</small>}
     </S.Container>
   );
 }
