@@ -1,49 +1,68 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import useErrors from '../../hooks/useErrors';
+import maskMoney from '../../utils/maskMoney';
+
+import * as S from './styles';
+
 import FormGroup from '../FormGroup';
 import Input from '../Input';
 import Button from '../Button';
 
-import * as S from './styles';
-import maskMoney from '../../utils/maskMoney';
-
 export default function FormNewList() {
-  const [nameStore, setNomeStore] = useState('');
-  const [estimated, setStimed] = useState('');
+  const [store, setStore] = useState('');
+  const [estimated, setEstimed] = useState('');
+  const {
+    errors, setError, removeError, getErrorMessageFieldName,
+  } = useErrors();
 
   const history = useHistory();
 
+  const isFormValid = ((store && estimated) && errors.length === 0);
+
   function handleStoreChange(event) {
-    setNomeStore(event.target.value);
+    setStore(event.target.value);
+
+    if (!event.target.value) {
+      setError({ field: 'store', message: 'Nome da loja ou marca é obrigatório.' });
+    } else {
+      removeError('store');
+    }
   }
 
   function handleEstimatedChange(event) {
-    setStimed(maskMoney(event.target.value));
+    setEstimed(maskMoney(event.target.value));
+
+    if (!event.target.value) {
+      setError({ field: 'estimated', message: 'Valor Obrigatório' });
+    } else {
+      removeError('estimated');
+    }
   }
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    console.log({ Store: nameStore, Value: estimated });
+    console.log({ Store: store, Value: estimated });
 
     history.push('/list');
   }
   return (
     <S.Form onSubmit={(event) => handleSubmit(event)} noValidate>
       <FormGroup
-        error="O campo é obrigatorio"
+        error={getErrorMessageFieldName('store')}
       >
         <Input
           placeholder="Nome do estabelecimento ou marca"
           onChange={(event) => handleStoreChange(event)}
-          value={nameStore}
+          value={store}
           maxLength="25"
         />
       </FormGroup>
 
       <FormGroup
-        error="O campo é obrigatorio"
+        error={getErrorMessageFieldName('estimated')}
       >
         <Input
           placeholder="Valor máximo ou estimativa"
@@ -53,7 +72,10 @@ export default function FormNewList() {
         />
       </FormGroup>
 
-      <Button type="submit">
+      <Button
+        type="submit"
+        disabled={!isFormValid}
+      >
         Pronto!
       </Button>
     </S.Form>
