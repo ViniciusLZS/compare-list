@@ -4,6 +4,7 @@ import Logo from '../../assets/image/logo.svg';
 
 import * as S from './styles';
 import Button from '../../components/Button';
+import Message from '../../components/Message';
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         </Link>
       </div>
 
+      <Message />
     </S.Container>
   );
 }
