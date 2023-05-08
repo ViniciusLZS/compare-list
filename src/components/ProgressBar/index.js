@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import * as S from './styles';
 
 export default function ProgressBar({ user }) {
-  console.log('🚀 ~ file: index.js:10 ~ ProgressBar ~ user:', user);
   const [percentege, setPercentege] = useState(0);
 
   const valueTotal = 200;
@@ -34,8 +33,8 @@ export default function ProgressBar({ user }) {
 }
 
 ProgressBar.propTypes = {
-  user: PropTypes.objectOf(PropTypes.shape({
+  user: PropTypes.shape({
     createdAt: PropTypes.string,
     estimated: PropTypes.string,
-  })).isRequired,
+  }).isRequired,
 };

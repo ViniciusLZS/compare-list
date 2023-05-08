@@ -42,7 +42,8 @@ PageHeader.propTypes = {
   onHandleView: PropTypes.func.isRequired,
   orderBy: PropTypes.string.isRequired,
   view: PropTypes.string.isRequired,
-  user: PropTypes.objectOf(PropTypes.shape({
+  user: PropTypes.shape({
+    createdAt: PropTypes.string,
     store: PropTypes.string,
-  })).isRequired,
+  }).isRequired,
 };
