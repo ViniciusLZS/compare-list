@@ -23,6 +23,26 @@ export const Container = styled.div`
   `}
 `;
 
+export const EmptyList = styled.div`
+  width: 100%;
+  height: 42rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+
+  p {
+    margin: 0 2rem;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.gray[200]};
+
+    strong {
+      color: ${({ theme }) => theme.colors.primary.dark};
+    }
+  }
+`;
+
 export const Card = styled.div`
   width: 100%;
   max-height: 12rem;
