@@ -9,7 +9,7 @@ export default function Routes() {
     <>
       <Logo />
       <Route path="/new" component={NewList} />
-      <Route path="/list" component={List} />
+      <Route path="/list/:id" component={List} />
     </>
   );
 }
