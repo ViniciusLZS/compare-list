@@ -25,7 +25,6 @@ export const Bar = styled.div`
     border-radius: 4rem;
     width: ${({ percentege }) => `${percentege}%`};
     height: 1.5rem;
-    margin: 0 0.2rem;
     padding-left: 4rem;
 
     display: flex;

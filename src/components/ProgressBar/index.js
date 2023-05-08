@@ -1,15 +1,20 @@
+import PropTypes from 'prop-types';
+
 import { useEffect, useState } from 'react';
+
 import * as S from './styles';
 
-export default function ProgressBar() {
+export default function ProgressBar({ user }) {
+  console.log('🚀 ~ file: index.js:10 ~ ProgressBar ~ user:', user);
   const [percentege, setPercentege] = useState(0);
 
-  const limit = 5000;
-  const valueTotal = 3620;
+  const valueTotal = 200;
+
+  const numeroSemUltimosDigitos = Number(user.estimated).toString().slice(0, -2);
 
   useEffect(() => {
-    setPercentege((valueTotal / limit) * 100);
-  }, [valueTotal]);
+    setPercentege((valueTotal / numeroSemUltimosDigitos) * 100);
+  }, [valueTotal, numeroSemUltimosDigitos]);
 
   return (
     <S.ContainerBar>
@@ -20,8 +25,17 @@ export default function ProgressBar() {
       </S.Bar>
 
       <S.ContainerSpan>
-        <span>{limit}</span>
+        <span>
+          {`R$ ${numeroSemUltimosDigitos}`}
+        </span>
       </S.ContainerSpan>
     </S.ContainerBar>
   );
 }
+
+ProgressBar.propTypes = {
+  user: PropTypes.objectOf(PropTypes.shape({
+    createdAt: PropTypes.string,
+    estimated: PropTypes.string,
+  })).isRequired,
+};
