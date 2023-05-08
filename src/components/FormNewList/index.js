@@ -1,8 +1,9 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 import useErrors from '../../hooks/useErrors';
 import maskMoney from '../../utils/maskMoney';
+import cleanMask from '../../utils/cleanMask';
 
 import * as S from './styles';
 
@@ -10,14 +11,12 @@ import FormGroup from '../FormGroup';
 import Input from '../Input';
 import Button from '../Button';
 
-export default function FormNewList() {
+export default function FormNewList({ onSubmit }) {
   const [store, setStore] = useState('');
-  const [estimated, setEstimed] = useState('');
+  const [estimated, setEstimated] = useState('');
   const {
     errors, setError, removeError, getErrorMessageFieldName,
   } = useErrors();
-
-  const history = useHistory();
 
   const isFormValid = ((store && estimated) && errors.length === 0);
 
@@ -32,7 +31,7 @@ export default function FormNewList() {
   }
 
   function handleEstimatedChange(event) {
-    setEstimed(maskMoney(event.target.value));
+    setEstimated(maskMoney(event.target.value));
 
     if (!event.target.value) {
       setError({ field: 'estimated', message: 'Valor Obrigatório' });
@@ -41,13 +40,14 @@ export default function FormNewList() {
     }
   }
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
-
-    console.log({ Store: store, Value: estimated });
-
-    history.push('/list');
+    const estimatedClean = cleanMask(estimated);
+    onSubmit({
+      store, estimated: estimatedClean,
+    });
   }
+
   return (
     <S.Form onSubmit={(event) => handleSubmit(event)} noValidate>
       <FormGroup
@@ -81,3 +81,7 @@ export default function FormNewList() {
     </S.Form>
   );
 }
+
+FormNewList.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
