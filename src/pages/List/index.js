@@ -14,6 +14,7 @@ export default function List() {
   const [view, setView] = useState('flex');
   const [orderBy, setOrderBy] = useState('asc');
   const [products, setProducts] = useState([]);
+  const [hasError, setHasError] = useState(false);
 
   const [user, setUser] = useState({});
 
@@ -24,8 +25,11 @@ export default function List() {
       try {
         const listProducts = await ListService.listProducts(params);
 
+        setHasError(false);
+
         setProducts(listProducts);
       } catch (error) {
+        setHasError(true);
         console.log('error', error);
       }
     }
@@ -70,7 +74,11 @@ export default function List() {
       </S.Header>
 
       <S.Content>
-        <BodyList view={view} products={products} />
+        <BodyList
+          view={view}
+          products={products}
+          hasError={hasError}
+        />
 
         <S.ButtonContainer>
           <Button type="button">Feito!</Button>
