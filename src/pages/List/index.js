@@ -7,6 +7,8 @@ import BodyList from '../../components/BodyList';
 import PageHeader from '../../components/PageHeader';
 import ProgressBar from '../../components/ProgressBar';
 import Button from '../../components/Button';
+import ListService from '../../services/ListService';
+import StoreService from '../../services/StoreService';
 
 export default function List() {
   const [view, setView] = useState('flex');
@@ -18,23 +20,27 @@ export default function List() {
   const params = useParams();
 
   useEffect(() => {
-    fetch(`https://64530c54bce0b0a0f7547089.mockapi.io/comparelist/v1/newlist/${params.id}/products`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then(async (response) => {
-        const json = await response.json();
-        setProducts(json);
-      });
+    async function loadeProducts() {
+      try {
+        const listProducts = await ListService.listProducts(params);
 
-    fetch(`https://64530c54bce0b0a0f7547089.mockapi.io/comparelist/v1/newlist/${params.id}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then(async (response) => {
-        const userJson = await response.json();
-        setUser(userJson);
-      });
+        setProducts(listProducts);
+      } catch (error) {
+        console.log('error', error);
+      }
+    }
+    loadeProducts();
+
+    async function loadeStore() {
+      try {
+        const listStore = await StoreService.listStore(params);
+
+        setUser(listStore);
+      } catch (error) {
+        console.log('error', error);
+      }
+    }
+    loadeStore();
   }, [params]);
 
   function handleOrderBy() {
