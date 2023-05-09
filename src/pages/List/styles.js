@@ -39,6 +39,10 @@ export const ButtonContainer = styled.div`
     max-width: 25rem;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   @media(min-width: 700px) {
     padding-right: 0;
   }
