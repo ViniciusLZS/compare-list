@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import * as S from './styles';
 
 import BodyList from '../../components/BodyList';
@@ -81,7 +81,7 @@ export default function List() {
         />
 
         <S.ButtonContainer>
-          <Button type="button">Feito!</Button>
+          <Link to="/mylists"><Button type="button">Feito!</Button></Link>
           <Button type="button">Adicionar</Button>
         </S.ButtonContainer>
       </S.Content>
