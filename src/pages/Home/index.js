@@ -18,7 +18,7 @@ export default function Home() {
           </Button>
         </Link>
 
-        <Link to="/">
+        <Link to="/mylists">
           <Button>
             Minhas Listas
           </Button>
