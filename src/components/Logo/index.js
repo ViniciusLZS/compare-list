@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router-dom';
 import * as S from './styles';
 
 import LogoSvg from '../../assets/image/logo.svg';
@@ -16,7 +17,7 @@ export default function Logo({ size }) {
         <img src={ArrowBack} alt="Seta para voltar" />
       </S.Arrow>
 
-      <img src={LogoSvg} alt="Logo" width={size} />
+      <Link to="/"><img src={LogoSvg} alt="Logo" width={size} /></Link>
     </S.Container>
   );
 }
