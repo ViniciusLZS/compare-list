@@ -5,24 +5,28 @@ import { Link } from 'react-router-dom';
 
 import * as S from './styles';
 
+import maskMoney from '../../utils/maskMoney';
+
+import Button from '../../components/Button';
+import Loader from '../../components/Loader';
+
 import Calendar from '../../assets/image/icons/calendar.svg';
 import Trash from '../../assets/image/icons/bin.svg';
 import Arrow from '../../assets/image/icons/arrow.svg';
 import StoreService from '../../services/StoreService';
 import Empty from '../../assets/image/empty-box.svg';
 
-import maskMoney from '../../utils/maskMoney';
-import Button from '../../components/Button';
-
 export default function MyLists() {
   const [orderBy, setOrderBy] = useState('asc');
   const [hasError, setHasError] = useState(false);
   const [list, setList] = useState([]);
-  console.log('🚀 ~ file: index.js:16 ~ MyLists ~ list:', list);
+  const [isLoading, SetIsLoading] = useState(true);
 
   useEffect(() => {
     async function loaderList() {
       try {
+        SetIsLoading(true);
+
         const listStore = await StoreService.listsStore();
 
         setHasError(false);
@@ -30,7 +34,8 @@ export default function MyLists() {
         setList(listStore);
       } catch (error) {
         setHasError(true);
-        console.log('error', error);
+      } finally {
+        SetIsLoading(false);
       }
     }
     loaderList();
@@ -44,7 +49,9 @@ export default function MyLists() {
 
   return (
     <S.Container>
-      {!hasError && (
+      <Loader isLoading={isLoading} />
+
+      {!hasError && !isLoading && (
         <>
           <S.Header>
             {list.length > 0 && (
