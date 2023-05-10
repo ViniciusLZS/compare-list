@@ -15,14 +15,16 @@ export default function List() {
   const [orderBy, setOrderBy] = useState('asc');
   const [products, setProducts] = useState([]);
   const [hasError, setHasError] = useState(false);
-
-  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [store, setStore] = useState({});
 
   const params = useParams();
 
   useEffect(() => {
     async function loadeProducts() {
       try {
+        setIsLoading(true);
+
         const listProducts = await ListService.listProducts(params);
 
         setHasError(false);
@@ -31,6 +33,8 @@ export default function List() {
       } catch (error) {
         setHasError(true);
         console.log('error', error);
+      } finally {
+        setIsLoading(false);
       }
     }
     loadeProducts();
@@ -39,7 +43,7 @@ export default function List() {
       try {
         const listStore = await StoreService.listStore(params);
 
-        setUser(listStore);
+        setStore(listStore);
       } catch (error) {
         console.log('error', error);
       }
@@ -62,14 +66,14 @@ export default function List() {
   return (
     <>
       <S.Header>
-        <ProgressBar user={user} />
+        <ProgressBar user={store} />
 
         <PageHeader
           onHandleOrderBy={() => handleOrderBy()}
           onHandleView={() => handleView()}
           view={view}
           orderBy={orderBy}
-          user={user}
+          user={store}
         />
       </S.Header>
 
@@ -78,6 +82,7 @@ export default function List() {
           view={view}
           products={products}
           hasError={hasError}
+          isLoading={isLoading}
         />
 
         <S.ButtonContainer>

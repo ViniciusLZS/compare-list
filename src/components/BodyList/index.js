@@ -4,19 +4,24 @@ import PropTypes from 'prop-types';
 
 import * as S from './styles';
 
+import Loader from '../Loader';
+
 import Apple from '../../assets/image/apple.svg';
 import Trash from '../../assets/image/icons/bin.svg';
 import Empty from '../../assets/image/empty-box.svg';
 
-export default function BodyList({ view, products, hasError }) {
+export default function BodyList({
+  view, products, hasError, isLoading,
+}) {
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight - window.innerHeight);
   }, [view]);
 
   return (
     <S.Container view={view}>
+      <Loader isLoading={isLoading} />
 
-      {!hasError && (
+      {!hasError && !isLoading && (
         <>
           {products.length < 1 && (
             <S.EmptyList>
@@ -63,6 +68,7 @@ export default function BodyList({ view, products, hasError }) {
 
 BodyList.propTypes = {
   view: PropTypes.string.isRequired,
+
   products: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
@@ -70,4 +76,5 @@ BodyList.propTypes = {
   })).isRequired,
 
   hasError: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
