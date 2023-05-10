@@ -14,6 +14,8 @@ import Button from '../Button';
 export default function FormNewList({ onSubmit }) {
   const [store, setStore] = useState('');
   const [estimated, setEstimated] = useState('');
+  const [isSubmitting, setIsSubmintting] = useState(false);
+
   const {
     errors, setError, removeError, getErrorMessageFieldName,
   } = useErrors();
@@ -42,10 +44,15 @@ export default function FormNewList({ onSubmit }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    setIsSubmintting(true);
+
     const estimatedClean = cleanMask(estimated);
-    onSubmit({
+    await onSubmit({
       store, estimated: estimatedClean,
     });
+
+    setIsSubmintting(false);
   }
 
   return (
@@ -58,6 +65,7 @@ export default function FormNewList({ onSubmit }) {
           onChange={(event) => handleStoreChange(event)}
           value={store}
           maxLength="25"
+          disabled={isSubmitting}
         />
       </FormGroup>
 
@@ -69,12 +77,14 @@ export default function FormNewList({ onSubmit }) {
           onChange={(event) => handleEstimatedChange(event)}
           maxLength="15"
           value={estimated}
+          disabled={isSubmitting}
         />
       </FormGroup>
 
       <Button
         type="submit"
         disabled={!isFormValid}
+        isLoading={isSubmitting}
       >
         Pronto!
       </Button>
