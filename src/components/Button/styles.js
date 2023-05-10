@@ -26,9 +26,9 @@ export const StyledButton = styled.button`
   }
 
   &[disabled] {
-    background: ${({ theme }) => theme.colors.gray[200]};
-    color: ${({ theme }) => theme.colors.gray[100]};
-    border-color: ${({ theme }) => theme.colors.gray[200]};
+    background: ${({ theme }) => theme.colors.gray[100]};
+    color: ${({ theme }) => theme.colors.gray[200]};
+    border-color: ${({ theme }) => theme.colors.gray[100]};
     cursor: default;
   }
 `;
