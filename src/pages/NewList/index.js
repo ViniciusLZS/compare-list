@@ -8,9 +8,13 @@ export default function NewList() {
   const history = useHistory();
 
   const handleSubmit = async (formData) => {
-    const newStore = await StoreService.createStore(formData);
+    try {
+      const newStore = await StoreService.createStore(formData);
 
-    history.push(`/list/${newStore.id}`);
+      history.push(`/list/${newStore.id}`);
+    } catch {
+      console.log('Ocorreu um erro ao cadastrar um contato!');
+    }
   };
 
   return (
