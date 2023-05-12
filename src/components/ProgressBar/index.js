@@ -9,11 +9,11 @@ export default function ProgressBar({ user }) {
 
   const valueTotal = 200;
 
-  const numeroSemUltimosDigitos = Number(user.estimated).toString().slice(0, -2);
+  const numberWithoutLastDigits = Number(user.estimated).toString().slice(0, -2);
 
   useEffect(() => {
-    setPercentege((valueTotal / numeroSemUltimosDigitos) * 100);
-  }, [valueTotal, numeroSemUltimosDigitos]);
+    setPercentege((valueTotal / numberWithoutLastDigits) * 100);
+  }, [valueTotal, numberWithoutLastDigits]);
 
   return (
     <S.ContainerBar>
@@ -25,7 +25,7 @@ export default function ProgressBar({ user }) {
 
       <S.ContainerSpan>
         <span>
-          {`R$ ${numeroSemUltimosDigitos}`}
+          {`R$ ${numberWithoutLastDigits}`}
         </span>
       </S.ContainerSpan>
     </S.ContainerBar>
