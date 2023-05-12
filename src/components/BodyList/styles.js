@@ -72,14 +72,21 @@ export const Content = styled.div`
 export const Title = styled.h2`
   position: absolute;
   top: 0;
+  left: 8rem;
 
   width: 100%;
-  max-width: 25rem;
+  max-width: 24rem;
+  max-height: 4rem;
   font-size: 2rem;
   font-weight: 100;
   padding: 0.2rem;
   text-align: center;
-  word-wrap: break-word;
+  overflow-x: scroll;
+  white-space: nowrap;
+
+  @media(min-width: 700px) {
+    max-width: 45rem;
+  }
 
   @media(max-width: 340px) {
     font-size: 1.5rem;
