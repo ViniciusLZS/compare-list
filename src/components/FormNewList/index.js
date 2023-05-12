@@ -23,7 +23,9 @@ export default function FormNewList({ onSubmit }) {
   const isFormValid = ((store && estimated) && errors.length === 0);
 
   function handleStoreChange(event) {
-    setStore(event.target.value);
+    if (event.target.value.length <= 30) {
+      setStore(event.target.value);
+    }
 
     if (!event.target.value) {
       setError({ field: 'store', message: 'Nome da loja ou marca é obrigatório.' });
