@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import useErrors from '../../hooks/useErrors';
 import maskMoney from '../../utils/maskMoney';
@@ -55,6 +55,8 @@ export default function FormNewList({ onSubmit }) {
     setIsSubmintting(false);
   }
 
+  useEffect(() => () => { }, []);
+
   return (
     <S.Form onSubmit={(event) => handleSubmit(event)} noValidate>
       <FormGroup
@@ -64,7 +66,7 @@ export default function FormNewList({ onSubmit }) {
           placeholder="Nome do estabelecimento ou marca"
           onChange={(event) => handleStoreChange(event)}
           value={store}
-          maxLength="25"
+          maxLength="30"
           disabled={isSubmitting}
         />
       </FormGroup>
