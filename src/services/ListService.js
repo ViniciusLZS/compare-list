@@ -1,10 +1,28 @@
+import HttpClient from './utils/HttpClient';
+
 class ListService {
-  async listProducts(params) {
-    const response = await fetch(`https://64530c54bce0b0a0f7547089.mockapi.io/comparelist/v1/newlist/${params.id}/products`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    });
-    return response.json();
+  constructor() {
+    this.httpClient = new HttpClient();
+  }
+
+  async listAll(orderBy = 'ASC') {
+    return this.httpClient.get(`/list?orderBy=${orderBy}`);
+  }
+
+  async getList(id) {
+    return this.httpClint.get(`/user/${id}`);
+  }
+
+  async createList(list) {
+    return this.httpClient.post('/list', { body: list });
+  }
+
+  async editList({ id, list }) {
+    return this.httpClient.post(`/list/${id}`, { body: list });
+  }
+
+  async deleteList(id) {
+    return this.httpClient.post(`/list/${id}`);
   }
 }
 
