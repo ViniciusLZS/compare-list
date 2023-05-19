@@ -2,7 +2,7 @@ import { useHistory } from 'react-router-dom';
 
 import StoreService from '../../services/StoreService';
 
-import FormNewList from '../../components/FormNewList';
+import FormNewList from '../../components/Forms/FormNewList';
 
 export default function NewList() {
   const history = useHistory();
