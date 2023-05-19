@@ -1,4 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+const buttonVariants = {
+  default: css`
+    background: ${({ theme }) => theme.colors.primary.light};
+  `,
+  transparent: css`
+    background: ${({ theme }) => theme.colors.primary.lighter};
+  `,
+};
 
 export const StyledButton = styled.button`
   display: flex;
@@ -6,16 +15,17 @@ export const StyledButton = styled.button`
   justify-content: center;
   height: 5rem;
   width: 100%;
-  max-width: 30rem;
+  max-width: 50rem;
   padding: 0 1.6rem;
   color: ${({ theme }) => theme.colors.default.black};
   font-size: 1.6rem;
   border: 2px solid ${({ theme }) => theme.colors.primary.light};
-  background: ${({ theme }) => theme.colors.primary.light};
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   border-radius: 10px;
   text-decoration: none;
   cursor: pointer;
+
+  ${({ variant }) => buttonVariants[variant] || buttonVariants.default};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary.main};
