@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding-top: 8rem;
+  padding-top: 10rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 
   a{
     text-decoration: none;
+  }
+
+  @media(min-width: 700px) {
+    padding-top: 14rem;
   }
 `;
 
