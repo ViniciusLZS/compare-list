@@ -21,8 +21,8 @@ export const Span = styled.span`
   white-space: nowrap;
 
 
-  @media(min-width: 700px) {
-    font-size: 2rem;
+  @media(min-width: 500px) {
+    overflow-x: hidden;
     }
 `;
 
