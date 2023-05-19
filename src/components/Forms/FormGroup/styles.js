@@ -27,7 +27,7 @@ export const Container = styled.div`
 
   @media(min-width: 700px){
     small {
-    font-size: 1.4rem;
-  }
+      font-size: 1.4rem;
+    }
   }
 `;
