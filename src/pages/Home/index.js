@@ -12,15 +12,15 @@ export default function Home() {
       <img src={Logo} alt="Logo" />
 
       <div className="buttons">
-        <Link to="/new">
+        <Link to="/signin">
           <Button>
-            Começar
+            Login
           </Button>
         </Link>
 
-        <Link to="/mylists">
-          <Button>
-            Minhas Listas
+        <Link to="/signup">
+          <Button variant="transparent">
+            Cadastre-se
           </Button>
         </Link>
       </div>
