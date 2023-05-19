@@ -1,23 +1,47 @@
 import styled, { css } from 'styled-components';
 
-export default styled.input`
+export const Label = styled.label`
+  span {
+    color: ${({ theme }) => theme.colors.gray[200]};
+  }
+
+ .eye {
+    position: absolute;
+    bottom: 1.4rem;
+    right: 1.5rem;
+
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: transparent;
+    border: none;
+  }
+`;
+
+export const Input = styled.input`
   width: 100%;
   background: ${({ theme }) => theme.colors.default.white};
   border: 2px solid ${({ theme }) => theme.colors.default.white};
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   height: 52px;
-  border-radius: 4px;
+  border-radius: 10px;
   outline: none;
-  padding: 0 1.6rem;
+  padding-left: 3rem;
+  padding-right: 4rem;
   font-size: 1.6rem;
   transition: border-color 0.2s ease-in;
   appearance: none;
 
   &::placeholder {
     font-size: 1.2rem;
+    color: ${({ theme }) => theme.colors.gray[200]};
   }
 
   &:focus {
+    outline: none;
     border-color: ${({ theme }) => theme.colors.primary.light};
   }
 
@@ -33,7 +57,7 @@ export default styled.input`
 
   @media(min-width: 700px){
     &::placeholder {
-    font-size: 1.6rem;
-  }
+      font-size: 1.6rem;
+    }
   }
 `;
