@@ -5,7 +5,7 @@ export const Container = styled.div`
   max-width: 50rem;
 
   & + & {
-    margin-top: 5rem;
+    margin-top: 2rem;
   }
 
   small {

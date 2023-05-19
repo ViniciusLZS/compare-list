@@ -1,18 +1,18 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 
-import useErrors from '../../hooks/useErrors';
-import maskMoney from '../../utils/maskMoney';
-import cleanMask from '../../utils/cleanMask';
+import useErrors from '../../../hooks/useErrors';
+import maskMoney from '../../../utils/maskMoney';
+import cleanMask from '../../../utils/cleanMask';
 
 import * as S from './styles';
 
 import FormGroup from '../FormGroup';
-import Input from '../Input';
-import Button from '../Button';
+import Input from '../../Input';
+import Button from '../../Button';
 
 export default function FormNewList({ onSubmit }) {
-  const [store, setStore] = useState('');
+  const [Name, setName] = useState('');
   const [estimated, setEstimated] = useState('');
   const [isSubmitting, setIsSubmintting] = useState(false);
 
@@ -20,15 +20,15 @@ export default function FormNewList({ onSubmit }) {
     errors, setError, removeError, getErrorMessageFieldName,
   } = useErrors();
 
-  const isFormValid = ((store && estimated) && errors.length === 0);
+  const isFormValid = ((Name && estimated) && errors.length === 0);
 
-  function handleStoreChange(event) {
+  function handleNameChange(event) {
     if (event.target.value.length <= 30) {
-      setStore(event.target.value);
+      setName(event.target.value);
     }
 
     if (!event.target.value) {
-      setError({ field: 'store', message: 'Nome da loja ou marca é obrigatório.' });
+      setError({ field: 'Name', message: 'Nome da loja ou marca é obrigatório.' });
     } else {
       removeError('store');
     }
@@ -51,7 +51,7 @@ export default function FormNewList({ onSubmit }) {
 
     const estimatedClean = cleanMask(estimated);
     await onSubmit({
-      store, estimated: estimatedClean,
+      Name, estimated: estimatedClean,
     });
 
     setIsSubmintting(false);
@@ -66,8 +66,8 @@ export default function FormNewList({ onSubmit }) {
       >
         <Input
           placeholder="Nome do estabelecimento ou marca"
-          onChange={(event) => handleStoreChange(event)}
-          value={store}
+          onChange={(event) => handleNameChange(event)}
+          value={Name}
           maxLength="30"
           disabled={isSubmitting}
         />
