@@ -4,12 +4,11 @@ import * as S from './styles';
 
 import Button from '../Button';
 
-export default function Modal({ danger }) {
+export default function Modal({ danger, children }) {
   return reactDom.createPortal(
     <S.Overlay>
       <S.Container danger={danger}>
-        <h1>Título do modal</h1>
-        <p>Corpo do modal</p>
+        {children}
 
         <S.Footer>
           <button type="button" className="cancel-button">
@@ -27,6 +26,7 @@ export default function Modal({ danger }) {
 }
 Modal.propTypes = {
   danger: PropTypes.bool,
+  children: PropTypes.node.isRequired,
 };
 
 Modal.defaultProps = {

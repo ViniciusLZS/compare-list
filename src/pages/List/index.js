@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 
 import { useParams, Link } from 'react-router-dom';
+
 import * as S from './styles';
+
+import StoreService from '../../services/StoreService';
+import ListService from '../../services/ListService';
 
 import BodyList from '../../components/BodyList';
 import PageHeader from '../../components/PageHeader';
 import ProgressBar from '../../components/ProgressBar';
 import Button from '../../components/Button';
-import ListService from '../../services/ListService';
-import StoreService from '../../services/StoreService';
+import Modal from '../../components/Modal';
 
 export default function List() {
   const [view, setView] = useState('flex');
@@ -17,6 +20,7 @@ export default function List() {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [store, setStore] = useState({});
+  const [modal, setModal] = useState(false);
 
   const params = useParams();
 
@@ -63,8 +67,18 @@ export default function List() {
     );
   }
 
+  function handleModal() {
+    setModal(
+      (prevState) => (prevState === 'false' ? 'true' : 'false'),
+    );
+  }
+
   return (
     <>
+      {modal && (
+        <Modal />
+      )}
+
       <S.Header>
         <ProgressBar user={store} />
 
@@ -87,7 +101,7 @@ export default function List() {
 
         <S.ButtonContainer>
           <Link to="/mylists"><Button type="button">Feito!</Button></Link>
-          <Button type="button">Adicionar</Button>
+          <Button type="button" handleClick={() => handleModal()}>Adicionar</Button>
         </S.ButtonContainer>
       </S.Content>
     </>

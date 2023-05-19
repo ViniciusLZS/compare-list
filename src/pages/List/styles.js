@@ -16,7 +16,7 @@ export const Header = styled.div`
 `;
 
 export const Content = styled.div`
-  padding-top: 21rem;
+  padding-top: 22rem;
   padding-bottom: 8rem;
 `;
 
