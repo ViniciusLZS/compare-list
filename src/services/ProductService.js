@@ -5,24 +5,24 @@ class ProductService {
     this.httpClient = new HttpClient();
   }
 
-  async listProducts(orderBy = 'ASC') {
-    return this.httpClient.get(`/product?orderBy=${orderBy}`);
+  async listProducts({ params, orderBy = 'ASC' }) {
+    return this.httpClient.get(`/product/${params}?orderBy=${orderBy}`);
   }
 
-  async getProduct(id) {
-    return this.httpClint.get(`/product/${id}`);
+  async getProduct(params) {
+    return this.httpClint.get(`/product/${params}`);
   }
 
   async createProduct(product) {
     return this.httpClient.post('/product', { body: product });
   }
 
-  async editProduct({ id, product }) {
-    return this.httpClient.post(`/product/${id}`, { body: product });
+  async editProduct({ params, product }) {
+    return this.httpClient.post(`/product/${params}`, { body: product });
   }
 
-  async deleteProduct(id) {
-    return this.httpClient.post(`/product/${id}`);
+  async deleteProduct(params) {
+    return this.httpClient.post(`/product/${params}`);
   }
 }
 

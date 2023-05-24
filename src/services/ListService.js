@@ -5,8 +5,8 @@ class ListService {
     this.httpClient = new HttpClient();
   }
 
-  async listAll(orderBy = 'ASC') {
-    return this.httpClient.get(`/list?orderBy=${orderBy}`);
+  async listAll({ id, orderBy = 'ASC' }) {
+    return this.httpClient.get(`/list/user/${id}?orderBy=${orderBy}`);
   }
 
   async getList(id) {
