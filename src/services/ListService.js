@@ -2,7 +2,7 @@ import HttpClient from './utils/HttpClient';
 
 class ListService {
   constructor() {
-    this.httpClient = new HttpClient();
+    this.httpClient = new HttpClient('http://localhost:3001');
   }
 
   async listAll({ id, orderBy = 'ASC' }) {
@@ -13,8 +13,13 @@ class ListService {
     return this.httpClint.get(`/user/${id}`);
   }
 
-  async createList(list) {
-    return this.httpClient.post('/list', { body: list });
+  async createList({ formData, token }) {
+    return this.httpClient.post('/list', {
+      body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 
   async editList({ id, list }) {
