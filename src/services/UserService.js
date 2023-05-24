@@ -2,11 +2,19 @@ import HttpClient from './utils/HttpClient';
 
 class UserService {
   constructor() {
-    this.httpClint = new HttpClient('https://64530c54bce0b0a0f7547089.mockapi.io');
+    this.httpClint = new HttpClient('http://localhost:3001');
   }
 
-  async getUser(id) {
-    return this.httpClint.get(`/user/${id}`);
+  async login(user) {
+    return this.httpClint.post('/auth/login', { body: user });
+  }
+
+  async getUser(token) {
+    return this.httpClint.get('/auth/user', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 
   async createUser(user) {
