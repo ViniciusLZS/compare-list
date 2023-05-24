@@ -8,7 +8,7 @@ import gridView from '../../assets/image/icons/gridView.svg';
 import orderCategory from '../../assets/image/icons/sort-ascending.svg';
 
 export default function PageHeader({
-  onHandleOrderBy, onHandleView, view, orderBy, user,
+  onHandleOrderBy, onHandleView, view, orderBy, list,
 }) {
   return (
     <S.Container>
@@ -22,7 +22,7 @@ export default function PageHeader({
         </button>
       </S.FormatView>
 
-      <S.Span>{user.store}</S.Span>
+      <S.Span>{list.name}</S.Span>
 
       <S.FormatView>
         <button type="button" onClick={onHandleView}>
@@ -42,8 +42,8 @@ PageHeader.propTypes = {
   onHandleView: PropTypes.func.isRequired,
   orderBy: PropTypes.string.isRequired,
   view: PropTypes.string.isRequired,
-  user: PropTypes.shape({
+  list: PropTypes.shape({
     createdAt: PropTypes.string,
-    store: PropTypes.string,
+    name: PropTypes.string,
   }).isRequired,
 };
