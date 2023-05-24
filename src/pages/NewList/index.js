@@ -10,9 +10,9 @@ export default function NewList() {
 
   const handleSubmit = async (formData) => {
     try {
-      const newStore = await ListService.createList({ formData, token });
+      const newList = await ListService.createList({ formData, token });
 
-      history.push(`/list/${newStore.id}`);
+      history.push(`/list/${newList.id}`);
     } catch {
       console.log('Ocorreu um erro ao cadastrar um contato!');
     }
