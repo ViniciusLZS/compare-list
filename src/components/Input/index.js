@@ -7,7 +7,7 @@ import openEye from '../../assets/image/icons/openEye.svg';
 import closeEye from '../../assets/image/icons/closeEye.svg';
 
 export default function Input({
-  label, placeholder, type, value, onChange,
+  label, placeholder, type, value, onChange, error, disabled,
 }) {
   const [eye, setEye] = useState(false);
 
@@ -24,6 +24,8 @@ export default function Input({
         value={value}
         type={eye ? 'text' : type}
         placeholder={placeholder}
+        error={error}
+        disabled={disabled}
       />
       {type === 'password' && (
         <button className="eye" type="button" onClick={() => handleEye()}>
@@ -42,4 +44,10 @@ Input.propTypes = {
   type: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  disabled: PropTypes.bool.isRequired,
+};
+
+Input.defaultProps = {
+  error: '',
 };
