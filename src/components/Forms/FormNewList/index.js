@@ -49,7 +49,7 @@ export default function FormNewList({ onSubmit }) {
 
     setIsSubmintting(true);
 
-    const estimatedClean = Number(cleanMask(estimated));
+    const estimatedClean = cleanMask(estimated);
     await onSubmit({
       name, estimated: estimatedClean,
     });
