@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 
 import * as S from './styles';
 
-export default function ProgressBar({ user }) {
+export default function ProgressBar({ list }) {
   const [percentege, setPercentege] = useState(0);
 
   const valueTotal = 200;
 
-  const numberWithoutLastDigits = Number(user.estimated).toString().slice(0, -2);
+  const numberWithoutLastDigits = Number(list.estimated).toString().slice(0, -2);
 
   useEffect(() => {
     setPercentege((valueTotal / numberWithoutLastDigits) * 100);
@@ -33,7 +33,7 @@ export default function ProgressBar({ user }) {
 }
 
 ProgressBar.propTypes = {
-  user: PropTypes.shape({
+  list: PropTypes.shape({
     createdAt: PropTypes.string,
     estimated: PropTypes.string,
   }).isRequired,
