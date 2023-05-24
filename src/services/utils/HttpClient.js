@@ -1,4 +1,5 @@
 import APIError from '../../errors/APIError';
+import delay from '../../utils/delay';
 
 class HttpClient {
   constructor(baseURL) {
@@ -21,6 +22,8 @@ class HttpClient {
   }
 
   async makeRequest(path, options) {
+    await delay(1000);
+
     const headers = new Headers();
 
     if (options.body) {
@@ -28,14 +31,14 @@ class HttpClient {
     }
 
     if (options.headers) {
-      Object.entries(options.Headers).forEach(([name, value]) => {
+      Object.entries(options.headers).forEach(([name, value]) => {
         headers.append(name, value);
       });
     }
 
-    const response = await fetch(`${this.baseURL$}${path}`, {
+    const response = await fetch(`${this.baseURL}${path}`, {
       method: options.method,
-      body: options.body,
+      body: JSON.stringify(options.body),
       headers,
     });
 
