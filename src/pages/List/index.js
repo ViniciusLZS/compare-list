@@ -4,7 +4,6 @@ import { useParams, Link } from 'react-router-dom';
 
 import * as S from './styles';
 
-import StoreService from '../../services/StoreService';
 import ListService from '../../services/ListService';
 
 import BodyList from '../../components/BodyList';
@@ -12,6 +11,7 @@ import PageHeader from '../../components/PageHeader';
 import ProgressBar from '../../components/ProgressBar';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
+import ProductService from '../../services/ProductService';
 
 export default function List() {
   const [view, setView] = useState('flex');
@@ -19,7 +19,7 @@ export default function List() {
   const [products, setProducts] = useState([]);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [store, setStore] = useState({});
+  const [list, setList] = useState({});
   const [modal, setModal] = useState(false);
 
   const params = useParams();
@@ -29,7 +29,7 @@ export default function List() {
       try {
         setIsLoading(true);
 
-        const listProducts = await ListService.listProducts(params);
+        const listProducts = await ProductService.listProducts({ params, orderBy });
 
         setHasError(false);
 
@@ -45,15 +45,15 @@ export default function List() {
 
     async function loadeStore() {
       try {
-        const listStore = await StoreService.listStore(params);
+        const allList = await ListService.listAll(orderBy);
 
-        setStore(listStore);
+        setList(allList);
       } catch (error) {
         console.log('error', error);
       }
     }
     loadeStore();
-  }, [params]);
+  }, [params, orderBy]);
 
   function handleOrderBy() {
     setOrderBy(
@@ -80,14 +80,14 @@ export default function List() {
       )}
 
       <S.Header>
-        <ProgressBar user={store} />
+        <ProgressBar list={list} />
 
         <PageHeader
           onHandleOrderBy={() => handleOrderBy()}
           onHandleView={() => handleView()}
           view={view}
           orderBy={orderBy}
-          user={store}
+          list={list}
         />
       </S.Header>
 
