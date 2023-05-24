@@ -12,7 +12,7 @@ import Input from '../../Input';
 import Button from '../../Button';
 
 export default function FormNewList({ onSubmit }) {
-  const [Name, setName] = useState('');
+  const [name, setName] = useState('');
   const [estimated, setEstimated] = useState('');
   const [isSubmitting, setIsSubmintting] = useState(false);
 
@@ -20,7 +20,7 @@ export default function FormNewList({ onSubmit }) {
     errors, setError, removeError, getErrorMessageFieldName,
   } = useErrors();
 
-  const isFormValid = ((Name && estimated) && errors.length === 0);
+  const isFormValid = ((name && estimated) && errors.length === 0);
 
   function handleNameChange(event) {
     if (event.target.value.length <= 30) {
@@ -51,7 +51,7 @@ export default function FormNewList({ onSubmit }) {
 
     const estimatedClean = cleanMask(estimated);
     await onSubmit({
-      Name, estimated: estimatedClean,
+      name, estimated: estimatedClean,
     });
 
     setIsSubmintting(false);
@@ -67,7 +67,7 @@ export default function FormNewList({ onSubmit }) {
         <Input
           placeholder="Nome do estabelecimento ou marca"
           onChange={(event) => handleNameChange(event)}
-          value={Name}
+          value={name}
           maxLength="30"
           disabled={isSubmitting}
         />
