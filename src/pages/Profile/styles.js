@@ -19,6 +19,10 @@ export const Content = styled.div`
   gap: 4rem;
 
   a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
     color: ${({ theme }) => theme.colors.default.black};
   }
