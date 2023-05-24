@@ -49,7 +49,7 @@ export default function FormNewList({ onSubmit }) {
 
     setIsSubmintting(true);
 
-    const estimatedClean = cleanMask(estimated);
+    const estimatedClean = Number(cleanMask(estimated));
     await onSubmit({
       name, estimated: estimatedClean,
     });
@@ -65,6 +65,8 @@ export default function FormNewList({ onSubmit }) {
         error={getErrorMessageFieldName('store')}
       >
         <Input
+          label="Nome"
+          type="text"
           placeholder="Nome do estabelecimento ou marca"
           onChange={(event) => handleNameChange(event)}
           value={name}
@@ -77,6 +79,8 @@ export default function FormNewList({ onSubmit }) {
         error={getErrorMessageFieldName('estimated')}
       >
         <Input
+          label="Valor"
+          type="text"
           placeholder="Valor máximo ou estimativa"
           onChange={(event) => handleEstimatedChange(event)}
           maxLength="15"
