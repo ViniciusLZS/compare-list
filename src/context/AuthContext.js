@@ -10,9 +10,7 @@ export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  console.log('🚀 ~ file: AuthContext.js:13 ~ AuthProvider ~ user:', user?.name);
   const [login, setLogin] = useState(false);
-  console.log('🚀 ~ file: AuthContext.js:15 ~ AuthProvider ~ login:', login);
 
   const history = useHistory();
 
@@ -20,6 +18,7 @@ export function AuthProvider({ children }) {
     const response = await UserService.getUser(token);
     setUser(response);
     setLogin(true);
+
     history.push('/profile');
   }, [history]);
 
@@ -41,7 +40,7 @@ export function AuthProvider({ children }) {
       setLogin(false);
       window.localStorage.removeItem('token');
 
-      history.push('/');
+      history.push('/signin');
     },
     [history],
   );
