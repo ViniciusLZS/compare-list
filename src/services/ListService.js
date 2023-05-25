@@ -13,8 +13,12 @@ class ListService {
     });
   }
 
-  async getList(id) {
-    return this.httpClint.get(`/user/${id}`);
+  async getList({ id, token }) {
+    return this.httpClient.get(`/list/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 
   async createList({ formData, token }) {
