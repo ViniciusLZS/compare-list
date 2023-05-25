@@ -1,11 +1,12 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { Link } from 'react-router-dom';
 
 import * as S from './styles';
 
 import maskMoney from '../../utils/maskMoney';
+import formatDate from '../../utils/formatDate';
 
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
@@ -13,33 +14,48 @@ import Loader from '../../components/Loader';
 import Calendar from '../../assets/image/icons/calendar.svg';
 import Trash from '../../assets/image/icons/bin.svg';
 import Arrow from '../../assets/image/icons/arrow.svg';
-import StoreService from '../../services/StoreService';
 import Empty from '../../assets/image/empty-box.svg';
+import ListService from '../../services/ListService';
+import Modal from '../../components/Modal';
 
 export default function MyLists() {
   const [orderBy, setOrderBy] = useState('asc');
   const [hasError, setHasError] = useState(false);
   const [list, setList] = useState([]);
-  const [isLoading, SetIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [modal, setModal] = useState(false);
+  const [mounted, setMounted] = useState(true);
 
-  useEffect(() => {
-    async function loaderList() {
-      try {
-        SetIsLoading(true);
+  const token = localStorage.getItem('token');
 
-        const listStore = await StoreService.listsStore();
+  const loaderList = useCallback(async () => {
+    try {
+      setIsLoading(true);
 
+      const listAll = await ListService.listAll({ orderBy, token });
+
+      if (mounted) {
+        setList(listAll);
         setHasError(false);
-
-        setList(listStore);
-      } catch (error) {
+      }
+    } catch (error) {
+      if (mounted) {
         setHasError(true);
-      } finally {
-        SetIsLoading(false);
+      }
+    } finally {
+      if (mounted) {
+        setIsLoading(false);
       }
     }
+  }, [orderBy, token, mounted]);
+
+  useEffect(() => {
     loaderList();
-  }, []);
+
+    return () => {
+      setMounted(false);
+    };
+  }, [loaderList]);
 
   function handleToogleOrderBy() {
     setOrderBy(
@@ -47,11 +63,23 @@ export default function MyLists() {
     );
   }
 
+  function handleDelete() {
+    setModal(true);
+  }
+
   return (
     <S.Container>
       <Loader isLoading={isLoading} />
 
-      {!hasError && !isLoading && (
+      {modal && (
+        <Modal
+          danger
+        >
+          <h1>Deletar</h1>
+        </Modal>
+      )}
+
+      {(list && !hasError) && !isLoading && (
         <>
           <S.Header>
             {list.length > 0 && (
@@ -88,25 +116,25 @@ export default function MyLists() {
           <S.List>
             {list.map((item) => (
               <S.Card key={item.id}>
-                <S.Title>{item.store}</S.Title>
+                <S.Title>{item.name}</S.Title>
 
                 <S.Content>
                   <Link to={`/list/${item.id}`}>
                     <S.Info>
                       <S.Data>
                         <img src={Calendar} alt="calendário" />
-                        <span>12 Jan 2023</span>
+                        <span>{formatDate(item.created_at)}</span>
                       </S.Data>
 
                       <S.Value>
-                        <span>{maskMoney(item.estimated)}</span>
+                        <span>{maskMoney(item.estimated.toString())}</span>
                       </S.Value>
 
                     </S.Info>
                   </Link>
 
                   <S.Trash>
-                    <button type="button">
+                    <button type="button" onClick={handleDelete}>
                       <img src={Trash} alt="Lixeira" />
                     </button>
                   </S.Trash>
