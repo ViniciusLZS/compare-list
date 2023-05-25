@@ -95,12 +95,12 @@ export const Card = styled.div`
   width: 100%;
   max-width: 60rem;
   max-height: 12rem;
+  display: flex;
+  flex-direction: column;
 
   background-color: ${({ theme }) => theme.colors.default.white};
   border-radius: 1rem;
-
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
 `;
 
 export const Title = styled.h2`
@@ -124,17 +124,18 @@ export const Info = styled.div`
   position: relative;
 `;
 
-export const Data = styled.div`
+export const Date = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  font-size: 1.4rem;
+  letter-spacing: 0px;
   gap: 0.5rem;
 `;
 
 export const Value = styled.div`
   padding: 0.5rem;
-  background-color: ${({ theme }) => theme.colors.primary.main};
+  background-color: ${({ theme }) => theme.colors.primary.lighter};
   border-radius: 1rem;
 `;
 
