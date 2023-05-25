@@ -22,14 +22,15 @@ export default function List() {
   const [list, setList] = useState({});
   const [modal, setModal] = useState(false);
 
-  const params = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
     async function loadeProducts() {
       try {
         setIsLoading(true);
 
-        const listProducts = await ProductService.listProducts({ params, orderBy });
+        const listProducts = await ProductService.listProducts({ id, token, orderBy });
 
         setHasError(false);
 
@@ -43,21 +44,21 @@ export default function List() {
     }
     loadeProducts();
 
-    async function loadeStore() {
+    async function loadeList() {
       try {
-        const allList = await ListService.listAll(orderBy);
+        const allList = await ListService.getList({ id, token });
 
         setList(allList);
       } catch (error) {
         console.log('error', error);
       }
     }
-    loadeStore();
-  }, [params, orderBy]);
+    loadeList();
+  }, [id, orderBy]);
 
   function handleOrderBy() {
     setOrderBy(
-      (prevState) => (prevState === 'asc' ? 'category' : 'asc'),
+      (prevState) => (prevState === 'asc' ? 'desc' : 'asc'),
     );
   }
 
