@@ -27,6 +27,9 @@ export const StyledButton = styled.button`
 
   ${({ variant }) => buttonVariants[variant] || buttonVariants.default};
 
+  background-color: ${({ theme, danger }) => (danger ? theme.colors.danger.main : theme.colors.primary.main)};
+  border: ${({ theme, danger }) => (danger ? theme.colors.danger.main : theme.colors.primary.main)};
+
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary.main};
   }
