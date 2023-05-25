@@ -35,6 +35,6 @@ export default function ProgressBar({ list }) {
 ProgressBar.propTypes = {
   list: PropTypes.shape({
     createdAt: PropTypes.string,
-    estimated: PropTypes.string,
+    estimated: PropTypes.number,
   }).isRequired,
 };
