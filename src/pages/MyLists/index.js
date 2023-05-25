@@ -121,10 +121,10 @@ export default function MyLists() {
                 <S.Content>
                   <Link to={`/list/${item.id}`}>
                     <S.Info>
-                      <S.Data>
+                      <S.Date>
                         <img src={Calendar} alt="calendário" />
                         <span>{formatDate(item.created_at)}</span>
-                      </S.Data>
+                      </S.Date>
 
                       <S.Value>
                         <span>{maskMoney(item.estimated.toString())}</span>
