@@ -1,22 +1,22 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import { useCallback, useEffect, useState } from 'react';
-
 import { Link } from 'react-router-dom';
 
 import * as S from './styles';
+
+import ListService from '../../services/ListService';
 
 import maskMoney from '../../utils/maskMoney';
 import formatDate from '../../utils/formatDate';
 
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
+import ContainerModal from '../../components/Modal/ContainerModal';
 
 import Calendar from '../../assets/image/icons/calendar.svg';
 import Trash from '../../assets/image/icons/bin.svg';
 import Arrow from '../../assets/image/icons/arrow.svg';
 import Empty from '../../assets/image/empty-box.svg';
-import ListService from '../../services/ListService';
-import Modal from '../../components/Modal';
 
 export default function MyLists() {
   const [orderBy, setOrderBy] = useState('asc');
@@ -72,11 +72,11 @@ export default function MyLists() {
       <Loader isLoading={isLoading} />
 
       {modal && (
-        <Modal
+        <ContainerModal
           danger
         >
           <h1>Deletar</h1>
-        </Modal>
+        </ContainerModal>
       )}
 
       {(list && !hasError) && !isLoading && (
