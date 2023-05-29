@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types';
 import reactDom from 'react-dom';
 import * as S from './styles';
+import Button from '../../Button';
 
-import Button from '../Button';
+import CloseIcon from '../../../assets/image/icons/close.svg';
 
-export default function Modal({ danger, children }) {
+export default function ContainerModal({ danger, children }) {
   return reactDom.createPortal(
     <S.Overlay>
       <S.Container danger={danger}>
+        <S.Close>
+          <img src={CloseIcon} alt="x" />
+        </S.Close>
         {children}
 
         <S.Footer>
@@ -24,11 +28,11 @@ export default function Modal({ danger, children }) {
     document.getElementById('modal-root'),
   );
 }
-Modal.propTypes = {
+ContainerModal.propTypes = {
   danger: PropTypes.bool,
   children: PropTypes.node.isRequired,
 };
 
-Modal.defaultProps = {
+ContainerModal.defaultProps = {
   danger: false,
 };

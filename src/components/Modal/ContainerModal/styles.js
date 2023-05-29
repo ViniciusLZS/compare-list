@@ -16,14 +16,16 @@ export const Overlay = styled.div`
 
 export const Container = styled.div`
   width: 100%;
-  max-width: 450px;
-  background: #FFFFFF;
-  border-radius: 4px;
-  padding: 24px;
+  max-width: 45rem;
+  background: ${({ theme }) => theme.colors.primary.lighter};
+  border-radius: 2rem;
+  padding: 2.4rem;
+  margin: 0 2rem;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
+  position: relative;
 
   h1 {
-    font-size: 22px;
+    font-size: 2.2rem;
     color: ${({ theme, danger }) => (danger ? theme.colors.danger.main : theme.colors.gray[900])}
   }
 
@@ -32,8 +34,21 @@ export const Container = styled.div`
   }
 `;
 
+export const Close = styled.div`
+  position: absolute;
+  top: -2rem;
+  right: -2rem;
+  background: ${({ theme }) => theme.colors.primary.main};
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const Footer = styled.footer`
-  margin-top: 32px;
+  margin-top: 3.2rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -41,8 +56,8 @@ export const Footer = styled.footer`
   .cancel-button {
     background: #FFFFFF;
     border: none;
-    font-size: 16px;
-    margin-right: 8px;
+    font-size: 1.6rem;
+    margin-right: 0.8rem;
     color: ${({ theme }) => theme.colors.gray[200]};
   }
 `;
