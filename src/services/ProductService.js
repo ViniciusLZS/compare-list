@@ -2,11 +2,15 @@ import HttpClient from './utils/HttpClient';
 
 class ProductService {
   constructor() {
-    this.httpClient = new HttpClient();
+    this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  async listProducts({ params, orderBy = 'ASC' }) {
-    return this.httpClient.get(`/product/${params}?orderBy=${orderBy}`);
+  async listProducts({ id, orderBy = 'ASC', token }) {
+    return this.httpClient.get(`/product/list/${id}?orderBy=${orderBy}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 
   async getProduct(params) {
