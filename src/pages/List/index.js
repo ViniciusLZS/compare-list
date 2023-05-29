@@ -10,8 +10,8 @@ import BodyList from '../../components/BodyList';
 import PageHeader from '../../components/PageHeader';
 import ProgressBar from '../../components/ProgressBar';
 import Button from '../../components/Button';
-import Modal from '../../components/Modal';
 import ProductService from '../../services/ProductService';
+import ProductModal from '../../components/Modal/ProductModal';
 
 export default function List() {
   const [view, setView] = useState('flex');
@@ -77,7 +77,7 @@ export default function List() {
   return (
     <>
       {modal && (
-        <Modal />
+        <ProductModal />
       )}
 
       <S.Header>
