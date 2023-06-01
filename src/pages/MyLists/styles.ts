@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  height: 100%;
   padding-top: 10rem;
   display: flex;
   flex-direction: column;
@@ -26,6 +27,26 @@ export const Header = styled.header`
 
   strong {
 
+  }
+`;
+
+export const ErrorContainer = styled.div`
+  height: 50rem;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  .details {
+    margin-left: 24px;
+
+    strong {
+      font-size: 22px;
+      color: ${({ theme }) => theme.colors.danger.main};
+      display: block;
+      margin-bottom: 8px;
+    }
   }
 `;
 

@@ -16,13 +16,14 @@ import Calendar from '../../assets/image/icons/calendar.svg';
 import Trash from '../../assets/image/icons/bin.svg';
 import Arrow from '../../assets/image/icons/arrow.svg';
 import Empty from '../../assets/image/empty-box.svg';
+import Sad from '../../assets/image/icons/sad.svg';
 
 export default function MyLists() {
-  const [orderBy, setOrderBy] = useState('asc');
-  const [hasError, setHasError] = useState(false);
   const [list, setList] = useState<{
     // eslint-disable-next-line camelcase
     id: string; name: string; created_at: string; estimated: number; }[]>([]);
+  const [orderBy, setOrderBy] = useState('asc');
+  const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [modal, setModal] = useState(false);
   const [mounted, setMounted] = useState(true);
@@ -68,12 +69,27 @@ export default function MyLists() {
     setModal(true);
   }
 
+  function handleTryAgain() {
+    loaderList();
+  }
+
   return (
     <S.Container>
       <Loader isLoading={isLoading} />
 
       {modal && (
         <h1>Modal</h1>
+      )}
+
+      {hasError && !isLoading && (
+      <S.ErrorContainer>
+        <img src={Sad} alt="Sad" />
+
+        <div className="details">
+          <strong>Ocorreu um erro ao obter os suas listas!</strong>
+          <Button type="button" handleClick={() => handleTryAgain()}>Tentar novamente</Button>
+        </div>
+      </S.ErrorContainer>
       )}
 
       {(list && !hasError) && !isLoading && (
@@ -102,7 +118,7 @@ export default function MyLists() {
 
               <p>Lista vazia, adicione itens no botão <strong>”Começar”</strong>.</p>
 
-              <Link to="/new">
+              <Link to="/newlist">
                 <Button>
                   Começar
                 </Button>
