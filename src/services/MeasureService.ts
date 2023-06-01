@@ -4,12 +4,16 @@ class MeasureService {
   httpClient: HttpClient;
 
   constructor() {
-    this.httpClient = new HttpClient('');
+    this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  // async listMeasures() {
-  //   return this.httpClient.get('/measures');
-  // }
+  async listMeasures(token: string) {
+    return this.httpClient.get('/measure', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 }
 
 export default new MeasureService();
