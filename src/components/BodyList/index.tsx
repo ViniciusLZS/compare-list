@@ -13,7 +13,7 @@ import Empty from '../../assets/image/empty-box.svg';
 interface Product {
   id: string;
   name: string;
-  quant: string;
+  amount: string;
 }
 
 interface BodyListProps {
@@ -55,7 +55,7 @@ export default function BodyList({
                 <S.ContainerValue view={view}>
                   <div className="values">
                     <span>
-                      {`${product.quant} Unid.`}
+                      {`${product.amount} Unid.`}
                     </span>
                     <span>R$ 7,50</span>
                   </div>
