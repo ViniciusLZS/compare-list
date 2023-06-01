@@ -19,6 +19,7 @@ export default function FormSignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMounted, setIsMounted] = useState(true);
 
   const {
     errors, setError, removeError, getErrorMessageFieldName,
@@ -33,6 +34,10 @@ export default function FormSignIn() {
     setEmail(event.target.value);
 
     if (event.target.value && !isEmailValid(event.target.value)) {
+      removeError('email');
+      setError({ field: 'email', message: 'E-mail é invalido' });
+    } else if (!event.target.value) {
+      removeError('email');
       setError({ field: 'email', message: 'E-mail é obrigatório' });
     } else {
       removeError('email');
@@ -61,11 +66,14 @@ export default function FormSignIn() {
       });
     }
 
-    setIsSubmitting(false);
+    if (isMounted) {
+      setIsSubmitting(false);
+    }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  useEffect(() => {}, []);
+  useEffect(() => () => {
+    setIsMounted(false);
+  }, []);
 
   return (
     <S.Container>
