@@ -1,56 +1,83 @@
 import {
   ChangeEvent, FormEvent, useEffect, useState,
 } from 'react';
+
 import * as S from './styles';
 
-import ContainerModal from '../ContainerModal';
+import useErrors from '../../../hooks/useErrors';
+
 import Form from '../../Forms/Form';
 import FormGroup from '../../Forms/FormGroup';
+import ContainerModal from '../ContainerModal';
 import Input from '../../Input';
 import Button from '../../Button';
-import useErrors from '../../../hooks/useErrors';
 import Select from '../../Select';
+import MeasureService from '../../../services/MeasureService';
 
-export default function ProductModal() {
-  const [product, setProduct] = useState('');
+interface FormModalData {
+  name: string;
+  value?: string;
+  amount?: string
+  measuresId?: string;
+}
+
+interface ProductModal {
+  modal: boolean;
+  handleModal: () => void;
+  onHandleSubmit: (formData: FormModalData) => Promise<void>;
+}
+
+export default function ProductModal({ modal, handleModal, onHandleSubmit }: ProductModal) {
+  const [name, setName] = useState('');
   const [value, setValor] = useState('');
   const [amount, setAmount] = useState('');
+  const [measuresId, setMeasuresId] = useState('');
+  const [measures, setMeasures] = useState([]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMounted, setIsMounted] = useState(true);
 
   const {
     errors, setError, removeError, getErrorMessageFieldName,
   } = useErrors();
 
-  const isFormValid = (product && errors.length === 0);
+  const isFormValid = (name && errors.length === 0);
+
+  useEffect(() => {
+    async function loadMeasures() {
+      const token = localStorage.getItem('token') ?? '';
+      try {
+        const measuresList = await MeasureService.listMeasures(token);
+
+        setMeasures(measuresList);
+      } catch (error) {
+        console.log('🚀 ~ file: index.tsx:39 ~ loadMeasures ~ error:', error);
+      }
+    }
+    loadMeasures();
+
+    return () => {
+      setIsMounted(false);
+    };
+  }, []);
 
   function handleProductChange(event: ChangeEvent<HTMLInputElement>) {
-    setProduct(event.target.value);
+    setName(event.target.value);
 
     if (!event.target.value) {
-      setError({ field: 'name', message: 'Nome é obrigatório' });
+      setError({ field: 'product', message: 'Produto é obrigatório' });
     } else {
-      removeError('name');
+      removeError('product');
     }
   }
 
   function handleValorChange(event: ChangeEvent<HTMLInputElement>) {
     setValor(event.target.value);
-
-    if (!event.target.value) {
-      setError({ field: 'value', message: 'Valor é obrigatório' });
-    } else {
-      removeError('value');
-    }
   }
 
   function handleAmountChange(event: ChangeEvent<HTMLInputElement>) {
-    setAmount(event.target.value);
-
-    if (!event.target.value) {
-      setError({ field: 'amount', message: 'Quant. é obrigatório' });
-    } else {
-      removeError('amount');
+    if (!Number.isNaN(Number(event.target.value)) && Number(event.target.value) >= 0) {
+      setAmount(event.target.value);
     }
   }
 
@@ -59,70 +86,77 @@ export default function ProductModal() {
 
     setIsSubmitting(true);
 
+    await onHandleSubmit({
+      name, value, amount, measuresId,
+    });
+
     setIsSubmitting(false);
   }
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  useEffect(() => () => { }, []);
 
-  return (
-    <ContainerModal>
-      <h1>Adicionar</h1>
+  if (modal) {
+    return (
+      <ContainerModal handleModal={handleModal}>
+        <h1>Adicionar</h1>
 
-      <Form onSubmit={(event) => handleSubmit(event)} noValidate>
-        <FormGroup error={getErrorMessageFieldName('product')}>
-          <Input
-            label="Produto*"
-            value={product}
-            onChange={(event) => { handleProductChange(event); }}
-            type="text"
-            placeholder="Digite aqui o nome do produto"
-            error={getErrorMessageFieldName('product')}
-            disabled={isSubmitting}
-          />
-        </FormGroup>
-
-        <FormGroup error={getErrorMessageFieldName('value')}>
-          <Input
-            label="Valor*"
-            value={value}
-            onChange={(event) => { handleValorChange(event); }}
-            type="text"
-            placeholder="Digite aqui o valor do produto"
-            error={getErrorMessageFieldName('value')}
-            disabled={isSubmitting}
-          />
-        </FormGroup>
-
-        <S.Amount>
-          <FormGroup error={getErrorMessageFieldName('amount')}>
+        <Form onSubmit={(event) => handleSubmit(event)} noValidate>
+          <FormGroup error={getErrorMessageFieldName('product')}>
             <Input
-              label="Quant.*"
-              value={amount}
-              onChange={(event) => { handleAmountChange(event); }}
-              type="number"
-              placeholder="Digite aqui a quant. do produto"
-              error={getErrorMessageFieldName('amount')}
+              label="Produto*"
+              value={name}
+              onChange={(event) => { handleProductChange(event); }}
+              type="text"
+              placeholder="Digite aqui o nome do produto"
+              error={getErrorMessageFieldName('product')}
               disabled={isSubmitting}
             />
           </FormGroup>
 
-          <FormGroup>
-            <Select>
-              <option value="">Sem categoria</option>
-              <option value=""> categoria</option>
-              <option value="">Sem </option>
-            </Select>
+          <FormGroup error={getErrorMessageFieldName('value')}>
+            <Input
+              label="Valor"
+              value={value}
+              onChange={(event) => { handleValorChange(event); }}
+              type="text"
+              placeholder="Digite aqui o valor do produto"
+              error={getErrorMessageFieldName('value')}
+              disabled={isSubmitting}
+            />
           </FormGroup>
-        </S.Amount>
 
-        <Button
-          type="submit"
-          disabled={!isFormValid}
-          isLoading={isSubmitting}
-        >
-          Adicionar
-        </Button>
-      </Form>
-    </ContainerModal>
-  );
+          <S.Amount>
+            <FormGroup error={getErrorMessageFieldName('amount')}>
+              <Input
+                label="Quantidade"
+                value={amount}
+                onChange={(event) => { handleAmountChange(event); }}
+                type="number"
+                placeholder="Digite aqui a quant. do produto"
+                error={getErrorMessageFieldName('amount')}
+                disabled={isSubmitting}
+              />
+            </FormGroup>
+
+            <FormGroup>
+              <Select
+                label="Medidas"
+                placeholder="Sem medida"
+                measures={measures}
+                measuresId={measuresId}
+                setMeasuresId={setMeasuresId}
+              />
+            </FormGroup>
+          </S.Amount>
+
+          <Button
+            type="submit"
+            disabled={!isFormValid}
+            isLoading={isSubmitting}
+          >
+            Adicionar
+          </Button>
+        </Form>
+      </ContainerModal>
+    );
+  }
+  return null;
 }
