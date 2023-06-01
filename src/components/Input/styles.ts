@@ -43,11 +43,12 @@ export const Input = styled.input<InputProps>`
   height: 50px;
   border-radius: 10px;
   outline: none;
-  padding-left: 3rem;
-  padding-right: 4rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
   font-size: 1.6rem;
   transition: border-color 0.2s ease-in;
   appearance: none;
+
 
   &::placeholder {
     font-size: 1.2rem;
@@ -60,6 +61,11 @@ export const Input = styled.input<InputProps>`
     border-color: ${({ theme }) => theme.colors.primary.light};
     box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.primary.light};
   }
+
+  ${({ type }) => (type === 'text' || type === 'password') && css`
+    padding-left: 2rem;
+    padding-right: 4rem;
+  `}
 
   ${({ theme, error }) => error && css`
     color: ${theme.colors.danger.main};
