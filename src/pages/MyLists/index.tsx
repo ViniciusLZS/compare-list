@@ -11,7 +11,6 @@ import formatDate from '../../utils/formatDate';
 
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
-import ContainerModal from '../../components/Modal/ContainerModal';
 
 import Calendar from '../../assets/image/icons/calendar.svg';
 import Trash from '../../assets/image/icons/bin.svg';
@@ -74,11 +73,7 @@ export default function MyLists() {
       <Loader isLoading={isLoading} />
 
       {modal && (
-        <ContainerModal
-          danger
-        >
-          <h1>Deletar</h1>
-        </ContainerModal>
+        <h1>Modal</h1>
       )}
 
       {(list && !hasError) && !isLoading && (
