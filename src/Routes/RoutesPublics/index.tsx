@@ -23,7 +23,6 @@ export default function RoutesPublics() {
 
       {login ? (
         <>
-          <h1>teste</h1>
           <Route path="/profile" component={Profile} />
           <Route path="/newlist" component={NewList} />
           <Route path="/mylists" component={MyLists} />
