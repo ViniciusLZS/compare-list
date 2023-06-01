@@ -4,9 +4,8 @@ export const Container = styled.div`
   width: 100%;
   max-width: 50rem;
 
-  & + & {
-    margin-top: 2rem;
-  }
+  margin-top: 2rem;
+
 
   small {
     color: ${({ theme }) => theme.colors.danger.main};
