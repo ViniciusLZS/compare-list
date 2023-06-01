@@ -49,6 +49,10 @@ export default function FormSignUp({ onHandleSubmit }: FormSignUpProps) {
     setEmail(event.target.value);
 
     if (event.target.value && !isEmailValid(event.target.value)) {
+      removeError('email');
+      setError({ field: 'email', message: 'E-mail é invalido' });
+    } else if (!event.target.value) {
+      removeError('email');
       setError({ field: 'email', message: 'E-mail é obrigatório' });
     } else {
       removeError('email');
@@ -59,9 +63,9 @@ export default function FormSignUp({ onHandleSubmit }: FormSignUpProps) {
     setPassword(event.target.value);
 
     if (!event.target.value) {
-      setError({ field: 'senha', message: 'Senha é obrigatório' });
+      setError({ field: 'password', message: 'Senha é obrigatório' });
     } else {
-      removeError('senha');
+      removeError('password');
     }
   }
 
@@ -116,7 +120,7 @@ export default function FormSignUp({ onHandleSubmit }: FormSignUpProps) {
             value={password}
             type="password"
             placeholder="Digite aqui sua Senha"
-            error={getErrorMessageFieldName('senha')}
+            error={getErrorMessageFieldName('password')}
             disabled={isSubmitting}
           />
         </FormGroup>
