@@ -11,10 +11,11 @@ export const Container = styled.div`
   gap: 1rem;
 `;
 
-export const Span = styled.span`
+export const Title = styled.h1`
   width: 100%;
   max-width: 53rem;
   font-size: 2rem;
+  font-weight: 500;
   max-height: 5rem;
   text-align: center;
   overflow-x: scroll;

@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import * as S from './styles';
 
 import AlfabeticalSorting from '../../assets/image/icons/AlphabeticalSorting.svg';
@@ -17,45 +15,44 @@ interface PageHeaderProps {
   view: string;
   orderBy: string;
   list: List;
+  // eslint-disable-next-line react/require-default-props
+  disabledOrderButton?: boolean;
+  hasError: boolean;
 }
 
 export default function PageHeader({
-  onHandleOrderBy, onHandleView, view, orderBy, list,
+  onHandleOrderBy, onHandleView, view, orderBy, list, disabledOrderButton = false, hasError,
 }: PageHeaderProps) {
-  return (
-    <S.Container>
-      <S.FormatView>
-        <button type="button" onClick={onHandleOrderBy}>
-          {orderBy === 'asc' ? (
-            <img src={orderCategory} alt="Ordernar por categoria" />
-          ) : (
-            <img src={AlfabeticalSorting} alt="Ordernar por ordem alfabetica" />
-          )}
-        </button>
-      </S.FormatView>
+  if (!hasError) {
+    return (
+      <S.Container>
+        { !disabledOrderButton && (
+        <S.FormatView>
+          <button type="button" onClick={onHandleOrderBy}>
+            {orderBy === 'asc' ? (
+              <img src={orderCategory} alt="Ordernar por categoria" />
+            ) : (
+              <img src={AlfabeticalSorting} alt="Ordernar por ordem alfabetica" />
+            )}
+          </button>
+        </S.FormatView>
+        )}
 
-      <S.Span>{list.name}</S.Span>
+        <S.Title>{list.name}</S.Title>
 
-      <S.FormatView>
-        <button type="button" onClick={onHandleView}>
-          {view === 'flex' ? (
-            <img src={gridView} alt="Visualizar como grade" />
-          ) : (
-            <img src={ListView} alt="Visualizar como lista" />
-          )}
-        </button>
-      </S.FormatView>
-    </S.Container>
-  );
+        {!disabledOrderButton && (
+        <S.FormatView>
+          <button type="button" onClick={onHandleView}>
+            {view === 'flex' ? (
+              <img src={gridView} alt="Visualizar como grade" />
+            ) : (
+              <img src={ListView} alt="Visualizar como lista" />
+            )}
+          </button>
+        </S.FormatView>
+        )}
+      </S.Container>
+    );
+  }
+  return null;
 }
-
-PageHeader.propTypes = {
-  onHandleOrderBy: PropTypes.func.isRequired,
-  onHandleView: PropTypes.func.isRequired,
-  orderBy: PropTypes.string.isRequired,
-  view: PropTypes.string.isRequired,
-  list: PropTypes.shape({
-    createdAt: PropTypes.string,
-    name: PropTypes.string,
-  }).isRequired,
-};
