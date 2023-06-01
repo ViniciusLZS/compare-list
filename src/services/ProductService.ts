@@ -21,9 +21,23 @@ class ProductService {
   //   return this.httpClint.get(`/product/${params}`);
   // }
 
-  // async createProduct(product) {
-  //   return this.httpClient.post('/product', { body: product });
-  // }
+  async createProduct({ formDatas, token }: {
+    formDatas: {
+      name: string;
+      value?: string;
+      amount?: string
+      measuresId?: string;
+      listId: string;
+    };
+    token: string;
+}) {
+    return this.httpClient.post('/product', {
+      body: formDatas,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 
   // async editProduct({ params, product }) {
   //   return this.httpClient.post(`/product/${params}`, { body: product });
