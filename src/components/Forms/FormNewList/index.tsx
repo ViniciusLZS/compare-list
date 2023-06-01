@@ -38,9 +38,9 @@ export default function FormNewList({ onSubmit }: FormNewListProps) {
     }
 
     if (!event.target.value) {
-      setError({ field: 'Name', message: 'Nome da loja ou marca é obrigatório.' });
+      setError({ field: 'name', message: 'Nome da loja ou marca é obrigatório.' });
     } else {
-      removeError('store');
+      removeError('name');
     }
   }
 
@@ -73,7 +73,7 @@ export default function FormNewList({ onSubmit }: FormNewListProps) {
   return (
     <S.Form onSubmit={(event) => handleSubmit(event)} noValidate>
       <FormGroup
-        error={getErrorMessageFieldName('store')}
+        error={getErrorMessageFieldName('name')}
       >
         <Input
           label="Nome"
@@ -83,6 +83,7 @@ export default function FormNewList({ onSubmit }: FormNewListProps) {
           value={name}
           maxLength={30}
           disabled={isSubmitting}
+          error={getErrorMessageFieldName('name')}
         />
       </FormGroup>
 
@@ -97,6 +98,7 @@ export default function FormNewList({ onSubmit }: FormNewListProps) {
           maxLength={15}
           value={estimated}
           disabled={isSubmitting}
+          error={getErrorMessageFieldName('estimated')}
         />
       </FormGroup>
 
