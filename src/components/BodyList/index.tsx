@@ -9,11 +9,14 @@ import Loader from '../Loader';
 import Apple from '../../assets/image/apple.svg';
 import Trash from '../../assets/image/icons/bin.svg';
 import Empty from '../../assets/image/empty-box.svg';
+import Sad from '../../assets/image/icons/sad.svg';
+import Button from '../Button';
 
 interface Product {
   id: string;
   name: string;
   amount: string;
+  measurename: string
 }
 
 interface BodyListProps {
@@ -21,18 +24,35 @@ interface BodyListProps {
   products: Product[];
   hasError: boolean;
   isLoading: boolean;
+  onLoadeProducts: () => void;
 }
 
 export default function BodyList({
-  view, products, hasError, isLoading,
+  view, products, hasError, isLoading, onLoadeProducts,
 }: BodyListProps) {
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight - window.innerHeight);
-  }, [view]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view, []]);
+
+  function handleTryAgain() {
+    onLoadeProducts();
+  }
 
   return (
     <S.Container view={view}>
       <Loader isLoading={isLoading} />
+
+      {hasError && !isLoading && (
+      <S.ErrorContainer>
+        <img src={Sad} alt="Sad" />
+
+        <div className="details">
+          <strong>Ocorreu um erro ao obter os suas listas!</strong>
+          <Button type="button" handleClick={() => handleTryAgain()}>Tentar novamente</Button>
+        </div>
+      </S.ErrorContainer>
+      )}
 
       {!hasError && !isLoading && (
         <>
@@ -55,7 +75,7 @@ export default function BodyList({
                 <S.ContainerValue view={view}>
                   <div className="values">
                     <span>
-                      {`${product.amount} Unid.`}
+                      {`${product.amount} ${product.measurename || 'Medida'}`}
                     </span>
                     <span>R$ 7,50</span>
                   </div>

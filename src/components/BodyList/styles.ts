@@ -26,6 +26,26 @@ export const Container = styled.div<ContainerProps>`
   `}
 `;
 
+export const ErrorContainer = styled.div`
+  height: 50rem;
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+  .details {
+    margin-left: 24px;
+
+    strong {
+      font-size: 22px;
+      color: ${({ theme }) => theme.colors.danger.main};
+      display: block;
+      margin-bottom: 8px;
+    }
+  }
+`;
+
 export const EmptyList = styled.div`
   width: 100%;
   height: 42rem;
@@ -83,7 +103,8 @@ interface TitleProps {
 export const Title = styled.h2<TitleProps>`
   position: absolute;
   top: 0;
-  left: 8rem;
+  left: 53%;
+  transform: translateX(-50%);
 
   width: 100%;
   max-width: 24rem;
@@ -97,6 +118,8 @@ export const Title = styled.h2<TitleProps>`
 
   @media(min-width: 700px) {
     max-width: 45rem;
+    overflow-x: hidden;
+    white-space: nowrap;
   }
 
   @media(max-width: 340px) {
@@ -106,11 +129,7 @@ export const Title = styled.h2<TitleProps>`
 
   ${({ view }) => view === 'grid' && css`
     font-size: 1.5rem;
-    top: 0rem;
-    left: 0;
-    @media(max-width: 340px) {
-      left: 7rem;
-    }
+    left: 50%;
   `}
 `;
 
