@@ -31,9 +31,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     const response = await UserService.getUser(token);
     setUser(response);
     setLogin(true);
-
-    history.push('/profile');
-  }, [history]);
+  }, []);
 
   const userLogin = useCallback(async (formData: {
     email: string
@@ -45,20 +43,20 @@ export function AuthProvider({ children }: {children: ReactNode}) {
       window.localStorage.setItem('token', token);
 
       await getToken(token);
+
+      history.push('/profile');
     } catch (error) {
       setLogin(false);
       console.log({ error });
     }
-  }, [getToken]);
+  }, [getToken, history]);
 
   const userLogout = useCallback(
     async () => {
       setLogin(false);
       window.localStorage.removeItem('token');
-
-      history.push('/signin');
     },
-    [history],
+    [],
   );
 
   useEffect(() => {
@@ -68,10 +66,11 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         await getToken(token);
       } else {
         setLogin(false);
+        history.push('/');
       }
     }
     autoLogin();
-  }, [userLogout, getToken]);
+  }, [userLogout, getToken, history]);
 
   const authValue = useMemo<AuthValue>(() => ({
     login, user, userLogin, userLogout,
