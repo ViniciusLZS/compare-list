@@ -35,7 +35,7 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
   const [measures, setMeasures] = useState([]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isMounted, setIsMounted] = useState(true);
+  const [, setIsMounted] = useState(true);
 
   const {
     errors, setError, removeError, getErrorMessageFieldName,
@@ -103,6 +103,7 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
             <Input
               label="Produto*"
               value={name}
+              maxLength={26}
               onChange={(event) => { handleProductChange(event); }}
               type="text"
               placeholder="Digite aqui o nome do produto"
@@ -140,6 +141,7 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
               <Select
                 label="Medidas"
                 placeholder="Sem medida"
+                disabled={isSubmitting}
                 measures={measures}
                 measuresId={measuresId}
                 setMeasuresId={setMeasuresId}
