@@ -116,6 +116,13 @@ export const Title = styled.h2<TitleProps>`
   overflow-x: scroll;
   white-space: nowrap;
 
+  &::-webkit-scrollbar{
+        height: 5px;
+      }
+      &::-webkit-scrollbar-thumb{
+        background: ${({ theme }) => theme.colors.primary.dark};
+      }
+
   @media(min-width: 700px) {
     max-width: 45rem;
     overflow-x: hidden;
@@ -130,6 +137,12 @@ export const Title = styled.h2<TitleProps>`
   ${({ view }) => view === 'grid' && css`
     font-size: 1.5rem;
     left: 50%;
+
+    @media(min-width: 700px) {
+      max-width: 45rem;
+      overflow-x: scroll;
+      white-space: nowrap;
+    }
   `}
 `;
 
