@@ -26,7 +26,7 @@ interface FormData {
 
 export default function List() {
   const [view, setView] = useState('flex');
-  const [orderBy, setOrderBy] = useState('asc');
+  const [orderBy, setOrderBy] = useState('created_at');
   const [products, setProducts] = useState([]);
   const [list, setList] = useState({ estimated: 0, name: '', id: '' });
   const [hasError, setHasError] = useState(false);
@@ -47,7 +47,7 @@ export default function List() {
 
   const token = localStorage.getItem('token') ?? '';
 
-  const loadeList = useCallback(async () => {
+  const loadeProducts = useCallback(async () => {
     try {
       if (token) {
         const allList = await ListService.getList({ id, token });
@@ -56,9 +56,7 @@ export default function List() {
     } catch (error) {
       console.log('error', error);
     }
-  }, [id, token]);
 
-  const loadeProducts = useCallback(async () => {
     try {
       setIsLoading(true);
 
@@ -73,20 +71,18 @@ export default function List() {
     } finally {
       setIsLoading(false);
     }
-    loadeList();
-  }, [id, orderBy, loadeList, token]);
+  }, [id, orderBy, token]);
 
   useEffect(() => {
     loadeProducts();
-    loadeList();
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     return () => {};
-  }, [loadeProducts, loadeList, submitting]);
+  }, [loadeProducts, submitting]);
 
   function handleOrderBy() {
     setOrderBy(
-      (prevState) => (prevState === 'asc' ? 'desc' : 'asc'),
+      (prevState) => (prevState === 'created_at' ? 'name' : 'created_at'),
     );
   }
 
