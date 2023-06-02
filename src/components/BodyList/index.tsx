@@ -11,12 +11,14 @@ import Trash from '../../assets/image/icons/bin.svg';
 import Empty from '../../assets/image/empty-box.svg';
 import Sad from '../../assets/image/icons/sad.svg';
 import Button from '../Button';
+import maskMoney from '../../utils/maskMoney';
 
 interface Product {
   id: string;
   name: string;
   amount: string;
   measurename: string
+  value: number;
 }
 
 interface BodyListProps {
@@ -77,7 +79,7 @@ export default function BodyList({
                     <span>
                       {`${product.amount} ${product.measurename || 'Medida'}`}
                     </span>
-                    <span>R$ 7,50</span>
+                    <span>{product.value !== null ? maskMoney(product.value.toString()) : 'R$ 0,00'}</span>
                   </div>
 
                   <div className="total">
