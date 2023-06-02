@@ -7,7 +7,7 @@ class ListService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  async listAll({ token, orderBy = 'ASC' }: {token: string; orderBy: string;}) {
+  async listAll({ token, orderBy = 'created_at' }: {token: string; orderBy: string;}) {
     return this.httpClient.get(`/list/user?orderBy=${orderBy}`, {
       headers: {
         Authorization: `Bearer ${token}`,
