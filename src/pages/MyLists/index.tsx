@@ -53,11 +53,11 @@ export default function MyLists() {
 
   useEffect(() => {
     loaderList();
-
-    return () => {
-      setMounted(false);
-    };
   }, [loaderList]);
+
+  useEffect(() => () => {
+    setMounted(false);
+  }, []);
 
   function handleToogleOrderBy() {
     setOrderBy(
