@@ -3,7 +3,7 @@ import * as S from './styles';
 import AlfabeticalSorting from '../../assets/image/icons/AlphabeticalSorting.svg';
 import ListView from '../../assets/image/icons/listView.svg';
 import gridView from '../../assets/image/icons/gridView.svg';
-import orderCategory from '../../assets/image/icons/sort-ascending.svg';
+import orderData from '../../assets/image/icons/sort-ascending.svg';
 
 interface List {
   name: string
@@ -29,8 +29,8 @@ export default function PageHeader({
         { !disabledOrderButton && (
         <S.FormatView>
           <button type="button" onClick={onHandleOrderBy}>
-            {orderBy === 'asc' ? (
-              <img src={orderCategory} alt="Ordernar por categoria" />
+            {orderBy === 'name' ? (
+              <img src={orderData} alt="Ordernar por data" />
             ) : (
               <img src={AlfabeticalSorting} alt="Ordernar por ordem alfabetica" />
             )}
