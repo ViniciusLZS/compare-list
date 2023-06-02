@@ -6,13 +6,17 @@ import * as S from './styles';
 
 import useErrors from '../../../hooks/useErrors';
 
+import MeasureService from '../../../services/MeasureService';
+
+import maskMoney from '../../../utils/maskMoney';
+import CleanMask from '../../../utils/cleanMask';
+
 import Form from '../../Forms/Form';
 import FormGroup from '../../Forms/FormGroup';
 import ContainerModal from '../ContainerModal';
 import Input from '../../Input';
 import Button from '../../Button';
 import Select from '../../Select';
-import MeasureService from '../../../services/MeasureService';
 
 interface FormModalData {
   name: string;
@@ -72,7 +76,7 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
   }
 
   function handleValorChange(event: ChangeEvent<HTMLInputElement>) {
-    setValor(event.target.value);
+    setValor(maskMoney(event.target.value));
   }
 
   function handleAmountChange(event: ChangeEvent<HTMLInputElement>) {
@@ -86,8 +90,9 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
 
     setIsSubmitting(true);
 
+    const estimatedClean = CleanMask(value);
     await onHandleSubmit({
-      name, value, amount, measuresId,
+      name, value: estimatedClean, amount, measuresId,
     });
 
     setIsSubmitting(false);
@@ -116,6 +121,7 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
             <Input
               label="Valor"
               value={value}
+              maxLength={15}
               onChange={(event) => { handleValorChange(event); }}
               type="text"
               placeholder="Digite aqui o valor do produto"
