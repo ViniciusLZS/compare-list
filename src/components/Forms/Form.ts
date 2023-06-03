@@ -3,6 +3,10 @@ import styled from 'styled-components';
 export default styled.form`
   margin-top: 5rem;
 
+  &+& {
+    margin-top: 0rem;
+  }
+
   display: flex;
   flex-direction: column;
   align-items: center;
