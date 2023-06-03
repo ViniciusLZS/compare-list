@@ -122,6 +122,11 @@ export const Card = styled.div`
   background-color: ${({ theme }) => theme.colors.default.white};
   border-radius: 1rem;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
+  transition:  background-color 0.3s ease-in;
+
+  &:hover {
+    box-shadow: 0px 5px 15px ${({ theme }) => theme.colors.primary.dark};
+  }
 `;
 
 export const Title = styled.h2`

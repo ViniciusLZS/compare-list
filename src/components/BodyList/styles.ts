@@ -77,6 +77,10 @@ export const Card = styled.div<CardProps>`
   background: ${({ theme }) => theme.colors.default.white};
   border-radius: 1rem;
 
+  &:hover {
+    box-shadow: 0px 5px 15px ${({ theme }) => theme.colors.primary.dark};
+  }
+
   ${({ view }) => view === 'grid' && css`
     width: 100%;
     max-width: 15rem;
