@@ -17,6 +17,7 @@ import ContainerModal from '../ContainerModal';
 import Input from '../../Input';
 import Button from '../../Button';
 import Select from '../../Select';
+import CategoriesService from '../../../services/CategoriesService';
 
 interface FormModalData {
   name: string;
@@ -37,6 +38,8 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
   const [amount, setAmount] = useState('');
   const [measuresId, setMeasuresId] = useState('');
   const [measures, setMeasures] = useState([]);
+  const [categoriesId, setCategoriesId] = useState('');
+  const [categories, setCategories] = useState([]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [, setIsMounted] = useState(true);
@@ -48,8 +51,19 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
   const isFormValid = (name && errors.length === 0);
 
   useEffect(() => {
+    const token = localStorage.getItem('token') ?? '';
+    async function loadCategories() {
+      try {
+        const categoriesList = await CategoriesService.listAll(token);
+
+        setCategories(categoriesList);
+      } catch (error) {
+        console.log('🚀 ~ file: index.tsx:39 ~ loadMeasures ~ error:', error);
+      }
+    }
+    loadCategories();
+
     async function loadMeasures() {
-      const token = localStorage.getItem('token') ?? '';
       try {
         const measuresList = await MeasureService.listMeasures(token);
 
@@ -98,10 +112,28 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
     setIsSubmitting(false);
   }
 
+  async function handleSubmitCategories() {
+    console.log('🚀 ~ file: index.tsx:120 ~ handleSubmitCategories ~ categoriesId:', categoriesId);
+  }
+
   if (modal) {
     return (
       <ContainerModal handleModal={handleModal}>
         <h1>Adicionar</h1>
+
+        <Form>
+          <FormGroup>
+            <Select
+              label="Categorias*"
+              placeholder="Sem categorias"
+              disabled={isSubmitting}
+              optionsSelect={categories}
+              setOptionId={setCategoriesId}
+              optionId={categoriesId}
+              handleSubmitOptions={() => handleSubmitCategories()}
+            />
+          </FormGroup>
+        </Form>
 
         <Form onSubmit={(event) => handleSubmit(event)} noValidate>
           <FormGroup error={getErrorMessageFieldName('product')}>
@@ -148,9 +180,9 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
                 label="Medidas"
                 placeholder="Sem medida"
                 disabled={isSubmitting}
-                measures={measures}
-                measuresId={measuresId}
-                setMeasuresId={setMeasuresId}
+                optionsSelect={measures}
+                optionId={measuresId}
+                setOptionId={setMeasuresId}
               />
             </FormGroup>
           </S.Amount>
