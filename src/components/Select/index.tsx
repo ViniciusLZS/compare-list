@@ -11,31 +11,38 @@ interface SelectProps {
   label: string;
   placeholder: string;
   disabled?: boolean
-  measures: Measure[];
-  measuresId: string;
-  setMeasuresId: (value: string) => void;
+  optionsSelect: Measure[];
+  optionId: string;
+  setOptionId: (value: string) => void;
+  handleSubmitOptions?: () => void;
 }
 
 export default function Select({
-  label, placeholder, disabled = false, measuresId, setMeasuresId, measures,
+  label, placeholder, disabled = false, optionsSelect, optionId, setOptionId, handleSubmitOptions,
 }: SelectProps) {
-  function handleMeasure(event: ChangeEvent<HTMLSelectElement>) {
-    const { value } = event.target;
-    setMeasuresId(value);
+  function handleOptions(event: ChangeEvent<HTMLSelectElement>) {
+    setOptionId(event.target.value);
   }
+
+  const handleSubmitOption = () => {
+    if (handleSubmitOptions && optionId) {
+      handleSubmitOptions();
+    }
+  };
+  handleSubmitOption();
 
   return (
     <S.Label>
       <span>{label}</span>
       <S.Select
         disabled={disabled}
-        value={measuresId}
-        onChange={(event) => handleMeasure(event)}
+        value={optionId}
+        onChange={(event) => handleOptions(event)}
       >
         <option value="">{placeholder}</option>
 
-        {measures.map((measure) => (
-          <option value={measure.id} key={measure.id}>{measure.name}</option>
+        {optionsSelect.map((options) => (
+          <option value={options.id} key={options.id}>{options.name}</option>
         ))}
       </S.Select>
     </S.Label>
