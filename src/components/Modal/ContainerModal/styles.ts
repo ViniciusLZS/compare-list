@@ -17,6 +17,7 @@ export const Overlay = styled.div`
 export const Container = styled.div`
   width: 100%;
   max-width: 45rem;
+
   background: ${({ theme }) => theme.colors.primary.lighter};
   border-radius: 2rem;
   padding: 2.4rem;
@@ -31,6 +32,19 @@ export const Container = styled.div`
 
   p {
     margin-top: 8px;
+  }
+
+  .img {
+    width: 100%;
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      max-width: 8rem;
+      max-height: 8rem;
+    }
   }
 `;
 

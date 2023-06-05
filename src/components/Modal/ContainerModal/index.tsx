@@ -12,41 +12,38 @@ interface ContainerModalProps {
   danger?: boolean;
   children: ReactNode;
   handleModal: () => void;
+  handleDropdown: () => void;
 }
 
 export default function ContainerModal(
-  { danger = false, children, handleModal }: ContainerModalProps,
+  {
+    danger = false, children, handleModal, handleDropdown,
+  }: ContainerModalProps,
 ) {
   const modalRoot = document.getElementById('modal-root');
 
-  function handleClick(event: MouseEvent<HTMLDivElement | HTMLButtonElement>) {
+  function handleClickOverlay(event: MouseEvent<HTMLDivElement | HTMLButtonElement>) {
     if (event.target === event.currentTarget) {
       handleModal();
     }
+  }
+
+  function handleClickModal() {
+    handleDropdown();
   }
 
   if (!modalRoot) {
     return null;
   }
   return reactDom.createPortal(
-    <S.Overlay onClick={(event) => handleClick(event)}>
-      <S.Container danger={danger}>
-        <button type="button" onClick={handleModal}>
+    <S.Overlay onClick={(event) => handleClickOverlay(event)}>
+      <S.Container danger={danger} onClick={() => handleClickModal()}>
+        <button type="button" onClick={() => handleModal()}>
           <S.Close>
             <img src={CloseIcon} alt="x" />
           </S.Close>
         </button>
         {children}
-
-        {/* <S.Footer>
-          <button type="button" className="cancel-button">
-            Cancelar
-          </button>
-
-          <Button type="button" danger={danger}>
-            Deletar
-          </Button>
-        </S.Footer> */}
       </S.Container>
     </S.Overlay>,
     modalRoot,
