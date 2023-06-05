@@ -17,13 +17,14 @@ import ContainerModal from '../ContainerModal';
 import Input from '../../Input';
 import Button from '../../Button';
 import Select from '../../Select';
-import CategoriesService from '../../../services/CategoriesService';
+import MercadoLivreService from '../../../services/MercadoLivreService';
 
 interface FormModalData {
   name: string;
   value?: string;
   amount?: string
   measuresId?: string;
+  image?: string;
 }
 
 interface ProductModal {
@@ -38,11 +39,15 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
   const [amount, setAmount] = useState('');
   const [measuresId, setMeasuresId] = useState('');
   const [measures, setMeasures] = useState([]);
-  const [categoriesId, setCategoriesId] = useState('');
+  const [categoriesId, setCategoriesId] = useState(' ');
   const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [, setIsMounted] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [mounted, setIsMounted] = useState(true);
+  const [dropdown, setDropdown] = useState(true);
+  const [image, setImage] = useState('');
 
   const {
     errors, setError, removeError, getErrorMessageFieldName,
@@ -50,13 +55,14 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
 
   const isFormValid = (name && errors.length === 0);
 
+  const token = localStorage.getItem('token') ?? '';
   useEffect(() => {
-    const token = localStorage.getItem('token') ?? '';
     async function loadCategories() {
       try {
-        const categoriesList = await CategoriesService.listAll(token);
-
-        setCategories(categoriesList);
+        const categoriesList = await MercadoLivreService.listAllCategories(token);
+        if (mounted) {
+          setCategories(categoriesList);
+        }
       } catch (error) {
         console.log('🚀 ~ file: index.tsx:39 ~ loadMeasures ~ error:', error);
       }
@@ -66,8 +72,9 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
     async function loadMeasures() {
       try {
         const measuresList = await MeasureService.listMeasures(token);
-
-        setMeasures(measuresList);
+        if (mounted) {
+          setMeasures(measuresList);
+        }
       } catch (error) {
         console.log('🚀 ~ file: index.tsx:39 ~ loadMeasures ~ error:', error);
       }
@@ -77,10 +84,42 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
     return () => {
       setIsMounted(false);
     };
-  }, []);
+  }, [token, mounted]);
+
+  useEffect(() => {
+    async function handleSubmitProduct() {
+      try {
+        if (name) {
+          setIsLoading(true);
+          const listProducts = await MercadoLivreService.listAllProducts(
+            { name, categoriesId, token },
+          );
+          setProducts(listProducts.results);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.log('🚀 ~ file: index.tsx:70 ~ handleSubmitProduct ~ error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    if (name) {
+      const timeout = setTimeout(() => {
+        handleSubmitProduct();
+      }, 1000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+
+    return undefined;
+  }, [name, token, categoriesId]);
 
   function handleProductChange(event: ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
+    setDropdown(true);
 
     if (!event.target.value) {
       setError({ field: 'product', message: 'Produto é obrigatório' });
@@ -106,31 +145,40 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
 
     const estimatedClean = CleanMask(value);
     await onHandleSubmit({
-      name, value: estimatedClean, amount, measuresId,
+      name, value: estimatedClean, amount, measuresId, image,
     });
 
     setIsSubmitting(false);
   }
 
-  async function handleSubmitCategories() {
-    console.log('🚀 ~ file: index.tsx:120 ~ handleSubmitCategories ~ categoriesId:', categoriesId);
+  function handleProductSelect(product: {title: string; thumbnail: string}) {
+    setName(product.title);
+    setImage(product.thumbnail);
+    setDropdown(false);
+  }
+
+  function handleDropdown() {
+    setDropdown(false);
   }
 
   if (modal) {
     return (
-      <ContainerModal handleModal={handleModal}>
+      <ContainerModal handleModal={handleModal} handleDropdown={() => handleDropdown()}>
         <h1>Adicionar</h1>
-
+        {image && (
+        <div className="img">
+          <img src={`${image}`} alt="img" />
+        </div>
+        )}
         <Form>
           <FormGroup>
             <Select
-              label="Categorias*"
-              placeholder="Sem categorias"
+              label="Filtrar por categoria"
+              placeholder="Selecione a categoria"
               disabled={isSubmitting}
               optionsSelect={categories}
               setOptionId={setCategoriesId}
               optionId={categoriesId}
-              handleSubmitOptions={() => handleSubmitCategories()}
             />
           </FormGroup>
         </Form>
@@ -146,7 +194,16 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
               placeholder="Digite aqui o nome do produto"
               error={getErrorMessageFieldName('product')}
               disabled={isSubmitting}
+              isLoading={isLoading}
             />
+
+            {products.length > 0 && name && (
+            <div className="dropdown">
+              {dropdown && !isLoading && products.map((product) => (
+                <button type="button" onClick={() => handleProductSelect(product)} key={product.id}>{product.title}</button>
+              ))}
+            </div>
+            )}
           </FormGroup>
 
           <FormGroup error={getErrorMessageFieldName('value')}>
