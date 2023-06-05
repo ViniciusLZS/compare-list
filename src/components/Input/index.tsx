@@ -5,6 +5,7 @@ import * as S from './styles';
 
 import openEye from '../../assets/image/icons/openEye.svg';
 import closeEye from '../../assets/image/icons/closeEye.svg';
+import Spinner from '../Spinner';
 
 interface InputProps {
   label: string;
@@ -15,10 +16,11 @@ interface InputProps {
   error?: string;
   disabled: boolean;
   maxLength?: number;
+  isLoading?: boolean;
 }
 
 export default function Input({
-  label, placeholder, type, value, onChange, error, disabled, maxLength,
+  label, placeholder, type, value, onChange, error, disabled, maxLength, isLoading,
 }: InputProps) {
   const [eye, setEye] = useState(false);
 
@@ -39,7 +41,9 @@ export default function Input({
         disabled={disabled}
         maxLength={maxLength}
       />
-      {type === 'password' && (
+      {isLoading && <div className="spinner"><Spinner size={16} /></div>}
+
+      {!isLoading && type === 'password' && (
         <button className="eye" type="button" onClick={() => handleEye()}>
           {eye
             ? <img src={openEye} alt="Olho para visualizar senha" />

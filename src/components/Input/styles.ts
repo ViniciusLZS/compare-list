@@ -19,6 +19,12 @@ export const Label = styled.label`
     color: ${({ theme }) => theme.colors.gray[200]};
   }
 
+  .spinner {
+    position: absolute;
+    bottom: -3rem;
+    left: 50%;
+  }
+
  .eye {
     position: absolute;
     bottom: 1.4rem;
