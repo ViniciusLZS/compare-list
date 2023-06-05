@@ -22,6 +22,7 @@ interface FormData {
   value?: string;
   amount?: string
   measuresId?: string;
+  image?: string
 }
 
 export default function List() {
@@ -102,6 +103,7 @@ export default function List() {
       value: formData.value,
       amount: formData.amount,
       measureId: formData.measuresId,
+      image: formData.image,
       listId: list.id,
     };
     try {
