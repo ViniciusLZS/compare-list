@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export default styled.form`
-  margin-top: 5rem;
+  margin-top: 1rem;
 
   &+& {
     margin-top: 0rem;
@@ -12,8 +12,9 @@ export default styled.form`
   align-items: center;
   justify-content: center;
 
+
   button {
-    margin-top: 5rem;
+    margin-top: 3rem;
   }
 
   a {
