@@ -27,6 +27,7 @@ class ProductService {
       value?: string;
       amount?: string
       measuresId?: string;
+      image?: string;
       listId: string;
     };
     token: string;
