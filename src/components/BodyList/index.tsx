@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 
 import * as S from './styles';
 
+import maskMoney from '../../utils/maskMoney';
+
 import Loader from '../Loader';
 
-import Apple from '../../assets/image/apple.svg';
+import imageNotFound from '../../assets/image/imageNotFound.svg';
+
 import Trash from '../../assets/image/icons/bin.svg';
 import Empty from '../../assets/image/empty-box.svg';
 import Sad from '../../assets/image/icons/sad.svg';
 import Button from '../Button';
-import maskMoney from '../../utils/maskMoney';
 
 interface Product {
   id: string;
@@ -19,6 +21,7 @@ interface Product {
   amount: string;
   measurename: string
   value: number;
+  image: string;
 }
 
 interface BodyListProps {
@@ -71,7 +74,7 @@ export default function BodyList({
                 <S.Title view={view}>{product.name}</S.Title>
 
                 <S.Image view={view}>
-                  <img src={Apple} alt="Maçã" />
+                  <img src={product.image ? `${product.image}` : imageNotFound} alt="" />
                 </S.Image>
 
                 <S.ContainerValue view={view}>

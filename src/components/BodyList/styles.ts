@@ -107,13 +107,13 @@ interface TitleProps {
 export const Title = styled.h2<TitleProps>`
   position: absolute;
   top: 0;
-  left: 53%;
+  left: 60%;
   transform: translateX(-50%);
 
   width: 100%;
   max-width: 24rem;
   max-height: 4rem;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 100;
   padding: 0.2rem;
   text-align: center;
@@ -128,9 +128,15 @@ export const Title = styled.h2<TitleProps>`
       }
 
   @media(min-width: 700px) {
-    max-width: 45rem;
-    overflow-x: hidden;
+    left: 55%;
+    max-width: 40rem;
+    overflow-x: scroll;
     white-space: nowrap;
+
+    ${({ view }) => view === 'grid' && css`
+    font-size: 1.5rem;
+    left: 50%;
+  `}
   }
 
   @media(max-width: 340px) {
@@ -161,6 +167,8 @@ export const Image = styled.div<ImageProps>`
   img {
     width: 100%;
     height: 100%;
+
+    max-width: 8rem;
   }
 
   ${({ view }) => view === 'grid' && css`
