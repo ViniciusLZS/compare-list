@@ -31,13 +31,11 @@ export const Select = styled.select`
     color: ${({ theme }) => theme.colors.gray[200]};
   }
 
-
   &:focus, &:hover {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary.light};
     box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.primary.light};
   }
-
 
   &[disabled] {
     background-color: ${({ theme }) => theme.colors.gray[100]};
