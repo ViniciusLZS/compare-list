@@ -7,7 +7,7 @@ class CategoriesService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  async listAllCategories(token: string) {
+  listAllCategories(token: string) {
     return this.httpClient.get('/api/categories', {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -15,7 +15,7 @@ class CategoriesService {
     });
   }
 
-  async listAllProducts({ name, categoriesId, token }
+  listAllProducts({ name, categoriesId, token }
     :{name: string; categoriesId: string; token: string;}) {
     return this.httpClient.get(`/api/products/${categoriesId}/${name}`, {
       headers: {

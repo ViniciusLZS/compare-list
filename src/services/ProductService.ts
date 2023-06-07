@@ -7,7 +7,7 @@ class ProductService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  async listProducts({ id, orderBy = 'ASC', token }: {
+  listProducts({ id, orderBy = 'ASC', token }: {
     id: string; orderBy: string; token: string;
   }) {
     return this.httpClient.get(`/product/list/${id}?orderBy=${orderBy}`, {
@@ -17,11 +17,11 @@ class ProductService {
     });
   }
 
-  // async getProduct(params) {
+  // getProduct(params) {
   //   return this.httpClint.get(`/product/${params}`);
   // }
 
-  async createProduct({ formDatas, token }: {
+  createProduct({ formDatas, token }: {
     formDatas: {
       name: string;
       value?: string;
@@ -40,11 +40,11 @@ class ProductService {
     });
   }
 
-  // async editProduct({ params, product }) {
+  // editProduct({ params, product }) {
   //   return this.httpClient.post(`/product/${params}`, { body: product });
   // }
 
-  // async deleteProduct(params) {
+  // deleteProduct(params) {
   //   return this.httpClient.post(`/product/${params}`);
   // }
 }

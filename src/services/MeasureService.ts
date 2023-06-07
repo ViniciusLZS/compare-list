@@ -7,7 +7,7 @@ class MeasureService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  async listMeasures(token: string) {
+  listMeasures(token: string) {
     return this.httpClient.get('/measure', {
       headers: {
         Authorization: `Bearer ${token}`,

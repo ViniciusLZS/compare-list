@@ -7,7 +7,7 @@ class ListService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  async listAll({ token, orderBy = 'created_at' }: {token: string; orderBy: string;}) {
+  listAll({ token, orderBy = 'created_at' }: {token: string; orderBy: string;}) {
     return this.httpClient.get(`/list/user?orderBy=${orderBy}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -15,7 +15,7 @@ class ListService {
     });
   }
 
-  async getList({ id, token }: {id: string; token: string;}) {
+  getList({ id, token }: {id: string; token: string;}) {
     return this.httpClient.get(`/list/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -23,7 +23,7 @@ class ListService {
     });
   }
 
-  async createList({ formData, token }:
+  createList({ formData, token }:
     {
       formData: {
         name: string;
@@ -39,14 +39,14 @@ class ListService {
     });
   }
 
-  async editList({ id, formData }: {id: string; formData: {
+  editList({ id, formData }: {id: string; formData: {
     name: string;
     estimated: number;
   };}) {
     return this.httpClient.post(`/list/${id}`, { body: formData });
   }
 
-  async deleteList({ id, token }:{id: string; token: string }) {
+  deleteList({ id, token }:{id: string; token: string }) {
     return this.httpClient.post(`/list/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,

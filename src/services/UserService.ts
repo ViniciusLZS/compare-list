@@ -7,14 +7,14 @@ class UserService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  async login(user: {
+  login(user: {
     email: string
     password: string
   }) {
     return this.httpClient.post('/auth/login', { body: user });
   }
 
-  async getUser(token: string) {
+  getUser(token: string) {
     return this.httpClient.get('/auth/user', {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -22,7 +22,7 @@ class UserService {
     });
   }
 
-  async createUser(user: {
+  createUser(user: {
     name: string
     email: string
     password: string
