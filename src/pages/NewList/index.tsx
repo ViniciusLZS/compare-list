@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import ListService from '../../services/ListService';
 
 import FormNewList from '../../components/Forms/FormNewList';
+import toast from '../../utils/toast';
 
 interface FormData {
   name: string;
@@ -16,9 +17,18 @@ export default function NewList() {
     try {
       const newList = await ListService.createList({ formData, token });
 
+      toast({
+        type: 'success',
+        text: 'Lista criada com sucesso!',
+        duration: 5000,
+      });
+
       history.push(`/list/${newList.id}`);
     } catch {
-      console.log('Ocorreu um erro ao cadastrar um contato!');
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao criar à lista!',
+      });
     }
   };
 
