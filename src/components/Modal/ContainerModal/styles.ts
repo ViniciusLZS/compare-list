@@ -12,6 +12,7 @@ export const Overlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  cursor: pointer;
 `;
 
 export const Container = styled.div`
