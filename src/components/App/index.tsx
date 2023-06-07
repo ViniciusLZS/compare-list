@@ -8,12 +8,14 @@ import GlobalStyles from '../../assets/styles/global';
 import defaultTheme from '../../assets/styles/themes/default';
 
 import Home from '../../pages/Home';
+import ToastContainer from '../Toast/ToastContainer';
 
 function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={defaultTheme}>
         <GlobalStyles />
+        <ToastContainer />
         <AuthProvider>
           <S.Container>
             <Switch>
