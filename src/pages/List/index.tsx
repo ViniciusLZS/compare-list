@@ -12,6 +12,7 @@ import ProgressBar from '../../components/ProgressBar';
 import Button from '../../components/Button';
 import ProductService from '../../services/ProductService';
 import ProductModal from '../../components/Modal/ProductModal';
+import toast from '../../utils/toast';
 
 interface ListParams {
   id: string;
@@ -110,9 +111,18 @@ export default function List() {
       setSubmitting(true);
       await ProductService.createProduct({ formDatas, token });
       setSubmitting(false);
+      toast({
+        type: 'success',
+        text: 'Producto adicionado com sucesso!',
+        duration: 7000,
+      });
       setModal(false);
     } catch (error) {
-      console.log('🚀 ~ file: index.tsx:86 ~ handleSubmit ~ error:', error);
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao adicionar o produto!',
+        duration: 7000,
+      });
     }
   };
 
