@@ -18,6 +18,8 @@ export const Overlay = styled.div`
 export const Container = styled.div`
   width: 100%;
   max-width: 45rem;
+  max-height: 60rem;
+  overflow-y: scroll;
 
   background: ${({ theme }) => theme.colors.primary.lighter};
   border-radius: 2rem;
@@ -47,12 +49,17 @@ export const Container = styled.div`
       max-height: 8rem;
     }
   }
+
+  @media(min-width: 700px) {
+    max-height: none;
+    overflow-y: hidden;
+  }
 `;
 
 export const Close = styled.div`
   position: absolute;
-  top: -2rem;
-  right: -2rem;
+  top: 0;
+  right: 0;
   background: ${({ theme }) => theme.colors.primary.main};
   width: 5rem;
   height: 5rem;
