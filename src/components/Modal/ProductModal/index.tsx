@@ -1,5 +1,5 @@
 import {
-  ChangeEvent, FormEvent, useEffect, useState,
+  ChangeEvent, FormEvent, forwardRef, useEffect, useImperativeHandle, useState,
 } from 'react';
 
 import * as S from './styles';
@@ -27,19 +27,34 @@ interface FormModalData {
   image?: string;
 }
 
-interface ProductModal {
-  modal: boolean;
-  handleModal: () => void;
-  onHandleSubmit: (formData: FormModalData) => Promise<void>;
+interface Product {
+  name: string;
+  value: string;
+  amount: string;
+  image: string;
+  // eslint-disable-next-line camelcase
+  measure_id: string;
 }
 
-export default function ProductModal({ modal, handleModal, onHandleSubmit }: ProductModal) {
+interface ProductModalProps {
+  modal: boolean;
+  handleModal: () => void;
+  onSubmit: (formData: FormModalData) => Promise<void>;
+  mode: string;
+}
+
+const ProductModal = forwardRef(({
+  modal, handleModal, onSubmit, mode,
+}:
+  ProductModalProps, ref) => {
   const [name, setName] = useState('');
-  const [value, setValor] = useState('');
+  const [value, setValue] = useState('');
   const [amount, setAmount] = useState('');
   const [measuresId, setMeasuresId] = useState('');
-  const [measures, setMeasures] = useState([]);
   const [categoriesId, setCategoriesId] = useState(' ');
+  const [image, setImage] = useState('');
+
+  const [measures, setMeasures] = useState([]);
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState<any[]>([]);
 
@@ -47,7 +62,6 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
   const [isLoading, setIsLoading] = useState(false);
   const [mounted, setIsMounted] = useState(true);
   const [dropdown, setDropdown] = useState(true);
-  const [image, setImage] = useState('');
 
   const {
     errors, setError, removeError, getErrorMessageFieldName,
@@ -56,6 +70,24 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
   const isFormValid = (name && errors.length === 0);
 
   const token = localStorage.getItem('token') ?? '';
+
+  useImperativeHandle(ref, () => ({
+    setFieldValues: (product: Product) => {
+      setName(product.name ?? '');
+      setValue(maskMoney(product.value.toString()) ?? '');
+      setAmount(product.amount ?? '');
+      setImage(product.image ?? '');
+      setMeasuresId(product.measure_id ?? '');
+    },
+    resetFields: () => {
+      setName('');
+      setValue('');
+      setAmount('');
+      setImage('');
+      setMeasuresId('');
+    },
+  }));
+
   useEffect(() => {
     async function loadCategories() {
       try {
@@ -129,7 +161,7 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
   }
 
   function handleValorChange(event: ChangeEvent<HTMLInputElement>) {
-    setValor(maskMoney(event.target.value));
+    setValue(maskMoney(event.target.value));
   }
 
   function handleAmountChange(event: ChangeEvent<HTMLInputElement>) {
@@ -144,7 +176,7 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
     setIsSubmitting(true);
 
     const estimatedClean = CleanMask(value);
-    await onHandleSubmit({
+    await onSubmit({
       name, value: estimatedClean, amount, measuresId, image,
     });
 
@@ -164,7 +196,7 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
   if (modal) {
     return (
       <ContainerModal handleModal={handleModal} handleDropdown={() => handleDropdown()}>
-        <h1>Adicionar</h1>
+        <h1>{mode}</h1>
         {image && (
         <div className="img">
           <img src={`${image}`} alt="img" />
@@ -188,7 +220,6 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
             <Input
               label="Produto*"
               value={name}
-              maxLength={26}
               onChange={(event) => { handleProductChange(event); }}
               type="text"
               placeholder="Digite aqui o nome do produto"
@@ -249,11 +280,13 @@ export default function ProductModal({ modal, handleModal, onHandleSubmit }: Pro
             disabled={!isFormValid}
             isLoading={isSubmitting}
           >
-            Adicionar
+            {mode}
           </Button>
         </Form>
       </ContainerModal>
     );
   }
   return null;
-}
+});
+
+export default ProductModal;
