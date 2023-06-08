@@ -59,6 +59,11 @@ export default function MyLists() {
     setMounted(false);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight - window.innerHeight);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [[]]);
+
   function handleToogleOrderBy() {
     setOrderBy(
       (prevState) => (prevState === 'asc' ? 'desc' : 'asc'),
@@ -92,25 +97,26 @@ export default function MyLists() {
       </S.ErrorContainer>
       )}
 
+      <S.Header>
+        {list.length > 0 && (
+        <strong>
+          {list.length}
+          {list.length === 1 ? ' Lista' : ' Listas'}
+        </strong>
+        )}
+
+        {list?.length > 0 && (
+        <S.ListHeader orderBy={orderBy}>
+          <button type="button" onClick={handleToogleOrderBy}>
+            <span>Data</span>
+            <img src={Arrow} alt="Seta" />
+          </button>
+        </S.ListHeader>
+        )}
+      </S.Header>
+
       {(list && !hasError) && !isLoading && (
         <>
-          <S.Header>
-            {list.length > 0 && (
-              <strong>
-                {list.length}
-                {list.length === 1 ? ' Lista' : ' Listas'}
-              </strong>
-            )}
-
-            {list.length > 0 && (
-              <S.ListHeader orderBy={orderBy}>
-                <button type="button" onClick={handleToogleOrderBy}>
-                  <span>Nome</span>
-                  <img src={Arrow} alt="Seta" />
-                </button>
-              </S.ListHeader>
-            )}
-          </S.Header>
 
           {list.length < 1 && (
             <S.EmptyList>

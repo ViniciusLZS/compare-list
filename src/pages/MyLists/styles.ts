@@ -16,18 +16,20 @@ export const Container = styled.div`
   }
 `;
 
-export const Header = styled.header`
+export const Header = styled.div`
   width: 100%;
   max-width: 60rem;
+  padding-top: 5rem;
+  position: fixed;
+  top: 8rem;
+  z-index: 100;
 
   display: flex;
   align-items: center;
   justify-content: space-around;
   font-size: 2.5rem;
-
-  strong {
-
-  }
+  box-shadow: 0 10px 10px 10px ${({ theme }) => theme.colors.primary.lighter};
+  background: ${({ theme }) => theme.colors.primary.lighter};
 `;
 
 export const ErrorContainer = styled.div`
@@ -66,7 +68,7 @@ export const ListHeader = styled.div`
 
     img {
 
-      transform: ${({ orderBy }: {orderBy: string}) => (orderBy === 'asc' ? 'rotate(90deg)' : 'rotate(270deg)')};
+      transform: ${({ orderBy }: {orderBy: string}) => (orderBy === 'asc' ? 'rotate(270deg)' : 'rotate(90deg)')};
       transition: transform 0.2s ease-in;
     }
   }
@@ -97,7 +99,8 @@ export const EmptyList = styled.div`
 
 export const List = styled.div`
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 10rem;
+  margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;

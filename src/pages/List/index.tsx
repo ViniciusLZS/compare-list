@@ -93,7 +93,9 @@ export default function List() {
         modalFormRef.current?.setFieldValues(product);
       }
     } catch (error) {
+      console.log('🚀 ~ file: index.tsx:96 ~ loadGetProduct ~ error:', error);
       // history.push('/');
+
       toast({
         type: 'danger',
         text: 'Produto não encontrado',
