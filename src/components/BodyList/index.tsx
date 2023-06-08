@@ -30,10 +30,11 @@ interface BodyListProps {
   hasError: boolean;
   isLoading: boolean;
   onLoadeProducts: () => void;
+  onEditForm: (getproductId: string) => void;
 }
 
 export default function BodyList({
-  view, products, hasError, isLoading, onLoadeProducts,
+  view, products, hasError, isLoading, onLoadeProducts, onEditForm,
 }: BodyListProps) {
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight - window.innerHeight);
@@ -42,6 +43,10 @@ export default function BodyList({
 
   function handleTryAgain() {
     onLoadeProducts();
+  }
+
+  function editForm(id: string) {
+    onEditForm(id);
   }
 
   return (
@@ -70,7 +75,8 @@ export default function BodyList({
 
           {products.map((product) => (
             <S.Card key={product.id} view={view}>
-              <S.Content>
+              <S.Content onClick={() => editForm(product.id)}>
+
                 <S.Title view={view}>{product.name}</S.Title>
 
                 <S.Image view={view}>
@@ -103,16 +109,3 @@ export default function BodyList({
     </S.Container>
   );
 }
-
-BodyList.propTypes = {
-  view: PropTypes.string.isRequired,
-
-  products: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-    quant: PropTypes.string,
-  })).isRequired,
-
-  hasError: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-};

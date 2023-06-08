@@ -76,6 +76,7 @@ export const Card = styled.div<CardProps>`
   max-width: 60rem;
   background: ${({ theme }) => theme.colors.default.white};
   border-radius: 1rem;
+  cursor: pointer;
 
   &:hover {
     box-shadow: 0px 5px 15px ${({ theme }) => theme.colors.primary.dark};
