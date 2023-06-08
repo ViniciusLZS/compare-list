@@ -4,12 +4,13 @@ interface ContainerProps {
   view: string;
 }
 export const Container = styled.div<ContainerProps>`
+  max-width: 70rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   margin-bottom: 2rem;
-  width: 100%;
-  max-width: 70rem;
   margin: 0 auto;
   gap: 2rem;
 
@@ -18,11 +19,6 @@ export const Container = styled.div<ContainerProps>`
     justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
-
-    @media(max-width: 340px) {
-      display: flex;
-      flex-direction: column;
-    }
   `}
 `;
 
@@ -72,11 +68,12 @@ interface CardProps {
 
 export const Card = styled.div<CardProps>`
   width: 100%;
-  max-height: 12rem;
+  max-height: 14rem;
   max-width: 60rem;
   background: ${({ theme }) => theme.colors.default.white};
   border-radius: 1rem;
   cursor: pointer;
+
 
   &:hover {
     box-shadow: 0px 5px 15px ${({ theme }) => theme.colors.primary.dark};
@@ -86,19 +83,33 @@ export const Card = styled.div<CardProps>`
     width: 100%;
     max-width: 15rem;
     max-height: 25rem;
-
-    @media(max-width: 340px) {
-      width: 100%;
-      max-height: 12rem;
-      max-width: 60rem;
-    }
   `}
 `;
 
-export const Content = styled.div`
+interface ContentProps {
+  view: string;
+}
+
+export const Content = styled.div<ContentProps>`
   display: flex;
   justify-content: space-around;
   position: relative;
+  margin: 0rem 2rem 0rem 1rem;
+
+  button {
+    display: flex;
+    justify-content: space-around;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+
+    ${({ view }) => view === 'grid' && css`
+      justify-content: end;
+      width: 100%;
+      max-width: 12rem;
+      max-height: 25rem;
+    `}
+  }
 `;
 
 interface TitleProps {
@@ -140,11 +151,6 @@ export const Title = styled.h2<TitleProps>`
   `}
   }
 
-  @media(max-width: 340px) {
-    font-size: 1.5rem;
-    max-width: 19rem;
-  }
-
   ${({ view }) => view === 'grid' && css`
     font-size: 1.5rem;
     left: 50%;
@@ -164,23 +170,27 @@ interface ImageProps {
 export const Image = styled.div<ImageProps>`
   max-width: 15rem;
   max-height: 10rem;
+  padding-top: 1rem;
 
   img {
     width: 100%;
     height: 100%;
-
     max-width: 8rem;
   }
 
   ${({ view }) => view === 'grid' && css`
     max-width: 10rem;
-    max-height: 8rem;
+    max-height: rem;
     position: absolute;
     top: 4rem;
+    padding-top: 0;
 
-    @media(max-width: 340px) {
-      position: initial;
-    }
+    img {
+    width: 100%;
+    height: 100%;
+    max-width: 8rem;
+    max-height: 7rem;
+  }
   `}
 `;
 
@@ -190,7 +200,7 @@ interface ContainerValueProps {
 
 export const ContainerValue = styled.div<ContainerValueProps>`
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: center;
   gap: 3rem;
   margin-top: 4rem;
@@ -230,12 +240,7 @@ export const ContainerValue = styled.div<ContainerValueProps>`
     flex-direction: column;
     gap: 1rem;
     margin-top: 12rem;
-
-    @media(max-width: 340px) {
-      display: flex;
-      flex-direction: row;
-      margin-top: 3rem;
-    }
+    justify-content: end;
   `}
 `;
 
@@ -244,8 +249,12 @@ export const Trash = styled.div`
   align-items: center;
   justify-content: center;
   width: 4rem;
-
+    margin-left: 1rem;
   button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
     background-color: transparent;
     border: none;
   }
