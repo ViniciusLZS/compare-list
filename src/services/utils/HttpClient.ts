@@ -34,12 +34,27 @@ class HttpClient {
     });
   }
 
+  put(path: string, options: {
+    body?: {
+      [key: string]: string | number | boolean;
+    },
+    headers?: {
+      Authorization: string
+    }
+  }) {
+    return this.makeRequest(path, {
+      method: 'PUT',
+      body: options?.body,
+      headers: options?.headers,
+    });
+  }
+
   async makeRequest(path: string, options: {
     method: string
     body?: {[key: string]: string | number | boolean;}| null
     headers?: {Authorization: string} | null
   }) {
-    await delay(1000);
+    await delay(500);
 
     const headers = new Headers();
 

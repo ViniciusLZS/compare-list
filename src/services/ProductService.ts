@@ -17,9 +17,13 @@ class ProductService {
     });
   }
 
-  // getProduct(params) {
-  //   return this.httpClint.get(`/product/${params}`);
-  // }
+  getProduct({ productId, token }: {productId: string; token: string}) {
+    return this.httpClient.get(`/product/${productId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 
   createProduct({ formDatas, token }: {
     formDatas: {
@@ -40,9 +44,26 @@ class ProductService {
     });
   }
 
-  // editProduct({ params, product }) {
-  //   return this.httpClient.post(`/product/${params}`, { body: product });
-  // }
+  updateProduct({ productId, formDatas, token }
+    :{
+      productId: string,
+      formDatas: {
+        name: string;
+        value?: string;
+        amount?: string
+        measuresId?: string;
+        image?: string;
+        listId: string;
+      };
+      token: string;
+    }) {
+    return this.httpClient.put(`/product/${productId}`, {
+      body: formDatas,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 
   // deleteProduct(params) {
   //   return this.httpClient.post(`/product/${params}`);
