@@ -44,6 +44,13 @@ export const FormatView = styled.div`
     color: red;
   }
 
+
+  @media(max-width: 340px){
+    .gridView{
+      display: none;
+    }
+  }
+
   @media(min-width: 700px) {
     img {
     width: 3rem;

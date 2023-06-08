@@ -42,7 +42,7 @@ export default function PageHeader({
 
         {!disabledOrderButton && (
         <S.FormatView>
-          <button type="button" onClick={onHandleView}>
+          <button className="gridView" type="button" onClick={onHandleView}>
             {view === 'flex' ? (
               <img src={gridView} alt="Visualizar como grade" />
             ) : (
