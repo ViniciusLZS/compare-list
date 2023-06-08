@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import { useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import * as S from './styles';
 
@@ -49,6 +48,10 @@ export default function BodyList({
     onEditForm(id);
   }
 
+  function handleDelete() {
+    console.log('delete');
+  }
+
   return (
     <S.Container view={view}>
       <Loader isLoading={isLoading} />
@@ -75,29 +78,34 @@ export default function BodyList({
 
           {products.map((product) => (
             <S.Card key={product.id} view={view}>
-              <S.Content onClick={() => editForm(product.id)}>
+              <S.Content view={view}>
+                <button type="button" onClick={() => editForm(product.id)}>
+                  <S.Title view={view}>{product.name}</S.Title>
 
-                <S.Title view={view}>{product.name}</S.Title>
+                  <S.Image view={view}>
+                    <img
+                      src={product.image
+                        ? `${product.image}`
+                        : imageNotFound}
+                      alt=""
+                    />
+                  </S.Image>
 
-                <S.Image view={view}>
-                  <img src={product.image ? `${product.image}` : imageNotFound} alt="" />
-                </S.Image>
+                  <S.ContainerValue view={view}>
+                    <div className="values">
+                      <span>
+                        {`${product.amount} ${product.measurename || 'Medida'}`}
+                      </span>
+                      <span>{product.value !== null ? maskMoney(product.value.toString()) : 'R$ 0,00'}</span>
+                    </div>
 
-                <S.ContainerValue view={view}>
-                  <div className="values">
-                    <span>
-                      {`${product.amount} ${product.measurename || 'Medida'}`}
-                    </span>
-                    <span>{product.value !== null ? maskMoney(product.value.toString()) : 'R$ 0,00'}</span>
-                  </div>
-
-                  <div className="total">
-                    <span>R$ 15,00</span>
-                  </div>
-                </S.ContainerValue>
-
+                    <div className="total">
+                      <span>R$ 15,00</span>
+                    </div>
+                  </S.ContainerValue>
+                </button>
                 <S.Trash>
-                  <button type="button">
+                  <button type="button" onClick={handleDelete}>
                     <img src={Trash} alt="Lixeira" />
                   </button>
                 </S.Trash>
