@@ -193,100 +193,104 @@ const ProductModal = forwardRef(({
     setDropdown(false);
   }
 
-  if (modal) {
-    return (
-      <ContainerModal handleModal={handleModal} handleDropdown={() => handleDropdown()}>
-        <h1>{mode}</h1>
-        {image && (
+  if (!modal) {
+    return null;
+  }
+
+  return (
+    <ContainerModal
+      title={mode}
+      handleModal={handleModal}
+      handleDropdown={() => handleDropdown()}
+    >
+      {image && (
         <div className="img">
           <img src={`${image}`} alt="img" />
         </div>
-        )}
-        <Form>
-          <FormGroup>
-            <Select
-              label="Filtrar por categoria"
-              placeholder="Selecione a categoria"
-              disabled={isSubmitting}
-              optionsSelect={categories}
-              setOptionId={setCategoriesId}
-              optionId={categoriesId}
-            />
-          </FormGroup>
-        </Form>
+      )}
+      <Form>
+        <FormGroup>
+          <Select
+            label="Filtrar por categoria"
+            placeholder="Selecione a categoria"
+            disabled={isSubmitting}
+            optionsSelect={categories}
+            setOptionId={setCategoriesId}
+            optionId={categoriesId}
+          />
+        </FormGroup>
+      </Form>
 
-        <Form onSubmit={(event) => handleSubmit(event)} noValidate>
-          <FormGroup error={getErrorMessageFieldName('product')}>
-            <Input
-              label="Produto*"
-              value={name}
-              onChange={(event) => { handleProductChange(event); }}
-              type="text"
-              placeholder="Digite aqui o nome do produto"
-              error={getErrorMessageFieldName('product')}
-              disabled={isSubmitting}
-              isLoading={isLoading}
-            />
+      <Form onSubmit={(event) => handleSubmit(event)} noValidate>
+        <FormGroup error={getErrorMessageFieldName('product')}>
+          <Input
+            label="Produto*"
+            value={name}
+            onChange={(event) => { handleProductChange(event); }}
+            type="text"
+            placeholder="Digite aqui o nome do produto"
+            error={getErrorMessageFieldName('product')}
+            disabled={isSubmitting}
+            isLoading={isLoading}
+          />
 
-            {products.length > 0 && name && (
+          {products.length > 0 && name && (
             <div className="dropdown">
               {dropdown && !isLoading && products.map((product) => (
                 <button type="button" onClick={() => handleProductSelect(product)} key={product.id}>{product.title}</button>
               ))}
             </div>
-            )}
-          </FormGroup>
+          )}
+        </FormGroup>
 
-          <FormGroup error={getErrorMessageFieldName('value')}>
+        <FormGroup error={getErrorMessageFieldName('value')}>
+          <Input
+            label="Valor"
+            value={value}
+            maxLength={15}
+            onChange={(event) => { handleValorChange(event); }}
+            type="text"
+            placeholder="Digite aqui o valor do produto"
+            error={getErrorMessageFieldName('value')}
+            disabled={isSubmitting}
+          />
+        </FormGroup>
+
+        <S.Amount>
+          <FormGroup error={getErrorMessageFieldName('amount')}>
             <Input
-              label="Valor"
-              value={value}
-              maxLength={15}
-              onChange={(event) => { handleValorChange(event); }}
-              type="text"
-              placeholder="Digite aqui o valor do produto"
-              error={getErrorMessageFieldName('value')}
+              label="Quantidade"
+              value={amount}
+              onChange={(event) => { handleAmountChange(event); }}
+              type="number"
+              placeholder="Digite aqui a quant. do produto"
+              error={getErrorMessageFieldName('amount')}
               disabled={isSubmitting}
             />
           </FormGroup>
 
-          <S.Amount>
-            <FormGroup error={getErrorMessageFieldName('amount')}>
-              <Input
-                label="Quantidade"
-                value={amount}
-                onChange={(event) => { handleAmountChange(event); }}
-                type="number"
-                placeholder="Digite aqui a quant. do produto"
-                error={getErrorMessageFieldName('amount')}
-                disabled={isSubmitting}
-              />
-            </FormGroup>
+          <FormGroup>
+            <Select
+              label="Medidas"
+              placeholder="Sem medida"
+              disabled={isSubmitting}
+              optionsSelect={measures}
+              optionId={measuresId}
+              setOptionId={setMeasuresId}
+            />
+          </FormGroup>
+        </S.Amount>
 
-            <FormGroup>
-              <Select
-                label="Medidas"
-                placeholder="Sem medida"
-                disabled={isSubmitting}
-                optionsSelect={measures}
-                optionId={measuresId}
-                setOptionId={setMeasuresId}
-              />
-            </FormGroup>
-          </S.Amount>
-
-          <Button
-            type="submit"
-            disabled={!isFormValid}
-            isLoading={isSubmitting}
-          >
-            {mode}
-          </Button>
-        </Form>
-      </ContainerModal>
-    );
-  }
-  return null;
+        <Button
+          type="submit"
+          disabled={!isFormValid}
+          isLoading={isSubmitting}
+        >
+          {mode}
+        </Button>
+      </Form>
+    </ContainerModal>
+  );
 });
 
 export default ProductModal;
