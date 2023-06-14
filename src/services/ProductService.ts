@@ -65,9 +65,13 @@ class ProductService {
     });
   }
 
-  // deleteProduct(params) {
-  //   return this.httpClient.post(`/product/${params}`);
-  // }
+  deleteProduct(id: string, token: string) {
+    return this.httpClient.delete(`/product/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
 }
 
 export default new ProductService();

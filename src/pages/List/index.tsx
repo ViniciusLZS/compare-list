@@ -17,6 +17,15 @@ import Button from '../../components/Button';
 import ProductService from '../../services/ProductService';
 import ProductModal from '../../components/Modal/ProductModal';
 
+interface ProductProps {
+  id: string;
+  name: string;
+  amount: string;
+  measurename: string
+  value: number;
+  image: string;
+}
+
 interface ListParams {
   id: string;
 }
@@ -37,7 +46,7 @@ interface ProductModalRef {
 export default function List() {
   const [view, setView] = useState('flex');
   const [orderBy, setOrderBy] = useState('created_at');
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<ProductProps[]>([]);
   const [list, setList] = useState({ estimated: 0, name: '', id: '' });
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -161,7 +170,7 @@ export default function List() {
         setSubmitting(false);
         toast({
           type: 'success',
-          text: 'Producto adicionado com sucesso!',
+          text: 'Produto adicionado com sucesso!',
           duration: 7000,
         });
         modalFormRef.current?.resetFields();
@@ -189,7 +198,7 @@ export default function List() {
         setSubmitting(false);
         toast({
           type: 'success',
-          text: 'Producto editado com sucesso!',
+          text: 'Produto editado com sucesso!',
           duration: 7000,
         });
       } catch (error) {
@@ -199,6 +208,26 @@ export default function List() {
           duration: 7000,
         });
       }
+    }
+  };
+
+  const handleDeleteContact = async (deleteProductId: string) => {
+    try {
+      await ProductService.deleteProduct(deleteProductId, token);
+
+      setProducts((prevState) => prevState.filter(
+        (item) => item.id !== deleteProductId,
+      ));
+
+      toast({
+        type: 'success',
+        text: 'Contato deletado com sucesso.',
+      });
+    } catch {
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao deletar um contato.',
+      });
     }
   };
 
@@ -236,6 +265,7 @@ export default function List() {
           hasError={hasError}
           isLoading={isLoading}
           onEditForm={(getproductId: string) => handleEditForm(getproductId)}
+          onDeleteProduct={(deleteProductId) => handleDeleteContact(deleteProductId)}
         />
 
         {!isLoading && (

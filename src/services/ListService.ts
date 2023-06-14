@@ -43,11 +43,11 @@ class ListService {
     name: string;
     estimated: number;
   };}) {
-    return this.httpClient.post(`/list/${id}`, { body: formData });
+    return this.httpClient.put(`/list/${id}`, { body: formData });
   }
 
   deleteList({ id, token }:{id: string; token: string }) {
-    return this.httpClient.post(`/list/${id}`, {
+    return this.httpClient.delete(`/list/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

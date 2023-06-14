@@ -49,6 +49,17 @@ class HttpClient {
     });
   }
 
+  delete(path: string, options: {
+    headers?: {
+      Authorization: string
+    }
+  }) {
+    return this.makeRequest(path, {
+      method: 'DELETE',
+      headers: options?.headers,
+    });
+  }
+
   async makeRequest(path: string, options: {
     method: string
     body?: {[key: string]: string | number | boolean;}| null
