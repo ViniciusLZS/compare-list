@@ -28,13 +28,14 @@ export const Container = styled.div`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   position: relative;
 
-  h1 {
+  > h1 {
+    margin-top: 4rem;
     font-size: 2.2rem;
     color: ${({ theme, danger }: {theme: any; danger: boolean;}) => (danger ? theme.colors.danger.main : theme.colors.gray[900])}
   }
 
-  p {
-    margin-top: 8px;
+  .modal-body {
+    margin-top: 3.2rem;
   }
 
   .img {
@@ -76,10 +77,14 @@ export const Footer = styled.footer`
   justify-content: flex-end;
 
   .cancel-button {
-    background: #FFFFFF;
+    background: transparent;
     border: none;
     font-size: 1.6rem;
-    margin-right: 0.8rem;
+    margin-right: 4rem;
     color: ${({ theme }) => theme.colors.gray[200]};
+
+    &[disabled] {
+      cursor: not-allowed;
+    }
   }
 `;
