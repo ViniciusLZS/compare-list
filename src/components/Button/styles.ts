@@ -32,8 +32,6 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
   ${({ variant }) => buttonVariants[variant || 'default']};
 
-  background-color: ${({ theme, danger }) => (danger ? theme.colors.danger.main : theme.colors.primary.main)};
-  border: ${({ theme, danger }) => (danger ? theme.colors.danger.main : theme.colors.primary.main)};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary.main};
@@ -44,9 +42,21 @@ export const StyledButton = styled.button<StyledButtonProps>`
   }
 
   &[disabled] {
-    background: ${({ theme }) => theme.colors.gray[100]};
-    color: ${({ theme }) => theme.colors.gray[200]};
-    border-color: ${({ theme }) => theme.colors.gray[100]};
-    cursor: default;
+    background: ${({ theme }) => theme.colors.gray[100]} !important;
+    color: ${({ theme }) => theme.colors.gray[200]} !important;
+    border-color: ${({ theme }) => theme.colors.gray[100]} !important;
+    cursor: default !important;
   }
+
+  ${({ theme, danger }) => danger && css`
+    background: ${theme.colors.danger.main};
+    border: ${theme.colors.danger.main};
+    &:hover {
+    background: ${theme.colors.danger.light};
+    }
+
+    &:active {
+      background: ${theme.colors.danger.dark};
+    }
+  `}
 `;
