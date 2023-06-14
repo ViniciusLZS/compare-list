@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import * as S from './styles';
 
@@ -13,6 +13,7 @@ import Trash from '../../assets/image/icons/bin.svg';
 import Empty from '../../assets/image/empty-box.svg';
 import Sad from '../../assets/image/icons/sad.svg';
 import Button from '../Button';
+import ContainerModal from '../Modal/ContainerModal';
 
 interface Product {
   id: string;
@@ -30,11 +31,16 @@ interface BodyListProps {
   isLoading: boolean;
   onLoadeProducts: () => void;
   onEditForm: (getproductId: string) => void;
+  onDeleteProduct: (productId: string) => Promise<void>;
 }
 
 export default function BodyList({
-  view, products, hasError, isLoading, onLoadeProducts, onEditForm,
+  view, products, hasError, isLoading, onLoadeProducts, onEditForm, onDeleteProduct,
 }: BodyListProps) {
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [productBeingDeleted, setProductBeingDeleted] = useState<Product | null>(null);
+
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight - window.innerHeight);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,13 +54,43 @@ export default function BodyList({
     onEditForm(id);
   }
 
-  function handleDelete() {
-    console.log('delete');
+  function handleDeleteproduct(product: Product) {
+    setProductBeingDeleted(product);
+    setIsDeleteModalVisible(true);
   }
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalVisible(false);
+    setProductBeingDeleted(null);
+  };
+
+  const handleConfirmDeleteProduct = async () => {
+    setIsLoadingDelete(true);
+
+    if (productBeingDeleted) {
+      await onDeleteProduct(productBeingDeleted.id);
+    }
+
+    handleCloseDeleteModal();
+
+    setIsLoadingDelete(false);
+  };
 
   return (
     <S.Container view={view}>
       <Loader isLoading={isLoading} />
+
+      <ContainerModal
+        danger
+        isLoading={isLoadingDelete}
+        visible={isDeleteModalVisible}
+        title={`Tem certeza que deseja remover o produto ”${productBeingDeleted?.name}”?`}
+        confirmLabel="Deletar"
+        onCancel={handleCloseDeleteModal}
+        onConfirm={handleConfirmDeleteProduct}
+      >
+        <p>Esta ação não poderá ser desfeita!</p>
+      </ContainerModal>
 
       {hasError && !isLoading && (
       <S.ErrorContainer>
@@ -105,7 +141,7 @@ export default function BodyList({
                   </S.ContainerValue>
                 </button>
                 <S.Trash>
-                  <button type="button" onClick={handleDelete}>
+                  <button type="button" onClick={() => handleDeleteproduct(product)}>
                     <img src={Trash} alt="Lixeira" />
                   </button>
                 </S.Trash>

@@ -17,6 +17,14 @@ import Trash from '../../assets/image/icons/bin.svg';
 import Arrow from '../../assets/image/icons/arrow.svg';
 import Empty from '../../assets/image/empty-box.svg';
 import Sad from '../../assets/image/icons/sad.svg';
+import ContainerModal from '../../components/Modal/ContainerModal';
+import toast from '../../utils/toast';
+
+interface ListProps {
+  id: string;
+  name: string;
+  estimated: number;
+}
 
 export default function MyLists() {
   const [list, setList] = useState<{
@@ -25,8 +33,12 @@ export default function MyLists() {
   const [orderBy, setOrderBy] = useState('asc');
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [modal, setModal] = useState(false);
+
   const [mounted, setMounted] = useState(true);
+
+  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [listBeingDeleted, setListBeingDeleted] = useState<ListProps | null>(null);
 
   const token = localStorage.getItem('token') ?? '';
 
@@ -70,21 +82,62 @@ export default function MyLists() {
     );
   }
 
-  function handleDelete() {
-    setModal(true);
-  }
-
   function handleTryAgain() {
     loaderList();
   }
+
+  function handleDeleteproduct(product: ListProps) {
+    setListBeingDeleted(product);
+    setIsDeleteModalVisible(true);
+  }
+
+  const handleCloseDeleteModal = () => {
+    setIsDeleteModalVisible(false);
+    setListBeingDeleted(null);
+  };
+
+  const handleConfirmDeleteList = async () => {
+    try {
+      setIsLoadingDelete(true);
+      if (listBeingDeleted) {
+        await ListService.deleteList({ id: listBeingDeleted.id, token });
+      }
+
+      setList((prevState) => prevState.filter(
+        (item) => item.id !== listBeingDeleted?.id,
+      ));
+
+      handleCloseDeleteModal();
+
+      toast({
+        type: 'success',
+        text: 'Lista deletada com sucesso.',
+      });
+    } catch {
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao deletar a lista.',
+      });
+    } finally {
+      setIsLoadingDelete(false);
+    }
+  };
 
   return (
     <S.Container>
       <Loader isLoading={isLoading} />
 
-      {modal && (
-        <h1>Modal</h1>
-      )}
+      <ContainerModal
+        danger
+        isLoading={isLoadingDelete}
+        visible={isDeleteModalVisible}
+        title={`Tem certeza que deseja remover a lista ”${listBeingDeleted?.name}”?`}
+        confirmLabel="Deletar"
+        onCancel={handleCloseDeleteModal}
+        onConfirm={handleConfirmDeleteList}
+      >
+        <p>Esta ação não poderá ser desfeita!</p>
+      </ContainerModal>
 
       {hasError && !isLoading && (
       <S.ErrorContainer>
@@ -153,7 +206,7 @@ export default function MyLists() {
                   </Link>
 
                   <S.Trash>
-                    <button type="button" onClick={handleDelete}>
+                    <button type="button" onClick={() => handleDeleteproduct(item)}>
                       <img src={Trash} alt="Lixeira" />
                     </button>
                   </S.Trash>
