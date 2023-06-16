@@ -2,7 +2,7 @@ import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useHistory } from 'react-router-dom';
 
 import * as S from './styles';
 
@@ -57,10 +57,9 @@ export default function List() {
   const [mode, setMode] = useState('');
 
   const { id } = useParams<ListParams>();
-
   const token = localStorage.getItem('token') ?? '';
-
   const modalFormRef = useRef<ProductModalRef | null>(null);
+  const history = useHistory();
 
   const loadeProducts = useCallback(async () => {
     try {
@@ -69,7 +68,7 @@ export default function List() {
         setList(getList);
       }
     } catch (error) {
-      // history.push('/mylist');
+      history.push('/mylist');
     }
 
     try {
@@ -85,7 +84,7 @@ export default function List() {
     } finally {
       setIsLoading(false);
     }
-  }, [id, orderBy, token]);
+  }, [id, orderBy, token, history]);
 
   useEffect(() => {
     loadeProducts();
@@ -94,27 +93,32 @@ export default function List() {
     return () => {};
   }, [loadeProducts, submitting]);
 
-  const loadGetProduct = useCallback(async () => {
-    try {
-      if (productId) {
-        const product = await ProductService.getProduct({ productId, token });
-
-        modalFormRef.current?.setFieldValues(product);
-      }
-    } catch (error) {
-      console.log('🚀 ~ file: index.tsx:96 ~ loadGetProduct ~ error:', error);
-      // history.push('/');
-
-      toast({
-        type: 'danger',
-        text: 'Produto não encontrado',
-      });
-    }
-  }, [productId, token]);
-
   useEffect(() => {
-    loadGetProduct();
-  }, [loadGetProduct]);
+    let isMounted = true;
+    async function loaderGetProduct() {
+      try {
+        if (productId) {
+          const product = await ProductService.getProduct({ productId, token });
+          if (isMounted) {
+            modalFormRef.current?.setFieldValues(product);
+          }
+        }
+      } catch (error) {
+        if (isMounted) {
+          history.push('/list');
+          toast({
+            type: 'danger',
+            text: 'Produto não encontrado',
+          });
+        }
+      }
+    }
+    loaderGetProduct();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [productId, token, history]);
 
   useEffect(() => {
     if (submitting || hasError || products.length < 1) {
