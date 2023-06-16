@@ -1,3 +1,4 @@
+import ProductMapper from './mappers/ProductMapper';
 import HttpClient from './utils/HttpClient';
 
 class ProductService {
@@ -7,47 +8,53 @@ class ProductService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  listProducts({ id, orderBy = 'ASC', token }: {
+  async listProducts({ id, orderBy = 'ASC', token }: {
     id: string; orderBy: string; token: string;
   }) {
-    return this.httpClient.get(`/product/list/${id}?orderBy=${orderBy}`, {
+    const products = await this.httpClient.get(`/product/list/${id}?orderBy=${orderBy}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return products.map(ProductMapper.toDomain);
   }
 
-  getProduct({ productId, token }: {productId: string; token: string}) {
-    return this.httpClient.get(`/product/${productId}`, {
+  async getProduct({ productId, token }: {productId: string; token: string}) {
+    const product = await this.httpClient.get(`/product/${productId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return ProductMapper.toDomain(product);
   }
 
-  createProduct({ formDatas, token }: {
-    formDatas: {
+  createProduct({ product, token }: {
+    product: {
       name: string;
       value?: string;
       amount?: string
-      measuresId?: string;
+      measureId?: string;
       image?: string;
       listId: string;
     };
     token: string;
 }) {
+    const body = ProductMapper.toPersistence(product);
+
     return this.httpClient.post('/product', {
-      body: formDatas,
+      body,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
   }
 
-  updateProduct({ productId, formDatas, token }
+  updateProduct({ productId, product, token }
     :{
       productId: string,
-      formDatas: {
+      product: {
         name: string;
         value?: string;
         amount?: string
@@ -57,8 +64,10 @@ class ProductService {
       };
       token: string;
     }) {
+    const body = ProductMapper.toPersistence(product);
+
     return this.httpClient.put(`/product/${productId}`, {
-      body: formDatas,
+      body,
       headers: {
         Authorization: `Bearer ${token}`,
       },

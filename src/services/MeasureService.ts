@@ -1,3 +1,4 @@
+import MeasureMapper from './mappers/MeasureMapper';
 import HttpClient from './utils/HttpClient';
 
 class MeasureService {
@@ -7,12 +8,14 @@ class MeasureService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  listMeasures(token: string) {
-    return this.httpClient.get('/measure', {
+  async listMeasures(token: string) {
+    const measures = await this.httpClient.get('/measure', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return measures.map(MeasureMapper.toDomain);
   }
 }
 

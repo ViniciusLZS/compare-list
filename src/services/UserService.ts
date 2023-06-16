@@ -1,3 +1,4 @@
+import UserMapper from './mappers/UserMapper';
 import HttpClient from './utils/HttpClient';
 
 class UserService {
@@ -14,12 +15,13 @@ class UserService {
     return this.httpClient.post('/auth/login', { body: user });
   }
 
-  getUser(token: string) {
-    return this.httpClient.get('/auth/user', {
+  async getUser(token: string) {
+    const user = await this.httpClient.get('/auth/user', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+    return UserMapper.toDomain(user);
   }
 
   createUser(user: {
@@ -27,7 +29,8 @@ class UserService {
     email: string
     password: string
   }) {
-    return this.httpClient.post('/user', { body: user });
+    const body = UserMapper.toPersistence(user);
+    return this.httpClient.post('/user', { body });
   }
 }
 

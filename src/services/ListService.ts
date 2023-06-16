@@ -1,3 +1,4 @@
+import ListMapper from './mappers/ListMapper';
 import HttpClient from './utils/HttpClient';
 
 class ListService {
@@ -7,12 +8,14 @@ class ListService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  listAll({ token, orderBy = 'created_at' }: {token: string; orderBy: string;}) {
-    return this.httpClient.get(`/list/user?orderBy=${orderBy}`, {
+  async listAll({ token, orderBy = 'created_at' }: {token: string; orderBy: string;}) {
+    const lists = await this.httpClient.get(`/list/user?orderBy=${orderBy}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return lists.map(ListMapper.toDomain);
   }
 
   getList({ id, token }: {id: string; token: string;}) {
@@ -23,16 +26,17 @@ class ListService {
     });
   }
 
-  createList({ formData, token }:
+  createList({ list, token }:
     {
-      formData: {
+      list: {
         name: string;
         estimated: string;
       };
       token: string;
     }) {
+    const body = ListMapper.toPersistence(list);
     return this.httpClient.post('/list', {
-      body: formData,
+      body,
       headers: {
         Authorization: `Bearer ${token}`,
       },
