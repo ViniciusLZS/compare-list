@@ -18,8 +18,8 @@ import ContainerModal from '../Modal/ContainerModal';
 interface Product {
   id: string;
   name: string;
-  amount: string;
-  measurename: string
+  amount: number;
+  measureName: string
   value: number;
   image: string;
 }
@@ -130,7 +130,7 @@ export default function BodyList({
                   <S.ContainerValue view={view}>
                     <div className="values">
                       <span>
-                        {`${product.amount} ${product.measurename || 'Medida'}`}
+                        {`${product.amount} ${product.measureName || 'Medida'}`}
                       </span>
                       <span>{product.value !== null ? maskMoney(product.value.toString()) : 'R$ 0,00'}</span>
                     </div>

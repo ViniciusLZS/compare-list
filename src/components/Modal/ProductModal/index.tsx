@@ -23,17 +23,16 @@ interface FormModalData {
   name: string;
   value?: string;
   amount?: string
-  measuresId?: string;
+  measureId?: string;
   image?: string;
 }
 
-interface Product {
+interface ProductProps {
   name: string;
   value: string;
   amount: string;
   image: string;
-  // eslint-disable-next-line camelcase
-  measure_id: string;
+  measureId: string;
 }
 
 interface ProductModalProps {
@@ -50,7 +49,7 @@ const ProductModal = forwardRef(({
   const [name, setName] = useState('');
   const [value, setValue] = useState('');
   const [amount, setAmount] = useState('');
-  const [measuresId, setMeasuresId] = useState('');
+  const [measureId, setMeasureId] = useState('');
   const [categoriesId, setCategoriesId] = useState(' ');
   const [image, setImage] = useState('');
 
@@ -72,19 +71,19 @@ const ProductModal = forwardRef(({
   const token = localStorage.getItem('token') ?? '';
 
   useImperativeHandle(ref, () => ({
-    setFieldValues: (product: Product) => {
+    setFieldValues: (product: ProductProps) => {
       setName(product.name ?? '');
-      setValue(maskMoney(product.value.toString()) ?? '');
+      setValue(maskMoney(product.value) ?? '');
       setAmount(product.amount ?? '');
       setImage(product.image ?? '');
-      setMeasuresId(product.measure_id ?? '');
+      setMeasureId(product.measureId ?? '');
     },
     resetFields: () => {
       setName('');
       setValue('');
       setAmount('');
       setImage('');
-      setMeasuresId('');
+      setMeasureId('');
     },
   }));
 
@@ -175,9 +174,9 @@ const ProductModal = forwardRef(({
 
     setIsSubmitting(true);
 
-    const estimatedClean = CleanMask(value);
+    const valueClean = CleanMask(value);
     await onSubmit({
-      name, value: estimatedClean, amount, measuresId, image,
+      name, value: valueClean, amount, measureId, image,
     });
 
     setIsSubmitting(false);
@@ -275,8 +274,8 @@ const ProductModal = forwardRef(({
               placeholder="Sem medida"
               disabled={isSubmitting}
               optionsSelect={measures}
-              optionId={measuresId}
-              setOptionId={setMeasuresId}
+              optionId={measureId}
+              setOptionId={setMeasureId}
             />
           </FormGroup>
         </S.Amount>
