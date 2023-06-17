@@ -20,9 +20,9 @@ import ProductModal from '../../components/Modal/ProductModal';
 interface ProductProps {
   id: string;
   name: string;
-  amount: string;
-  measurename: string
   value: number;
+  amount: number;
+  measureName: string
   image: string;
 }
 
@@ -34,7 +34,7 @@ interface FormData {
   name: string;
   value?: string;
   amount?: string
-  measuresId?: string;
+  measureId?: string;
   image?: string
 }
 
@@ -79,7 +79,7 @@ export default function List() {
       setHasError(false);
 
       setProducts(listProducts);
-    } catch (error) {
+    } catch {
       setHasError(true);
     } finally {
       setIsLoading(false);
@@ -160,22 +160,22 @@ export default function List() {
 
   const handleSubmit = async (formData: FormData) => {
     if (mode === 'Adicionar') {
-      const formDatas = {
+      const product = {
         name: formData.name,
         value: formData.value,
         amount: formData.amount,
-        measureId: formData.measuresId,
+        measureId: formData.measureId,
         image: formData.image,
         listId: list.id,
       };
       try {
         setSubmitting(true);
-        await ProductService.createProduct({ formDatas, token });
+        await ProductService.createProduct({ product, token });
         setSubmitting(false);
         toast({
           type: 'success',
           text: 'Produto adicionado com sucesso!',
-          duration: 7000,
+          duration: 5000,
         });
         modalFormRef.current?.resetFields();
       } catch (error) {
@@ -188,17 +188,17 @@ export default function List() {
     }
 
     if (mode === 'Editar') {
-      const formDatas = {
+      const product = {
         name: formData.name,
         value: formData.value,
         amount: formData.amount,
-        measureId: formData.measuresId,
+        measureId: formData.measureId,
         image: formData.image,
         listId: list.id,
       };
       try {
         setSubmitting(true);
-        await ProductService.updateProduct({ productId, formDatas, token });
+        await ProductService.updateProduct({ productId, product, token });
         setSubmitting(false);
         toast({
           type: 'success',

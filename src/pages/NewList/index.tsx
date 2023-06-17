@@ -5,7 +5,7 @@ import ListService from '../../services/ListService';
 import FormNewList from '../../components/Forms/FormNewList';
 import toast from '../../utils/toast';
 
-interface FormData {
+interface ListProps {
   name: string;
   estimated: string;
 }
@@ -13,9 +13,9 @@ export default function NewList() {
   const history = useHistory();
   const token = window.localStorage.getItem('token') ?? '';
 
-  const handleSubmit = async (formData: FormData) => {
+  const handleSubmit = async (list: ListProps) => {
     try {
-      const newList = await ListService.createList({ formData, token });
+      const newList = await ListService.createList({ list, token });
 
       toast({
         type: 'success',

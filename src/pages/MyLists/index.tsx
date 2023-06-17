@@ -20,16 +20,25 @@ import Sad from '../../assets/image/icons/sad.svg';
 import ContainerModal from '../../components/Modal/ContainerModal';
 import toast from '../../utils/toast';
 
-interface ListProps {
+interface ListBeingProps {
   id: string;
   name: string;
   estimated: number;
 }
 
+interface ListProps {
+  id: string;
+  name: string;
+  estimated: number;
+  total: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  userId: string;
+}
+
 export default function MyLists() {
-  const [list, setList] = useState<{
-    // eslint-disable-next-line camelcase
-    id: string; name: string; created_at: string; estimated: number; }[]>([]);
+  const [list, setList] = useState<ListProps[]>([]);
   const [orderBy, setOrderBy] = useState('asc');
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -38,7 +47,7 @@ export default function MyLists() {
 
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-  const [listBeingDeleted, setListBeingDeleted] = useState<ListProps | null>(null);
+  const [listBeingDeleted, setListBeingDeleted] = useState<ListBeingProps | null>(null);
 
   const token = localStorage.getItem('token') ?? '';
 
@@ -195,7 +204,7 @@ export default function MyLists() {
                     <S.Info>
                       <S.Date>
                         <img src={Calendar} alt="calendário" />
-                        <span>{formatDate(item.created_at)}</span>
+                        <span>{formatDate(item.createdAt)}</span>
                       </S.Date>
 
                       <S.Value>
