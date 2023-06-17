@@ -5,9 +5,10 @@ import {
 import { useHistory } from 'react-router-dom';
 
 import UserService from '../services/UserService';
+import toast from '../utils/toast';
 
 interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
 }
@@ -44,10 +45,18 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
       await getToken(token);
 
+      toast({
+        type: 'success',
+        text: 'Login feito com sucesso!',
+      });
+
       history.push('/profile');
     } catch (error) {
       setLogin(false);
-      console.log({ error });
+      toast({
+        type: 'danger',
+        text: `${error}`,
+      });
     }
   }, [getToken, history]);
 
