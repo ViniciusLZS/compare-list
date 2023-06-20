@@ -1,7 +1,4 @@
-import { useContext, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-
-import { AuthContext } from '../../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 import * as S from './styles';
 
@@ -9,16 +6,10 @@ import Logo from '../../assets/image/logo.svg';
 
 import Button from '../../components/Button';
 import Message from '../../components/Message';
+import useHome from './useHome';
 
 export default function Home() {
-  const authContext = useContext(AuthContext);
-  const history = useHistory();
-
-  useEffect(() => {
-    if (authContext?.login) {
-      history.push('/profile');
-    }
-  }, [authContext, history]);
+  const { authContext } = useHome();
 
   if (!authContext?.login) {
     return (

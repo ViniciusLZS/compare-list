@@ -1,19 +1,10 @@
 import PropTypes from 'prop-types';
 
-import { useEffect, useState } from 'react';
-
 import * as S from './styles';
+import useProgressBar from './useProgressBar';
 
 export default function ProgressBar({ list }: {list: {estimated: number}}) {
-  const [percentege, setPercentege] = useState(0);
-
-  const valueTotal = 200;
-
-  const numberWithoutLastDigits = Number(list.estimated.toString().slice(0, -2));
-
-  useEffect(() => {
-    setPercentege((valueTotal / numberWithoutLastDigits) * 100);
-  }, [valueTotal, numberWithoutLastDigits]);
+  const { percentege, valueTotal, numberWithoutLastDigits } = useProgressBar({ list });
 
   return (
     <S.ContainerBar>

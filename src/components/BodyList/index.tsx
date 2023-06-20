@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import { useEffect, useState } from 'react';
 
 import * as S from './styles';
 
@@ -14,6 +13,7 @@ import Empty from '../../assets/image/empty-box.svg';
 import Sad from '../../assets/image/icons/sad.svg';
 import Button from '../Button';
 import ContainerModal from '../Modal/ContainerModal';
+import useBodyList from './useBodyList';
 
 interface Product {
   id: string;
@@ -37,44 +37,21 @@ interface BodyListProps {
 export default function BodyList({
   view, products, hasError, isLoading, onLoadeProducts, onEditForm, onDeleteProduct,
 }: BodyListProps) {
-  const [isLoadingDelete, setIsLoadingDelete] = useState(false);
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
-  const [productBeingDeleted, setProductBeingDeleted] = useState<Product | null>(null);
-
-  useEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight - window.innerHeight);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view, []]);
-
-  function handleTryAgain() {
-    onLoadeProducts();
-  }
-
-  function editForm(id: string) {
-    onEditForm(id);
-  }
-
-  function handleDeleteproduct(product: Product) {
-    setProductBeingDeleted(product);
-    setIsDeleteModalVisible(true);
-  }
-
-  const handleCloseDeleteModal = () => {
-    setIsDeleteModalVisible(false);
-    setProductBeingDeleted(null);
-  };
-
-  const handleConfirmDeleteProduct = async () => {
-    setIsLoadingDelete(true);
-
-    if (productBeingDeleted) {
-      await onDeleteProduct(productBeingDeleted.id);
-    }
-
-    handleCloseDeleteModal();
-
-    setIsLoadingDelete(false);
-  };
+  const {
+    isLoadingDelete,
+    isDeleteModalVisible,
+    handleTryAgain,
+    editForm,
+    handleDeleteproduct,
+    handleConfirmDeleteProduct,
+    productBeingDeleted,
+    handleCloseDeleteModal,
+  } = useBodyList({
+    view,
+    onLoadeProducts,
+    onEditForm,
+    onDeleteProduct,
+  });
 
   return (
     <S.Container view={view}>

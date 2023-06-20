@@ -1,27 +1,12 @@
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-
-import { AuthContext } from '../../context/AuthContext';
 
 import * as S from './styles';
 
 import Button from '../../components/Button';
+import useProfile from './useProfile';
 
 export default function Profile() {
-  const authContext = useContext(AuthContext);
-  const { user } = authContext || {};
-
-  const date = new Date();
-  const hours = date.getHours();
-
-  let salute = '';
-  if (hours > 0 && hours < 13) {
-    salute = 'Bom dia';
-  } if (hours > 13 && hours < 18) {
-    salute = 'Boa tarde';
-  } else {
-    salute = 'Boa noite';
-  }
+  const { salute, user } = useProfile();
 
   return (
     <S.Container>

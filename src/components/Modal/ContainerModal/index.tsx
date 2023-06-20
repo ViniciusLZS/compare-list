@@ -1,11 +1,12 @@
 /* eslint-disable react/require-default-props */
-import { ReactNode, MouseEvent } from 'react';
+import { ReactNode } from 'react';
 
 import * as S from './styles';
 
 import CloseIcon from '../../../assets/image/icons/close.svg';
 import ReactPortal from '../../ReactPortal';
 import Button from '../../Button';
+import useModal from './useModal';
 
 interface ContainerModalProps {
   danger?: boolean;
@@ -36,33 +37,15 @@ export default function ContainerModal(
     isLoading = false,
   }: ContainerModalProps,
 ) {
-  function handleCloseModalClickOverlay(event: MouseEvent<HTMLDivElement | HTMLButtonElement>) {
-    if (event.target === event.currentTarget) {
-      if (handleModal) {
-        handleModal();
-      }
-
-      if (onCancel) {
-        onCancel();
-      }
-    }
-  }
-
-  function handleCloseModal() {
-    if (handleModal) {
-      handleModal();
-    }
-
-    if (onCancel) {
-      onCancel();
-    }
-  }
-
-  function handleClickModal() {
-    if (handleDropdown) {
-      handleDropdown();
-    }
-  }
+  const {
+    handleCloseModalClickOverlay,
+    handleClickModal,
+    handleCloseModal,
+  } = useModal({
+    handleModal,
+    handleDropdown,
+    onCancel,
+  });
 
   if (!visible && onConfirm) {
     return null;
