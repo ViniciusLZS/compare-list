@@ -4,20 +4,20 @@ import {
 
 import * as S from './styles';
 
-import useErrors from '../../../hooks/useErrors';
+import useErrors from '../../../../hooks/useErrors';
 
-import MeasureService from '../../../services/MeasureService';
+import MeasureService from '../../../../services/MeasureService';
 
-import maskMoney from '../../../utils/maskMoney';
-import CleanMask from '../../../utils/cleanMask';
+import maskMoney from '../../../../utils/maskMoney';
+import CleanMask from '../../../../utils/cleanMask';
 
-import Form from '../../Forms/Form';
-import FormGroup from '../../Forms/FormGroup';
-import ContainerModal from '../ContainerModal';
-import Input from '../../Input';
-import Button from '../../Button';
-import Select from '../../Select';
-import MercadoLivreService from '../../../services/MercadoLivreService';
+import Form from '../../../../components/Forms/Form';
+import FormGroup from '../../../../components/Forms/FormGroup';
+import ContainerModal from '../../../../components/Modal/ContainerModal';
+import Input from '../../../../components/Input';
+import Button from '../../../../components/Button';
+import Select from '../../../../components/Select';
+import MercadoLivreService from '../../../../services/MercadoLivreService';
 
 interface FormModalData {
   name: string;

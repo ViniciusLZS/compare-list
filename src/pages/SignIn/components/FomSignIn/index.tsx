@@ -5,15 +5,15 @@ import { Link } from 'react-router-dom';
 
 import * as S from './styles';
 
-import useErrors from '../../../hooks/useErrors';
-import isEmailValid from '../../../utils/isEmailValid';
+import useErrors from '../../../../hooks/useErrors';
+import isEmailValid from '../../../../utils/isEmailValid';
 
-import FormGroup from '../FormGroup';
-import Input from '../../Input';
-import Button from '../../Button';
-import Form from '../Form';
+import FormGroup from '../../../../components/Forms/FormGroup';
+import Input from '../../../../components/Input';
+import Button from '../../../../components/Button';
+import Form from '../../../../components/Forms/Form';
 
-import { AuthContext } from '../../../context/AuthContext';
+import { AuthContext } from '../../../../context/AuthContext';
 
 export default function FormSignIn() {
   const [email, setEmail] = useState('');

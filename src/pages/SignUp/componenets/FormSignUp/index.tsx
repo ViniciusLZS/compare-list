@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 
 import * as S from './styles';
 
-import useErrors from '../../../hooks/useErrors';
-import isEmailValid from '../../../utils/isEmailValid';
+import useErrors from '../../../../hooks/useErrors';
+import isEmailValid from '../../../../utils/isEmailValid';
 
-import Form from '../Form';
-import FormGroup from '../FormGroup';
-import Input from '../../Input';
-import Button from '../../Button';
+import Form from '../../../../components/Forms/Form';
+import FormGroup from '../../../../components/Forms/FormGroup';
+import Input from '../../../../components/Input';
+import Button from '../../../../components/Button';
 
 interface SignUpFormData {
   name: string;

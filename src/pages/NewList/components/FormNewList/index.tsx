@@ -2,15 +2,15 @@ import {
   ChangeEvent, FormEvent, useEffect, useState,
 } from 'react';
 
-import useErrors from '../../../hooks/useErrors';
-import maskMoney from '../../../utils/maskMoney';
-import cleanMask from '../../../utils/cleanMask';
+import useErrors from '../../../../hooks/useErrors';
+import maskMoney from '../../../../utils/maskMoney';
+import cleanMask from '../../../../utils/cleanMask';
 
 import * as S from './styles';
 
-import FormGroup from '../FormGroup';
-import Input from '../../Input';
-import Button from '../../Button';
+import FormGroup from '../../../../components/Forms/FormGroup';
+import Input from '../../../../components/Input';
+import Button from '../../../../components/Button';
 
 interface FormNewlistData {
   name: string;
