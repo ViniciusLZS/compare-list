@@ -24,7 +24,9 @@ export default function useFormNewList({ onSubmit } : FormNewListProps) {
     errors, setError, removeError, getErrorMessageFieldName,
   } = useErrors();
 
-  const isFormValid = ((name && estimated) && errors.length === 0);
+  const isFormValid = (
+    (name && estimated) && errors.length === 0 && Number(cleanMask(estimated)) > 0
+  );
 
   function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
     if (event.target.value.length <= 30) {
@@ -41,8 +43,8 @@ export default function useFormNewList({ onSubmit } : FormNewListProps) {
   function handleEstimatedChange(event: ChangeEvent<HTMLInputElement>) {
     setEstimated(maskMoney(event.target.value));
 
-    if (!event.target.value) {
-      setError({ field: 'estimated', message: 'Valor Obrigatório' });
+    if (Number(cleanMask(event.target.value)) === 0) {
+      setError({ field: 'estimated', message: 'Valor deve ser maior que zero' });
     } else {
       removeError('estimated');
     }
