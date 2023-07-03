@@ -61,7 +61,7 @@ export default function BodyList({
         danger
         isLoading={isLoadingDelete}
         visible={isDeleteModalVisible}
-        title={`Tem certeza que deseja remover o produto ”${productBeingDeleted?.name}”?`}
+        title={`Tem certeza que deseja remover ”${productBeingDeleted?.name}” ?`}
         confirmLabel="Deletar"
         onCancel={handleCloseDeleteModal}
         onConfirm={handleConfirmDeleteProduct}
