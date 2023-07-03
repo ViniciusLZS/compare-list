@@ -17,7 +17,7 @@ export type AuthValue = {
   login: boolean;
   user: User | null;
   userLogin: (formData: { email: string; password: string }) => Promise<void>;
-  userLogout: () => Promise<void>;
+  userLogout: () => void;
 };
 
 export const AuthContext = createContext<AuthValue | null>(null);
@@ -61,11 +61,12 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   }, [getToken, history]);
 
   const userLogout = useCallback(
-    async () => {
+    () => {
       setLogin(false);
       window.localStorage.removeItem('token');
+      history.push('/');
     },
-    [],
+    [history],
   );
 
   useEffect(() => {
@@ -79,7 +80,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
       }
     }
     autoLogin();
-  }, [userLogout, getToken, history]);
+  }, [getToken, history]);
 
   const authValue = useMemo<AuthValue>(() => ({
     login, user, userLogin, userLogout,
