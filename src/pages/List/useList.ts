@@ -42,7 +42,7 @@ export default function useList() {
   const [list, setList] = useState({ estimated: 0, name: '', id: '' });
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [modal, setModal] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [disabledOrderButton, setDisabledOrderButton] = useState(false);
   const [productId, setProductId] = useState('');
@@ -60,7 +60,7 @@ export default function useList() {
         setList(getList);
       }
     } catch (error) {
-      history.push('/mylist');
+      history.push('/mylists');
     }
 
     try {
@@ -82,7 +82,7 @@ export default function useList() {
     loadeProducts();
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    return () => {};
+    return () => { };
   }, [loadeProducts, submitting]);
 
   useEffect(() => {
@@ -133,8 +133,8 @@ export default function useList() {
   }
 
   function handleModal() {
-    setModal((prevState) => !prevState);
-    if (modal === true) {
+    setIsVisible((prevState) => !prevState);
+    if (isVisible === true) {
       setProductId('');
     }
   }
@@ -228,7 +228,7 @@ export default function useList() {
   };
 
   return {
-    modal,
+    isVisible,
     modalFormRef,
     handleModal,
     handleSubmit,

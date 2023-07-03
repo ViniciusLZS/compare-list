@@ -19,14 +19,14 @@ interface FormModalData {
 }
 
 interface ProductModalProps {
-  modal: boolean;
+  isVisible: boolean;
   handleModal: () => void;
   onSubmit: (formData: FormModalData) => Promise<void>;
   mode: string;
 }
 
 const ProductModal = forwardRef(({
-  modal, handleModal, onSubmit, mode,
+  isVisible, handleModal, onSubmit, mode,
 }:
   ProductModalProps, ref) => {
   const {
@@ -54,15 +54,13 @@ const ProductModal = forwardRef(({
     isFormValid,
   } = useProductModal({ onSubmit, ref });
 
-  if (!modal) {
-    return null;
-  }
-
   return (
+
     <ContainerModal
       title={mode}
       handleModal={handleModal}
       handleDropdown={() => handleDropdown()}
+      visible={isVisible}
     >
       {image && (
         <div className="img">

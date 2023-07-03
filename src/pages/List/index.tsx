@@ -11,7 +11,7 @@ import useList from './useList';
 
 export default function List() {
   const {
-    modal,
+    isVisible,
     modalFormRef,
     handleModal,
     handleSubmit,
@@ -33,10 +33,10 @@ export default function List() {
 
   return (
     <>
-      {modal && (
+      {isVisible && (
         <ProductModal
           ref={modalFormRef}
-          modal={modal}
+          isVisible={isVisible}
           handleModal={() => handleModal()}
           onSubmit={handleSubmit}
           mode={mode}
