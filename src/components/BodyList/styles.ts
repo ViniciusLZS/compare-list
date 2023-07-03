@@ -10,7 +10,6 @@ export const Container = styled.div<ContainerProps>`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
   margin: 0 auto;
   gap: 2rem;
 
