@@ -35,7 +35,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary.main};
-    border: 2px solid ${({ theme }) => theme.colors.primary.main};
+    border: none;
   }
 
   &:active {
