@@ -1,4 +1,27 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity:1; }
+`;
+
+const fadeOut = keyframes`
+  from { opacity: 1; }
+
+  to { opacity: 0; }
+`;
+
+const scaleIn = keyframes`
+  from { transform: scale(0); }
+
+  to { transform: scale(1); }
+`;
+
+const scaleOut = keyframes`
+  from { transform: scale(1); }
+
+  to { transform: scale(0); }
+`;
 
 export const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.6);
@@ -13,9 +36,17 @@ export const Overlay = styled.div`
   justify-content: center;
   z-index: 1000;
   cursor: pointer;
+
+  animation: ${fadeIn} 0.3s;
+  ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${fadeOut} 0.3s; `}
 `;
 
-export const Container = styled.div`
+interface ConainerProps {
+  isLeaving: boolean;
+  theme: any;
+  danger: boolean;
+}
+export const Container = styled.div<ConainerProps>`
   width: 100%;
   max-width: 45rem;
   max-height: 60rem;
@@ -28,10 +59,13 @@ export const Container = styled.div`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   position: relative;
 
+  animation: ${scaleIn} 0.3s;
+  ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${scaleOut} 0.3s; `}
+
   > h1 {
     margin-top: 4rem;
     font-size: 2.2rem;
-    color: ${({ theme, danger }: {theme: any; danger: boolean;}) => (danger ? theme.colors.danger.main : theme.colors.gray[900])}
+    color: ${({ theme, danger }) => (danger ? theme.colors.danger.main : theme.colors.gray[900])}
   }
 
   .modal-body {

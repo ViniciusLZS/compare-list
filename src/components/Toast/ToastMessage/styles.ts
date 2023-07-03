@@ -1,8 +1,31 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 interface ContainerVariants {
   [key: string]: ReturnType<typeof css>;
 }
+
+const messageIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(200px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+`;
+
+const messageOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+`;
 
 const containerVariants: ContainerVariants = {
   default: css`
@@ -16,7 +39,12 @@ const containerVariants: ContainerVariants = {
   `,
 };
 
-export const Container = styled.div`
+interface ContainerProps {
+  isLeaving: boolean;
+  type: string;
+}
+
+export const Container = styled.div<ContainerProps>`
   padding: 16px 32px;
   color: #FFFFFF;
   border-radius: 4px;
@@ -26,7 +54,10 @@ export const Container = styled.div`
   justify-content: center;
   cursor: pointer;
 
-  ${({ type }:{type: string}) => containerVariants[type] || containerVariants.default};
+  animation: ${messageIn} 0.3s;
+  ${({ isLeaving }) => isLeaving && css` animation: ${messageOut} 0.3s; `}
+
+  ${({ type }) => containerVariants[type] || containerVariants.default};
 
   & + & {
     margin-top: 12px;

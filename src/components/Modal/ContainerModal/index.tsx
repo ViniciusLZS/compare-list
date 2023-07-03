@@ -7,6 +7,7 @@ import CloseIcon from '../../../assets/image/icons/close.svg';
 import ReactPortal from '../../ReactPortal';
 import Button from '../../Button';
 import useModal from './useModal';
+import useAnimatedUnmount from '../../../hooks/useAnimatedUnmount';
 
 interface ContainerModalProps {
   danger?: boolean;
@@ -18,7 +19,7 @@ interface ContainerModalProps {
   confirmLabel?: string;
   onCancel?: () => void;
   onConfirm?: () => void;
-  visible?: boolean;
+  visible: boolean;
   isLoading?: boolean;
 }
 
@@ -47,14 +48,24 @@ export default function ContainerModal(
     onCancel,
   });
 
-  if (!visible && onConfirm) {
+  const { animatedElementRef, shouldRender } = useAnimatedUnmount(visible);
+
+  if (!shouldRender) {
     return null;
   }
 
   return (
     <ReactPortal containerId="modal-root">
-      <S.Overlay onClick={(event) => handleCloseModalClickOverlay(event)}>
-        <S.Container danger={danger} onClick={() => handleClickModal()}>
+      <S.Overlay
+        isLeaving={!visible}
+        ref={animatedElementRef}
+        onClick={(event) => handleCloseModalClickOverlay(event)}
+      >
+        <S.Container
+          isLeaving={!visible}
+          danger={danger}
+          onClick={() => handleClickModal()}
+        >
           <h1>{title}</h1>
 
           <button type="button" onClick={handleCloseModal}>
@@ -65,7 +76,7 @@ export default function ContainerModal(
 
           <div className="modal-body">{children}</div>
 
-          {visible && (
+          {visible && onConfirm && (
           <S.Footer>
             <button
               type="button"
