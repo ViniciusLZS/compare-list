@@ -5,9 +5,13 @@ export const Header = styled.div`
 
   width: 100%;
   max-width: 98rem;
-  padding-right: 2rem;
-  margin-top: 7rem;
-  z-index: 100;
+  left: 50%;
+  transform: translateX(-50%);
+
+  padding: 0 2rem;
+
+  margin-top: 8rem;
+  z-index: 10;
   background-color: ${({ theme }) => theme.colors.primary.lighter};
 
   @media(min-width: 960px) {
@@ -26,7 +30,9 @@ export const ButtonContainer = styled.div`
 
   width: 100%;
   max-width: 98rem;
-  padding-right: 2rem;
+  padding: 0 2rem;
+  left: 50%;
+  transform: translateX(-50%);
 
   display: flex;
   justify-content: center;
