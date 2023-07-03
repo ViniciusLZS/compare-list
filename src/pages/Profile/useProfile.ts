@@ -12,7 +12,7 @@ export default function useProfile() {
   let salute = '';
   if (hours > 0 && hours < 13) {
     salute = 'Bom dia';
-  } if (hours > 13 && hours < 18) {
+  } else if (hours >= 13 && hours <= 18) {
     salute = 'Boa tarde';
   } else {
     salute = 'Boa noite';
