@@ -22,7 +22,7 @@ export const Header = styled.div`
   padding-top: 5rem;
   position: fixed;
   top: 8rem;
-  z-index: 100;
+  z-index: 10;
 
   display: flex;
   align-items: center;
