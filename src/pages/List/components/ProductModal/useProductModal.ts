@@ -81,9 +81,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
         if (mounted) {
           setCategories(categoriesList);
         }
-      } catch (error) {
-        console.log('🚀 ~ file: index.tsx:39 ~ loadMeasures ~ error:', error);
-      }
+      } catch { }
     }
     loadCategories();
 
@@ -93,9 +91,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
         if (mounted) {
           setMeasures(measuresList);
         }
-      } catch (error) {
-        console.log('🚀 ~ file: index.tsx:39 ~ loadMeasures ~ error:', error);
-      }
+      } catch { }
     }
     loadMeasures();
 
@@ -115,9 +111,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
           setProducts(listProducts.results);
           setIsLoading(false);
         }
-      } catch (error) {
-        console.log('🚀 ~ file: index.tsx:70 ~ handleSubmitProduct ~ error:', error);
-      } finally {
+      } catch { } finally {
         setIsLoading(false);
       }
     }
