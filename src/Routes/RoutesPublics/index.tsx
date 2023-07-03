@@ -18,17 +18,22 @@ export default function RoutesPublics() {
   return (
     <>
       <Logo />
-      <Route path="/signin" component={SignIn} />
-      <Route path="/signup" component={signUp} />
+      {!login
+      && (
+      <>
+        <Route path="/signin" component={SignIn} />
+        <Route path="/signup" component={signUp} />
+      </>
+      )}
 
-      {login ? (
+      {login && (
         <>
           <Route path="/profile" component={Profile} />
           <Route path="/newlist" component={NewList} />
           <Route path="/mylists" component={MyLists} />
           <Route path="/list/:id" component={List} />
         </>
-      ) : null}
+      )}
     </>
   );
 }
