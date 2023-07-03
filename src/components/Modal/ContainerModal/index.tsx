@@ -64,7 +64,7 @@ export default function ContainerModal(
         <S.Container
           isLeaving={!visible}
           danger={danger}
-          onClick={() => handleClickModal()}
+
         >
           <h1>{title}</h1>
 
@@ -74,29 +74,34 @@ export default function ContainerModal(
             </S.Close>
           </button>
 
-          <div className="modal-body">{children}</div>
+          <S.Content
+            onClick={() => handleClickModal()}
+          >
 
-          {visible && onConfirm && (
-          <S.Footer>
-            <button
-              type="button"
-              className="cancel-button"
-              disabled={isLoading}
-              onClick={onCancel}
-            >
-              {cancelLabel}
-            </button>
+            <div className="modal-body">{children}</div>
 
-            <Button
-              type="button"
-              danger={danger}
-              isLoading={isLoading}
-              handleClick={onConfirm}
-            >
-              {confirmLabel}
-            </Button>
-          </S.Footer>
-          )}
+            {visible && onConfirm && (
+            <S.Footer>
+              <button
+                type="button"
+                className="cancel-button"
+                disabled={isLoading}
+                onClick={onCancel}
+              >
+                {cancelLabel}
+              </button>
+
+              <Button
+                type="button"
+                danger={danger}
+                isLoading={isLoading}
+                handleClick={onConfirm}
+              >
+                {confirmLabel}
+              </Button>
+            </S.Footer>
+            )}
+          </S.Content>
         </S.Container>
       </S.Overlay>
     </ReactPortal>

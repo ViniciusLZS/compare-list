@@ -41,20 +41,18 @@ export const Overlay = styled.div`
   ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${fadeOut} 0.3s; `}
 `;
 
-interface ConainerProps {
+interface ConatinerProps {
   isLeaving: boolean;
-  theme: any;
   danger: boolean;
 }
-export const Container = styled.div<ConainerProps>`
+export const Container = styled.div<ConatinerProps>`
   width: 100%;
   max-width: 45rem;
-  max-height: 60rem;
-  overflow-y: scroll;
+  max-height: 65rem;
 
   background: ${({ theme }) => theme.colors.primary.lighter};
   border-radius: 2rem;
-  padding: 2.4rem;
+
   margin: 0 2rem;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   position: relative;
@@ -63,10 +61,33 @@ export const Container = styled.div<ConainerProps>`
   ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${scaleOut} 0.3s; `}
 
   > h1 {
+    padding-left: 1rem;
     margin-top: 4rem;
     font-size: 2.2rem;
     color: ${({ theme, danger }) => (danger ? theme.colors.danger.main : theme.colors.gray[900])}
   }
+
+  @media(min-width: 700px) {
+    > h1 {
+      padding-left: 2rem;
+    }
+  }
+`;
+
+interface ContentProps {
+  theme: any;
+}
+export const Content = styled.div<ContentProps>`
+  width: 100%;
+  max-width: 45rem;
+  max-height: 50rem;
+  overflow-y: scroll;
+
+  background: ${({ theme }) => theme.colors.primary.lighter};
+  border-radius: 2rem;
+  padding: 1rem;
+
+  position: relative;
 
   .modal-body {
     margin-top: 3.2rem;
@@ -88,14 +109,16 @@ export const Container = styled.div<ConainerProps>`
   @media(min-width: 700px) {
     max-height: none;
     overflow-y: hidden;
+    padding: 2rem;
   }
 `;
 
 export const Close = styled.div`
   position: absolute;
-  top: 0;
-  right: 0;
-  background: ${({ theme }) => theme.colors.primary.main};
+  top: -1rem;
+  right: -1rem;
+  background: ${({ theme }) => theme.colors.primary.lighter};
+  border: 1px solid ${({ theme }) => theme.colors.primary.main};
   width: 5rem;
   height: 5rem;
   border-radius: 50%;
