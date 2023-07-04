@@ -43,6 +43,10 @@ export default function Menu() {
     };
   }, [animatedElementRef, isVisible]);
 
+  useEffect(() => {
+    setActiveItem(window.location.pathname);
+  }, [isVisible]);
+
   function handleDropdown() {
     setIsVisible((prevState) => !prevState);
   }
@@ -70,22 +74,22 @@ export default function Menu() {
       { shouldRender && (
       <S.Dropdown isLeaving={!isVisible} ref={animatedElementRef}>
         <ul>
-          <li className={activeItem === 'profile' ? 'active' : ''}>
-            <Link to="/profile" onClick={() => handleItemClick('profile')}>
+          <li className={activeItem === '/profile' ? 'active' : ''}>
+            <Link to="/profile" onClick={() => handleItemClick('/profile')}>
               <img src={profile} alt="perfil" />
               Perfil
             </Link>
           </li>
 
-          <li className={activeItem === 'newlist' ? 'active' : ''}>
-            <Link to="/newlist" onClick={() => handleItemClick('newlist')}>
+          <li className={activeItem === '/newlist' ? 'active' : ''}>
+            <Link to="/newlist" onClick={() => handleItemClick('/newlist')}>
               <img src={newList} alt="Nova lista" />
               Nova lista
             </Link>
           </li>
 
-          <li className={activeItem === 'mylists' ? 'active' : ''}>
-            <Link to="/mylists" onClick={() => handleItemClick('mylists')}>
+          <li className={activeItem === '/mylists' ? 'active' : ''}>
+            <Link to="/mylists" onClick={() => handleItemClick('/mylists')}>
               <img src={myList} alt="Listas" />
               Minhas listas
             </Link>

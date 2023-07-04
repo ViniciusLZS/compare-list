@@ -58,6 +58,11 @@ export const Dropdown = styled.div`
         background: linear-gradient(to right, ${({ theme }) => theme.colors.primary.lighter}, ${({ theme }) => theme.colors.primary.dark});
         color: white;
       }
+
+      &:hover {
+        background: linear-gradient(to right, ${({ theme }) => theme.colors.primary.lighter}, ${({ theme }) => theme.colors.primary.dark});
+        color: white;
+      }
     }
 
     li + li {
@@ -75,6 +80,7 @@ export const Dropdown = styled.div`
     }
 
     button {
+      width: 100%;
       font-size: 1.6rem;
       border: none;
       background: transparent;
