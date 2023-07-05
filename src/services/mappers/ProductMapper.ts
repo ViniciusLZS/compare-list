@@ -3,6 +3,7 @@ interface DomainProductProps {
   name: string;
   value?: string;
   amount?: string
+  total?: string;
   measureId?: string;
   image?: string;
   listId: string;
@@ -13,6 +14,7 @@ interface PersistenceProductProps {
   name: string;
   value: number;
   amount: number;
+  total: number;
   image: string;
   created_at: string;
   updated_at: string;
@@ -28,6 +30,7 @@ class ProductMapper {
       name: domainProduct.name,
       value: Number(domainProduct.value) || '',
       amount: Number(domainProduct.amount) || '',
+      total: Number(domainProduct.total) || '',
       measure_id: domainProduct.measureId || '',
       image: domainProduct.image || '',
       list_id: domainProduct.listId,
@@ -40,6 +43,7 @@ class ProductMapper {
       name: persistenceProduct.name,
       value: persistenceProduct.value.toString(),
       amount: persistenceProduct.amount.toString(),
+      total: persistenceProduct.total.toString(),
       image: persistenceProduct.image,
       createdAt: persistenceProduct.created_at,
       updatedAt: persistenceProduct.updated_at,

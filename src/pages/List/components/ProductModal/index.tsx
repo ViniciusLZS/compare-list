@@ -9,6 +9,7 @@ import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
 import Select from '../../../../components/Select';
 import useProductModal from './useProductModal';
+import maskMoney from '../../../../utils/maskMoney';
 
 interface FormModalData {
   name: string;
@@ -30,28 +31,29 @@ const ProductModal = forwardRef(({
 }:
   ProductModalProps, ref) => {
   const {
-    handleDropdown,
-    image,
-    isSubmitting,
-    categories,
-    setCategoriesId,
-    categoriesId,
-    handleSubmit,
-    getErrorMessageFieldName,
     name,
-    handleProductChange,
-    isLoading,
-    products,
-    dropdown,
-    handleProductSelect,
     value,
-    handleValorChange,
     amount,
-    handleAmountChange,
+    total,
     measures,
+    categories,
+    image,
+    products,
     measureId,
-    setMeasureId,
+    categoriesId,
+    isSubmitting,
+    isLoading,
     isFormValid,
+    dropdown,
+    getErrorMessageFieldName,
+    setCategoriesId,
+    setMeasureId,
+    handleDropdown,
+    handleSubmit,
+    handleProductChange,
+    handleProductSelect,
+    handleValorChange,
+    handleAmountChange,
   } = useProductModal({ onSubmit, ref });
 
   return (
@@ -115,6 +117,7 @@ const ProductModal = forwardRef(({
           />
         </FormGroup>
 
+        {value && (
         <S.Amount>
           <FormGroup error={getErrorMessageFieldName('amount')}>
             <Input
@@ -139,6 +142,17 @@ const ProductModal = forwardRef(({
             />
           </FormGroup>
         </S.Amount>
+        )}
+
+        {total
+        && (
+        <S.TotalContainer>
+          <span>Total</span>
+          <S.Total>
+            {total && maskMoney(total)}
+          </S.Total>
+        </S.TotalContainer>
+        )}
 
         <Button
           type="submit"

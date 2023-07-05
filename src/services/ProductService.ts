@@ -34,7 +34,8 @@ class ProductService {
     product: {
       name: string;
       value?: string;
-      amount?: string
+      amount?: string;
+      total?: string;
       measureId?: string;
       image?: string;
       listId: string;
@@ -57,7 +58,8 @@ class ProductService {
       product: {
         name: string;
         value?: string;
-        amount?: string
+        amount?: string;
+        total?: string;
         measuresId?: string;
         image?: string;
         listId: string;

@@ -18,9 +18,10 @@ import useBodyList from './useBodyList';
 interface Product {
   id: string;
   name: string;
-  amount: number;
-  measureName: string
   value: number;
+  amount: number;
+  total: number;
+  measureName: string
   image: string;
 }
 
@@ -113,7 +114,7 @@ export default function BodyList({
                     </div>
 
                     <div className="total">
-                      <span>R$ 15,00</span>
+                      <span>{product.total !== null ? maskMoney(product.total.toString()) : 'R$ 0,00'}</span>
                     </div>
                   </S.ContainerValue>
                 </button>

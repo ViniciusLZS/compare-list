@@ -10,11 +10,13 @@ import maskMoney from '../../../../utils/maskMoney';
 import CleanMask from '../../../../utils/cleanMask';
 
 import MercadoLivreService from '../../../../services/MercadoLivreService';
+import CalculateTotal from '../utils/CalculateTotal';
 
 interface ProductProps {
   name: string;
   value: string;
   amount: string;
+  total: string;
   image: string;
   measureId: string;
 }
@@ -23,6 +25,7 @@ interface FormModalData {
   name: string;
   value?: string;
   amount?: string
+  total?: string;
   measureId?: string;
   image?: string;
 }
@@ -36,11 +39,12 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
   const [name, setName] = useState('');
   const [value, setValue] = useState('');
   const [amount, setAmount] = useState('');
-  const [measureId, setMeasureId] = useState('');
-  const [categoriesId, setCategoriesId] = useState(' ');
-  const [image, setImage] = useState('');
-
+  const [total, setTotal] = useState('');
   const [measures, setMeasures] = useState([]);
+  const [image, setImage] = useState('');
+  const [categoriesId, setCategoriesId] = useState(' ');
+  const [measureId, setMeasureId] = useState('');
+
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState<any[]>([]);
 
@@ -62,6 +66,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
       setName(product.name ?? '');
       setValue(maskMoney(product.value) ?? '');
       setAmount(product.amount ?? '');
+      setTotal(product.total ?? '');
       setImage(product.image ?? '');
       setMeasureId(product.measureId ?? '');
     },
@@ -69,6 +74,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
       setName('');
       setValue('');
       setAmount('');
+      setTotal('');
       setImage('');
       setMeasureId('');
     },
@@ -129,6 +135,18 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
     return undefined;
   }, [name, token, categoriesId]);
 
+  useEffect(() => {
+    function handleCalculateTotal() {
+      if (amount) {
+        const resultTotal = CalculateTotal({ value, amount });
+        setTotal(resultTotal);
+      } else {
+        setTotal('');
+      }
+    }
+    handleCalculateTotal();
+  }, [value, amount]);
+
   function handleProductChange(event: ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
     setDropdown(true);
@@ -150,19 +168,6 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
     }
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    setIsSubmitting(true);
-
-    const valueClean = CleanMask(value);
-    await onSubmit({
-      name, value: valueClean, amount, measureId, image,
-    });
-
-    setIsSubmitting(false);
-  }
-
   function handleProductSelect(product: {title: string; thumbnail: string}) {
     setName(product.title);
     setImage(product.thumbnail);
@@ -173,28 +178,42 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
     setDropdown(false);
   }
 
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    setIsSubmitting(true);
+
+    const valueClean = CleanMask(value);
+    await onSubmit({
+      name, value: valueClean, amount, total, measureId, image,
+    });
+
+    setIsSubmitting(false);
+  }
+
   return {
-    handleDropdown,
-    image,
-    isSubmitting,
-    categories,
-    setCategoriesId,
-    categoriesId,
-    handleSubmit,
-    getErrorMessageFieldName,
     name,
-    handleProductChange,
-    isLoading,
-    products,
-    dropdown,
-    handleProductSelect,
     value,
-    handleValorChange,
     amount,
-    handleAmountChange,
+    total,
     measures,
+    categories,
+    image,
+    products,
     measureId,
-    setMeasureId,
+    categoriesId,
+    isSubmitting,
+    isLoading,
     isFormValid,
+    dropdown,
+    getErrorMessageFieldName,
+    setCategoriesId,
+    setMeasureId,
+    handleDropdown,
+    handleSubmit,
+    handleProductChange,
+    handleProductSelect,
+    handleValorChange,
+    handleAmountChange,
   };
 }

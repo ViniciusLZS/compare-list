@@ -14,6 +14,7 @@ interface ProductProps {
   name: string;
   value: number;
   amount: number;
+  total: number;
   measureName: string
   image: string;
 }
@@ -26,6 +27,7 @@ interface FormData {
   name: string;
   value?: string;
   amount?: string
+  total?: string;
   measureId?: string;
   image?: string
 }
@@ -153,11 +155,7 @@ export default function useList() {
   const handleSubmit = async (formData: FormData) => {
     if (mode === 'Adicionar') {
       const product = {
-        name: formData.name,
-        value: formData.value,
-        amount: formData.amount,
-        measureId: formData.measureId,
-        image: formData.image,
+        ...formData,
         listId: list.id,
       };
       try {
@@ -181,11 +179,7 @@ export default function useList() {
 
     if (mode === 'Editar') {
       const product = {
-        name: formData.name,
-        value: formData.value,
-        amount: formData.amount,
-        measureId: formData.measureId,
-        image: formData.image,
+        ...formData,
         listId: list.id,
       };
       try {
