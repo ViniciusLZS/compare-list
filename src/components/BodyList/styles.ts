@@ -134,9 +134,9 @@ export const Title = styled.h2<TitleProps>`
   &::-webkit-scrollbar{
         height: 5px;
       }
-      &::-webkit-scrollbar-thumb{
-        background: ${({ theme }) => theme.colors.primary.dark};
-      }
+  &::-webkit-scrollbar-thumb{
+    background: ${({ theme }) => theme.colors.primary.dark};
+  }
 
   @media(min-width: 700px) {
     left: 55%;
