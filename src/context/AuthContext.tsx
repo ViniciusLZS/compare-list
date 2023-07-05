@@ -55,7 +55,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
       setLogin(false);
       toast({
         type: 'danger',
-        text: `${error}`,
+        text: 'Email ou senha invalido!',
       });
     }
   }, [getToken, history]);
