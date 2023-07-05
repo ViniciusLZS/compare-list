@@ -37,6 +37,8 @@ export const Overlay = styled.div`
   z-index: 1000;
   cursor: pointer;
 
+  overflow-y: scroll;
+
   animation: ${fadeIn} 0.3s;
   ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${fadeOut} 0.3s; `}
 `;
@@ -68,6 +70,8 @@ export const Container = styled.div<ConatinerProps>`
   }
 
   @media(min-width: 700px) {
+    max-height: 65rem;
+
     > h1 {
       padding-left: 2rem;
     }
@@ -80,7 +84,7 @@ interface ContentProps {
 export const Content = styled.div<ContentProps>`
   width: 100%;
   max-width: 45rem;
-  max-height: 50rem;
+  max-height: 53rem;
   overflow-y: scroll;
 
   background: ${({ theme }) => theme.colors.primary.lighter};
@@ -89,13 +93,10 @@ export const Content = styled.div<ContentProps>`
 
   position: relative;
 
-  .modal-body {
-    margin-top: 3.2rem;
-  }
+
 
   .img {
     width: 100%;
-    margin-top: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,9 +108,16 @@ export const Content = styled.div<ContentProps>`
   }
 
   @media(min-width: 700px) {
-    max-height: none;
-    overflow-y: hidden;
+    max-height: 60rem;
     padding: 2rem;
+
+    &::-webkit-scrollbar{
+        height: 5px;
+        width: 1rem;
+      }
+    &::-webkit-scrollbar-thumb{
+      background: ${({ theme }) => theme.colors.gray[200]};
+    }
   }
 `;
 
