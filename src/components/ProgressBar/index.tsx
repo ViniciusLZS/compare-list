@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import * as S from './styles';
 import useProgressBar from './useProgressBar';
 
-export default function ProgressBar({ list }: {list: {estimated: number}}) {
+export default function ProgressBar({ list }: {list: {estimated: number, total: number}}) {
   const { percentege, valueTotal, numberWithoutLastDigits } = useProgressBar({ list });
 
   return (

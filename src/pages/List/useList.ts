@@ -41,7 +41,9 @@ export default function useList() {
   const [view, setView] = useState('flex');
   const [orderBy, setOrderBy] = useState('created_at');
   const [products, setProducts] = useState<ProductProps[]>([]);
-  const [list, setList] = useState({ estimated: 0, name: '', id: '' });
+  const [list, setList] = useState({
+    estimated: 0, name: '', id: '', total: 0,
+  });
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
@@ -203,8 +205,9 @@ export default function useList() {
 
   const handleDeleteContact = async (deleteProductId: string) => {
     try {
+      setSubmitting(true);
       await ProductService.deleteProduct(deleteProductId, token);
-
+      setSubmitting(false);
       setProducts((prevState) => prevState.filter(
         (item) => item.id !== deleteProductId,
       ));
