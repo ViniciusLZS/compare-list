@@ -6,13 +6,14 @@ interface ListBeingProps {
   id: string;
   name: string;
   estimated: number;
+  total: number;
 }
 
 interface ListProps {
   id: string;
   name: string;
   estimated: number;
-  total: string;
+  total: number;
   createdAt: string;
   updatedAt: string;
   deletedAt: string | null;

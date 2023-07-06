@@ -109,7 +109,7 @@ export default function MyLists() {
                       </S.Date>
 
                       <S.Value>
-                        <span>{maskMoney(item.total.toString())}</span>
+                        <span>{item.total ? maskMoney(item.total.toString()) : 'R$ 0,00'}</span>
                       </S.Value>
 
                     </S.Info>
