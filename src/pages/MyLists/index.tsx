@@ -6,37 +6,45 @@ import * as S from './styles';
 import maskMoney from '../../utils/maskMoney';
 import formatDate from '../../utils/formatDate';
 
+import useMyList from './useMyList';
+
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
+import ContainerModal from '../../components/Modal/ContainerModal';
 
 import Calendar from '../../assets/image/icons/calendar.svg';
 import Trash from '../../assets/image/icons/bin.svg';
 import Arrow from '../../assets/image/icons/arrow.svg';
 import Empty from '../../assets/image/empty-box.svg';
 import Sad from '../../assets/image/icons/sad.svg';
-import ContainerModal from '../../components/Modal/ContainerModal';
-import useMyList from './useMyList';
+import Edit from '../../assets/image/icons/edit.svg';
+import ModalEdit from './components/ModalEdit';
 
 export default function MyLists() {
   const {
+    modalFormRef,
+    lists,
     list,
-    hasError,
-    isLoading,
     orderBy,
+    hasError,
+    listBeingDeleted,
+    isLoading,
     isLoadingDelete,
     isDeleteModalVisible,
     handleToogleOrderBy,
     handleTryAgain,
-    handleDeleteproduct,
+    handleEditProduct,
+    handleDeleteProduct,
     handleConfirmDeleteList,
-    listBeingDeleted,
     handleCloseDeleteModal,
+    onSubmit,
   } = useMyList();
 
   return (
     <S.Container>
       <Loader isLoading={isLoading} />
 
+      {!list && (
       <ContainerModal
         danger
         isLoading={isLoadingDelete}
@@ -48,6 +56,17 @@ export default function MyLists() {
       >
         <p>Esta ação não poderá ser desfeita!</p>
       </ContainerModal>
+      )}
+
+      {list && (
+      <ModalEdit
+        ref={modalFormRef}
+        isLoading={isLoadingDelete}
+        isModalVisible={isDeleteModalVisible}
+        onCloseModal={handleCloseDeleteModal}
+        onSubmit={onSubmit}
+      />
+      )}
 
       {hasError && !isLoading && (
       <S.ErrorContainer>
@@ -61,14 +80,14 @@ export default function MyLists() {
       )}
 
       <S.Header>
-        {list.length > 0 && (
+        {lists.length > 0 && (
         <strong>
-          {list.length}
-          {list.length === 1 ? ' Lista' : ' Listas'}
+          {lists.length}
+          {lists.length === 1 ? ' Lista' : ' Listas'}
         </strong>
         )}
 
-        {list?.length > 0 && (
+        {lists?.length > 0 && (
         <S.ListHeader orderBy={orderBy}>
           <button type="button" onClick={handleToogleOrderBy}>
             <span>Data</span>
@@ -78,10 +97,10 @@ export default function MyLists() {
         )}
       </S.Header>
 
-      {(list && !hasError) && !isLoading && (
+      {(lists && !hasError) && !isLoading && (
         <>
 
-          {list.length < 1 && (
+          {lists.length < 1 && (
             <S.EmptyList>
               <img src={Empty} alt="vazio" />
 
@@ -96,7 +115,7 @@ export default function MyLists() {
           )}
 
           <S.List>
-            {list.map((item) => (
+            {lists.map((item) => (
               <S.Card key={item.id}>
                 <S.Title>{item.name}</S.Title>
 
@@ -116,7 +135,11 @@ export default function MyLists() {
                   </Link>
 
                   <S.Trash>
-                    <button type="button" onClick={() => handleDeleteproduct(item)}>
+                    <button type="button" onClick={() => handleEditProduct(item)}>
+                      <img src={Edit} alt="Editar" />
+                    </button>
+
+                    <button type="button" onClick={() => handleDeleteProduct(item)}>
                       <img src={Trash} alt="Lixeira" />
                     </button>
                   </S.Trash>

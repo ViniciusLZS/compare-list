@@ -1,4 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import ListService from '../../services/ListService';
 import toast from '../../utils/toast';
 
@@ -20,17 +22,42 @@ interface ListProps {
   userId: string;
 }
 
+interface FormEditProps {
+  name: string;
+  estimated: string;
+}
+
+interface FormDataProps {
+  id: string;
+  name: string;
+  estimated: number;
+  total: number;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  userId: string;
+}
+
+interface ProductModalRef {
+  setFieldValues: (listEdit: FormDataProps) => void;
+  resetFields: () => void
+}
+
 export default function useMyList() {
-  const [list, setList] = useState<ListProps[]>([]);
+  const [lists, setLists] = useState<ListProps[]>([]);
+  const [list, setList] = useState<ListProps | null>(null);
   const [orderBy, setOrderBy] = useState('asc');
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(true);
 
   const [mounted, setMounted] = useState(true);
 
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [listBeingDeleted, setListBeingDeleted] = useState<ListBeingProps | null>(null);
+
+  const modalFormRef = useRef<ProductModalRef | null>(null);
 
   const token = localStorage.getItem('token') ?? '';
 
@@ -41,7 +68,7 @@ export default function useMyList() {
       const listAll = await ListService.listAll({ orderBy, token });
 
       if (mounted) {
-        setList(listAll);
+        setLists(listAll);
         setHasError(false);
       }
     } catch (error) {
@@ -57,7 +84,7 @@ export default function useMyList() {
 
   useEffect(() => {
     loaderList();
-  }, [loaderList]);
+  }, [loaderList, submitting]);
 
   useEffect(() => () => {
     setMounted(false);
@@ -78,7 +105,39 @@ export default function useMyList() {
     loaderList();
   }
 
-  function handleDeleteproduct(product: ListProps) {
+  useEffect(() => {
+    let isMounted = true;
+    async function loaderGetProduct() {
+      try {
+        if (list) {
+          const listEdit = await ListService.getList({ id: list.id, token });
+          if (isMounted) {
+            modalFormRef.current?.setFieldValues(listEdit);
+          }
+        }
+      } catch (error) {
+        if (isMounted) {
+          toast({
+            type: 'danger',
+            text: 'Produto não encontrado',
+          });
+        }
+      }
+    }
+    loaderGetProduct();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [list, token]);
+
+  function handleEditProduct(listEdit: ListProps) {
+    modalFormRef.current?.setFieldValues(listEdit);
+    setList(listEdit);
+    setIsDeleteModalVisible(true);
+  }
+
+  function handleDeleteProduct(product: ListProps) {
     setListBeingDeleted(product);
     setIsDeleteModalVisible(true);
   }
@@ -86,7 +145,32 @@ export default function useMyList() {
   const handleCloseDeleteModal = () => {
     setIsDeleteModalVisible(false);
     setListBeingDeleted(null);
+    setList(null);
   };
+
+  async function onSubmit(formData: FormEditProps) {
+    try {
+      setIsLoadingDelete(true);
+      if (list) {
+        setSubmitting(true);
+        await ListService.editList({ formData, token, id: list.id });
+      }
+
+      toast({
+        type: 'success',
+        text: 'Lista deletada com sucesso.',
+      });
+    } catch (error) {
+      console.log('🚀 ', error);
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao deletar a lista.',
+      });
+    } finally {
+      setSubmitting(false);
+      setIsLoadingDelete(false);
+    }
+  }
 
   const handleConfirmDeleteList = async () => {
     try {
@@ -95,7 +179,7 @@ export default function useMyList() {
         await ListService.deleteList({ id: listBeingDeleted.id, token });
       }
 
-      setList((prevState) => prevState.filter(
+      setLists((prevState) => prevState.filter(
         (item) => item.id !== listBeingDeleted?.id,
       ));
 
@@ -116,17 +200,21 @@ export default function useMyList() {
   };
 
   return {
+    modalFormRef,
+    lists,
     list,
-    hasError,
-    isLoading,
     orderBy,
+    hasError,
+    listBeingDeleted,
+    isLoading,
     isLoadingDelete,
     isDeleteModalVisible,
     handleToogleOrderBy,
     handleTryAgain,
-    handleDeleteproduct,
+    handleEditProduct,
+    handleDeleteProduct,
     handleConfirmDeleteList,
-    listBeingDeleted,
     handleCloseDeleteModal,
+    onSubmit,
   };
 }

@@ -18,12 +18,14 @@ class ListService {
     return lists.map(ListMapper.toDomain);
   }
 
-  getList({ id, token }: {id: string; token: string;}) {
-    return this.httpClient.get(`/list/${id}`, {
+  async getList({ id, token }: {id: string; token: string;}) {
+    const list = await this.httpClient.get(`/list/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    return ListMapper.toDomain(list);
   }
 
   createList({ list, token }:
@@ -43,11 +45,22 @@ class ListService {
     });
   }
 
-  editList({ id, formData }: {id: string; formData: {
-    name: string;
-    estimated: number;
-  };}) {
-    return this.httpClient.put(`/list/${id}`, { body: formData });
+  editList({ formData, token, id }:
+    {
+      formData: {
+        name: string;
+        estimated: string;
+      };
+      token: string;
+      id: string;
+    }) {
+    const body = ListMapper.toPersistence(formData);
+    return this.httpClient.put(`/list/${id}`, {
+      body,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 
   deleteList({ id, token }:{id: string; token: string }) {

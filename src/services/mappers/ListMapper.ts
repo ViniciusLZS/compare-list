@@ -8,7 +8,7 @@ interface PersistenceListProps {
   id: string;
   name: string;
   estimated: number;
-  total: string;
+  total: number;
   created_at: string;
   updated_at: string;
   deleted_at: string | null;

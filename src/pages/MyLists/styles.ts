@@ -118,7 +118,7 @@ export const List = styled.div`
 export const Card = styled.div`
   width: 100%;
   max-width: 60rem;
-  max-height: 12rem;
+  max-height: 16rem;
   display: flex;
   flex-direction: column;
 
@@ -137,6 +137,7 @@ export const Title = styled.h2`
   font-size: 1.8rem;
   font-weight: 100;
   padding: 0.2rem;
+  margin-top: 1rem;
 `;
 
 export const Content = styled.div`
@@ -171,13 +172,21 @@ export const Value = styled.div`
 export const Trash = styled.div`
   width: 100%;
   max-width: 4rem;
+  margin-right: 1rem;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
 
   button {
-  background-color: transparent;
-  border: none;
+    padding: 1rem;
+    background-color: transparent;
+    border: none;
+  }
+
+  @media(min-width: 700px) {
+    margin-right: 3rem;
   }
 `;
