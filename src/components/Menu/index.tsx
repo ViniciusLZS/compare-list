@@ -1,13 +1,6 @@
-import {
-  useContext, useEffect, useState,
-} from 'react';
 import { Link } from 'react-router-dom';
 
 import * as S from './styles';
-
-import { AuthContext } from '../../context/AuthContext';
-
-import useAnimatedUnmount from '../../hooks/useAnimatedUnmount';
 
 import menu from '../../assets/image/icons/menu/menu.svg';
 import profile from '../../assets/image/icons/menu/profile.svg';
@@ -15,51 +8,19 @@ import newList from '../../assets/image/icons/menu/addList.svg';
 import myList from '../../assets/image/icons/menu/list.svg';
 import logout from '../../assets/image/icons/menu/logout.svg';
 import close from '../../assets/image/icons/close.svg';
+import useMenu from './useMenu';
 
 export default function Menu() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [activeItem, setActiveItem] = useState('');
-
-  const authContext = useContext(AuthContext);
-  const { userLogout, login } = authContext || {};
-
-  const { animatedElementRef, shouldRender } = useAnimatedUnmount(isVisible);
-
-  useEffect(() => {
-    function handleCloseDropdown(event: MouseEvent) {
-      if (
-        animatedElementRef.current
-        && !animatedElementRef.current.contains(event.target as Node)
-      ) {
-        setIsVisible(false);
-      }
-    }
-    if (isVisible) {
-      document.addEventListener('click', handleCloseDropdown);
-    }
-
-    return () => {
-      document.removeEventListener('click', handleCloseDropdown);
-    };
-  }, [animatedElementRef, isVisible]);
-
-  useEffect(() => {
-    setActiveItem(window.location.pathname);
-  }, [isVisible]);
-
-  function handleDropdown() {
-    setIsVisible((prevState) => !prevState);
-  }
-
-  function handleItemClick(item: string) {
-    setActiveItem(item);
-  }
-
-  function handleLogout() {
-    if (userLogout) {
-      userLogout();
-    }
-  }
+  const {
+    login,
+    handleDropdown,
+    isVisible,
+    shouldRender,
+    animatedElementRef,
+    activeItem,
+    handleItemClick,
+    handleLogout,
+  } = useMenu();
 
   if (!login) {
     return null;
