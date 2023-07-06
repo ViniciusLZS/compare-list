@@ -15,6 +15,7 @@ export const Container = styled.div`
     margin-top: 15rem;
     gap: 5rem;
     width: 100%;
+    max-width: 50rem;
   }
 
   a {
