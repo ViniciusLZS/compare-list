@@ -5,11 +5,18 @@ export default function useProgressBar({ list }: {list: {estimated: number, tota
 
   const valueTotal = list.total;
 
-  const numberWithoutLastDigits = Number(list.estimated.toString());
+  const estimatedNumber = Number(list.estimated.toString());
 
   useEffect(() => {
-    setPercentege((valueTotal / numberWithoutLastDigits) * 100);
-  }, [valueTotal, numberWithoutLastDigits]);
+    setPercentege((valueTotal / estimatedNumber) * 100);
+  }, [valueTotal, estimatedNumber]);
 
-  return { percentege, valueTotal, numberWithoutLastDigits };
+  const exceededLimit = valueTotal > estimatedNumber;
+
+  return {
+    percentege,
+    valueTotal,
+    estimatedNumber,
+    exceededLimit,
+  };
 }

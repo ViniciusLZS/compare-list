@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const ContainerBar = styled.div`
   width: 100%;
@@ -11,7 +11,11 @@ export const ContainerBar = styled.div`
   padding-bottom: 2rem;
 `;
 
-export const Bar = styled.div`
+interface BarProps {
+  exceededLimit: boolean;
+  percentege: number;
+}
+export const Bar = styled.div<BarProps>`
   display: flex;
   align-items: center;
   width: 100%;
@@ -19,20 +23,27 @@ export const Bar = styled.div`
   height: 2rem;
   border: 1px solid ${({ theme }) => theme.colors.gray[200]};
   border-radius: 4rem;
+  margin-top: 2rem;
 
   .progress {
     background: ${({ theme }) => theme.colors.primary.main};
     border-radius: 4rem;
-    width: ${({ percentege }: {percentege: number}) => `${percentege}%`};
+    width: ${({ percentege }) => `${percentege}%`};
     height: 1.5rem;
-    padding-left: 4rem;
+    position: relative;
 
     display: flex;
     justify-content: end;
 
     span {
+      width: 6rem;
+      position: absolute;
+      top:-1.7rem;
+      left: ${({ percentege }) => percentege};
       font-size: 1.2rem;
       padding-right: 0.2rem;
+
+      ${({ theme, exceededLimit }) => exceededLimit && css`color: ${theme.colors.danger.dark}`}
     }
   }
 `;

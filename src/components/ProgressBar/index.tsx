@@ -1,31 +1,31 @@
-import PropTypes from 'prop-types';
-
 import * as S from './styles';
 import useProgressBar from './useProgressBar';
+import maskMoney from '../../utils/maskMoney';
 
 export default function ProgressBar({ list }: {list: {estimated: number, total: number}}) {
-  const { percentege, valueTotal, numberWithoutLastDigits } = useProgressBar({ list });
+  const {
+    percentege,
+    valueTotal,
+    estimatedNumber,
+    exceededLimit,
+  } = useProgressBar({ list });
 
   return (
     <S.ContainerBar>
-      <S.Bar percentege={percentege}>
+      <S.Bar
+        percentege={percentege}
+        exceededLimit={exceededLimit}
+      >
         <div className="progress">
-          <span>{valueTotal}</span>
+          <span>{valueTotal ? maskMoney(valueTotal.toString()) : 'R$ 0,00'}</span>
         </div>
       </S.Bar>
 
       <S.ContainerSpan>
         <span>
-          {`R$ ${numberWithoutLastDigits}`}
+          {maskMoney(estimatedNumber.toString())}
         </span>
       </S.ContainerSpan>
     </S.ContainerBar>
   );
 }
-
-ProgressBar.propTypes = {
-  list: PropTypes.shape({
-    createdAt: PropTypes.string,
-    estimated: PropTypes.number,
-  }).isRequired,
-};

@@ -109,7 +109,7 @@ export default function MyLists() {
                       </S.Date>
 
                       <S.Value>
-                        <span>{maskMoney(item.estimated.toString())}</span>
+                        <span>{maskMoney(item.total.toString())}</span>
                       </S.Value>
 
                     </S.Info>
