@@ -96,11 +96,18 @@ const ProductModal = forwardRef(({
           />
 
           {products.length > 0 && name && (
-            <div className="dropdown">
+            <S.Dropdown>
               {dropdown && !isLoading && products.map((product) => (
-                <button type="button" onClick={() => handleProductSelect(product)} key={product.id}>{product.title}</button>
+                <button
+                  type="button"
+                  onClick={() => handleProductSelect(product)}
+                  key={product.id}
+                >
+                  <img src={product.thumbnail} alt="imagem" />
+                  {product.title}
+                </button>
               ))}
-            </div>
+            </S.Dropdown>
           )}
         </FormGroup>
 
