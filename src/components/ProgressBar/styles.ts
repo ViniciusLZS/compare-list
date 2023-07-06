@@ -36,7 +36,7 @@ export const Bar = styled.div<BarProps>`
     justify-content: end;
 
     span {
-      width: 6rem;
+      min-width: 6rem;
       position: absolute;
       top:-1.7rem;
       left: ${({ percentege }) => percentege};
