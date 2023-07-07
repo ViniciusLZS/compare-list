@@ -5,7 +5,14 @@ class UserService {
   httpClient: HttpClient;
 
   constructor() {
-    this.httpClient = new HttpClient('http://localhost:3001');
+    const local = window.location.origin;
+    let baseURL;
+    if (local === 'http://localhost:3001') {
+      baseURL = 'http://localhost:3001';
+    } else {
+      baseURL = 'http://192.168.18.7:3001';
+    }
+    this.httpClient = new HttpClient(baseURL);
   }
 
   login(user: {
