@@ -68,11 +68,9 @@ export default function ContainerModal(
         >
           <h1>{title}</h1>
 
-          <button type="button" onClick={handleCloseModal}>
-            <S.Close>
-              <img src={CloseIcon} alt="x" />
-            </S.Close>
-          </button>
+          <S.Close type="button" onClick={handleCloseModal}>
+            <img src={CloseIcon} alt="x" />
+          </S.Close>
 
           <S.Content
             onClick={() => handleClickModal()}

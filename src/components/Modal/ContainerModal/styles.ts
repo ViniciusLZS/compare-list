@@ -121,7 +121,7 @@ export const Content = styled.div<ContentProps>`
   }
 `;
 
-export const Close = styled.div`
+export const Close = styled.button`
   position: absolute;
   top: -1rem;
   right: -1rem;
