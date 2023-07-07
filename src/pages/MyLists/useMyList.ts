@@ -160,8 +160,7 @@ export default function useMyList() {
         type: 'success',
         text: 'Lista deletada com sucesso.',
       });
-    } catch (error) {
-      console.log('🚀 ', error);
+    } catch {
       toast({
         type: 'danger',
         text: 'Ocorreu um erro ao deletar a lista.',
