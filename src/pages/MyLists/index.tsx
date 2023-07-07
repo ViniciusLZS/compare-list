@@ -24,13 +24,13 @@ export default function MyLists() {
   const {
     modalFormRef,
     lists,
-    list,
     orderBy,
     hasError,
     listBeingDeleted,
     isLoading,
     isLoadingDelete,
     isDeleteModalVisible,
+    isEditModalVisible,
     handleToogleOrderBy,
     handleTryAgain,
     handleEditProduct,
@@ -44,7 +44,6 @@ export default function MyLists() {
     <S.Container>
       <Loader isLoading={isLoading} />
 
-      {!list && (
       <ContainerModal
         danger
         isLoading={isLoadingDelete}
@@ -56,17 +55,14 @@ export default function MyLists() {
       >
         <p>Esta ação não poderá ser desfeita!</p>
       </ContainerModal>
-      )}
 
-      {list && (
       <ModalEdit
         ref={modalFormRef}
         isLoading={isLoadingDelete}
-        isModalVisible={isDeleteModalVisible}
+        isModalVisible={isEditModalVisible}
         onCloseModal={handleCloseDeleteModal}
         onSubmit={onSubmit}
       />
-      )}
 
       {hasError && !isLoading && (
       <S.ErrorContainer>

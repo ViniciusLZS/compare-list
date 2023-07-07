@@ -51,10 +51,12 @@ export default function useMyList() {
   const [isLoading, setIsLoading] = useState(true);
   const [submitting, setSubmitting] = useState(true);
 
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+
   const [mounted, setMounted] = useState(true);
 
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [listBeingDeleted, setListBeingDeleted] = useState<ListBeingProps | null>(null);
 
   const modalFormRef = useRef<ProductModalRef | null>(null);
@@ -134,7 +136,7 @@ export default function useMyList() {
   function handleEditProduct(listEdit: ListProps) {
     modalFormRef.current?.setFieldValues(listEdit);
     setList(listEdit);
-    setIsDeleteModalVisible(true);
+    setIsEditModalVisible(true);
   }
 
   function handleDeleteProduct(product: ListProps) {
@@ -144,8 +146,9 @@ export default function useMyList() {
 
   const handleCloseDeleteModal = () => {
     setIsDeleteModalVisible(false);
+    setIsEditModalVisible(false);
+
     setListBeingDeleted(null);
-    setList(null);
   };
 
   async function onSubmit(formData: FormEditProps) {
@@ -208,6 +211,7 @@ export default function useMyList() {
     isLoading,
     isLoadingDelete,
     isDeleteModalVisible,
+    isEditModalVisible,
     handleToogleOrderBy,
     handleTryAgain,
     handleEditProduct,
