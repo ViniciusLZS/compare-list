@@ -67,7 +67,6 @@ const ModalEdit = forwardRef(({
       isLoading={isLoading}
       visible={isModalVisible}
       title="Editar"
-      confirmLabel="Editar"
       onCancel={onCloseModal}
     >
       <Form onSubmit={(event) => handleSubmit(event)} noValidate>
@@ -100,7 +99,7 @@ const ModalEdit = forwardRef(({
           // disabled={!isFormValid}
           isLoading={isLoading}
         >
-          Editar
+          Salvar
         </Button>
       </Form>
     </ContainerModal>
