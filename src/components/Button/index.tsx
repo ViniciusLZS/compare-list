@@ -13,6 +13,7 @@ interface ButtonProps {
   variant?: 'default' | 'transparent';
   danger?: boolean;
   type?: 'button' | 'submit' | 'reset' | undefined;
+  className?: string;
 }
 
 export default function Button({
@@ -23,6 +24,7 @@ export default function Button({
   variant = 'default',
   danger = false,
   type = undefined,
+  className,
 }: ButtonProps) {
   return (
     <S.StyledButton
@@ -31,6 +33,7 @@ export default function Button({
       variant={variant}
       danger={danger}
       type={type}
+      className={className}
     >
       {!isLoading && children}
       {isLoading && <Spinner size={16} />}

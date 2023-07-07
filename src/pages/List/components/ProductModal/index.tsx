@@ -162,6 +162,7 @@ const ProductModal = forwardRef(({
         )}
 
         <Button
+          className="positionButton"
           type="submit"
           disabled={!isFormValid}
           isLoading={isSubmitting}

@@ -20,7 +20,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
   justify-content: center;
   height: 5rem;
   width: 100%;
-  max-width: 50rem;
+  max-width: 40rem;
   padding: 0 1.6rem;
   color: ${({ theme }) => theme.colors.default.black};
   font-size: 1.6rem;

@@ -91,9 +91,14 @@ export const Content = styled.div<ContentProps>`
   border-radius: 2rem;
   padding: 1rem;
 
-  position: relative;
 
-
+  .modal-body {
+    margin-bottom: 4rem;
+    .positionButton {
+      position: absolute;
+      bottom: -2rem;
+    }
+  }
 
   .img {
     width: 100%;
