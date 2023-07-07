@@ -13,7 +13,7 @@ export default function List() {
   const {
     isVisible,
     modalFormRef,
-    handleModal,
+    handleCloseModal,
     handleSubmit,
     mode,
     list,
@@ -33,15 +33,14 @@ export default function List() {
 
   return (
     <>
-      {isVisible && (
-        <ProductModal
-          ref={modalFormRef}
-          isVisible={isVisible}
-          handleModal={() => handleModal()}
-          onSubmit={handleSubmit}
-          mode={mode}
-        />
-      )}
+
+      <ProductModal
+        ref={modalFormRef}
+        isVisible={isVisible}
+        handleCloseModal={() => handleCloseModal()}
+        onSubmit={handleSubmit}
+        mode={mode}
+      />
 
       <S.Header>
         <ProgressBar list={list} />
