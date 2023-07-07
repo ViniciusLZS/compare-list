@@ -59,15 +59,6 @@ export default function useList() {
 
   const loadeProducts = useCallback(async () => {
     try {
-      if (token) {
-        const getList = await ListService.getList({ id, token });
-        setList(getList);
-      }
-    } catch (error) {
-      history.push('/mylists');
-    }
-
-    try {
       setIsLoading(true);
 
       const listProducts = await ProductService.listProducts({ id, token, orderBy });
@@ -80,14 +71,27 @@ export default function useList() {
     } finally {
       setIsLoading(false);
     }
-  }, [id, orderBy, token, history]);
-
+  }, [id, orderBy, token]);
   useEffect(() => {
     loadeProducts();
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     return () => { };
   }, [loadeProducts, submitting]);
+
+  const loadeList = useCallback(async () => {
+    try {
+      if (token) {
+        const getList = await ListService.getList({ id, token });
+        setList(getList);
+      }
+    } catch (error) {
+      history.push('/mylists');
+    }
+  }, [id, token, history]);
+  useEffect(() => {
+    loadeList();
+  }, [loadeList, products]);
 
   useEffect(() => {
     let isMounted = true;
@@ -136,22 +140,21 @@ export default function useList() {
     );
   }
 
-  function handleModal() {
-    setIsVisible((prevState) => !prevState);
-    if (isVisible === true) {
-      setProductId('');
-    }
+  function handleCloseModal() {
+    setIsVisible(false);
+    setProductId('');
+    modalFormRef.current?.resetFields();
   }
 
   function handleAddProduct() {
     setMode('Adicionar');
-    handleModal();
+    setIsVisible(true);
   }
 
   const handleEditForm = (getproductId: string) => {
     setProductId(getproductId);
     setMode('Editar');
-    handleModal();
+    setIsVisible(true);
   };
 
   const handleSubmit = async (formData: FormData) => {
@@ -205,9 +208,7 @@ export default function useList() {
 
   const handleDeleteContact = async (deleteProductId: string) => {
     try {
-      setSubmitting(true);
       await ProductService.deleteProduct(deleteProductId, token);
-      setSubmitting(false);
       setProducts((prevState) => prevState.filter(
         (item) => item.id !== deleteProductId,
       ));
@@ -227,7 +228,7 @@ export default function useList() {
   return {
     isVisible,
     modalFormRef,
-    handleModal,
+    handleCloseModal,
     handleSubmit,
     mode,
     list,
