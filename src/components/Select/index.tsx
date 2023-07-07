@@ -15,13 +15,27 @@ interface SelectProps {
   optionId: string;
   setOptionId: (value: string) => void;
   handleSubmitOptions?: () => void;
+  setOptionName?: (value: string) => void;
 }
 
 export default function Select({
-  label, placeholder, disabled = false, optionsSelect, optionId, setOptionId, handleSubmitOptions,
+  label,
+  placeholder,
+  disabled = false,
+  optionsSelect,
+  optionId,
+  setOptionId,
+  handleSubmitOptions,
+  setOptionName,
 }: SelectProps) {
   function handleOptions(event: ChangeEvent<HTMLSelectElement>) {
     setOptionId(event.target.value);
+
+    const selectedOption = optionsSelect.find((option) => option.id === event.target.value);
+
+    if (selectedOption && setOptionName) {
+      setOptionName(selectedOption?.name);
+    }
   }
 
   const handleSubmitOption = () => {
@@ -42,7 +56,13 @@ export default function Select({
         <option value="">{placeholder}</option>
 
         {optionsSelect.map((options) => (
-          <option value={options.id} key={options.id}>{options.name}</option>
+          <option
+            value={options.id}
+            key={options.id}
+          >
+            {options.name}
+
+          </option>
         ))}
       </S.Select>
     </S.Label>
