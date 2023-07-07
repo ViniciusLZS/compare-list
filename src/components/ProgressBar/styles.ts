@@ -39,7 +39,7 @@ export const Bar = styled.div<BarProps>`
       min-width: 6rem;
       position: absolute;
       top:-1.7rem;
-      left: ${({ percentege }) => percentege};
+      left: ${({ percentege }) => (percentege < 20 ? '0' : percentege)};
       font-size: 1.2rem;
       padding-right: 0.2rem;
 
