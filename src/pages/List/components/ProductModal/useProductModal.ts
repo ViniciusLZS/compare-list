@@ -43,6 +43,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
   const [measures, setMeasures] = useState([]);
   const [image, setImage] = useState('');
   const [categoriesId, setCategoriesId] = useState(' ');
+  const [measureName, setMeasureName] = useState('');
   const [measureId, setMeasureId] = useState('');
 
   const [categories, setCategories] = useState([]);
@@ -137,15 +138,13 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
 
   useEffect(() => {
     function handleCalculateTotal() {
-      if (amount) {
-        const resultTotal = CalculateTotal({ value, amount });
+      if ((amount && measureId) && value) {
+        const resultTotal = CalculateTotal({ value, amount, measureName });
         setTotal(resultTotal);
-      } else {
-        setTotal('');
       }
     }
     handleCalculateTotal();
-  }, [value, amount]);
+  }, [value, amount, measureId, measureName]);
 
   function handleProductChange(event: ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
@@ -208,6 +207,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
     dropdown,
     getErrorMessageFieldName,
     setCategoriesId,
+    setMeasureName,
     setMeasureId,
     handleDropdown,
     handleSubmit,
