@@ -1,11 +1,12 @@
 import ProductMapper from './mappers/ProductMapper';
 import HttpClient from './utils/HttpClient';
+import baseURL from './utils/baseURL';
 
 class ProductService {
   httpClient: HttpClient;
 
   constructor() {
-    this.httpClient = new HttpClient('http://localhost:3001');
+    this.httpClient = new HttpClient(baseURL());
   }
 
   async listProducts({ id, orderBy = 'ASC', token }: {

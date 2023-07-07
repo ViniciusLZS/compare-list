@@ -1,11 +1,12 @@
 import MeasureMapper from './mappers/MeasureMapper';
 import HttpClient from './utils/HttpClient';
+import baseURL from './utils/baseURL';
 
 class MeasureService {
   httpClient: HttpClient;
 
   constructor() {
-    this.httpClient = new HttpClient('http://localhost:3001');
+    this.httpClient = new HttpClient(baseURL());
   }
 
   async listMeasures(token: string) {

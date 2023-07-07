@@ -1,18 +1,12 @@
 import UserMapper from './mappers/UserMapper';
 import HttpClient from './utils/HttpClient';
+import baseURL from './utils/baseURL';
 
 class UserService {
   httpClient: HttpClient;
 
   constructor() {
-    const local = window.location.origin;
-    let baseURL;
-    if (local === 'http://localhost:3001') {
-      baseURL = 'http://localhost:3001';
-    } else {
-      baseURL = 'http://192.168.18.7:3001';
-    }
-    this.httpClient = new HttpClient(baseURL);
+    this.httpClient = new HttpClient(baseURL());
   }
 
   login(user: {

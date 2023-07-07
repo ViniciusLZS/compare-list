@@ -1,10 +1,11 @@
 import HttpClient from './utils/HttpClient';
+import baseURL from './utils/baseURL';
 
 class CategoriesService {
   httpClient: HttpClient;
 
   constructor() {
-    this.httpClient = new HttpClient('http://localhost:3001');
+    this.httpClient = new HttpClient(baseURL());
   }
 
   listAllCategories(token: string) {

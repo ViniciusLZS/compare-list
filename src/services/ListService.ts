@@ -1,11 +1,12 @@
 import ListMapper from './mappers/ListMapper';
 import HttpClient from './utils/HttpClient';
+import baseURL from './utils/baseURL';
 
 class ListService {
   httpClient: HttpClient;
 
   constructor() {
-    this.httpClient = new HttpClient('http://localhost:3001');
+    this.httpClient = new HttpClient(baseURL());
   }
 
   async listAll({ token, orderBy = 'created_at' }: {token: string; orderBy: string;}) {
