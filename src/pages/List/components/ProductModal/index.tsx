@@ -21,13 +21,13 @@ interface FormModalData {
 
 interface ProductModalProps {
   isVisible: boolean;
-  handleModal: () => void;
+  handleCloseModal: () => void;
   onSubmit: (formData: FormModalData) => Promise<void>;
   mode: string;
 }
 
 const ProductModal = forwardRef(({
-  isVisible, handleModal, onSubmit, mode,
+  isVisible, handleCloseModal, onSubmit, mode,
 }:
   ProductModalProps, ref) => {
   const {
@@ -47,6 +47,7 @@ const ProductModal = forwardRef(({
     dropdown,
     getErrorMessageFieldName,
     setCategoriesId,
+    setMeasureName,
     setMeasureId,
     handleDropdown,
     handleSubmit,
@@ -60,7 +61,7 @@ const ProductModal = forwardRef(({
 
     <ContainerModal
       title={mode}
-      handleModal={handleModal}
+      onCancel={handleCloseModal}
       handleDropdown={() => handleDropdown()}
       visible={isVisible}
     >
@@ -76,8 +77,8 @@ const ProductModal = forwardRef(({
             placeholder="Selecione a categoria"
             disabled={isSubmitting}
             optionsSelect={categories}
-            setOptionId={setCategoriesId}
             optionId={categoriesId}
+            setOptionId={setCategoriesId}
           />
         </FormGroup>
       </Form>
@@ -111,20 +112,6 @@ const ProductModal = forwardRef(({
           )}
         </FormGroup>
 
-        <FormGroup error={getErrorMessageFieldName('value')}>
-          <Input
-            label="Valor"
-            value={value}
-            maxLength={15}
-            onChange={(event) => { handleValorChange(event); }}
-            type="text"
-            placeholder="Digite aqui o valor do produto"
-            error={getErrorMessageFieldName('value')}
-            disabled={isSubmitting}
-          />
-        </FormGroup>
-
-        {value && (
         <S.Amount>
           <FormGroup error={getErrorMessageFieldName('amount')}>
             <Input
@@ -146,10 +133,23 @@ const ProductModal = forwardRef(({
               optionsSelect={measures}
               optionId={measureId}
               setOptionId={setMeasureId}
+              setOptionName={setMeasureName}
             />
           </FormGroup>
         </S.Amount>
-        )}
+
+        <FormGroup error={getErrorMessageFieldName('value')}>
+          <Input
+            label="Valor"
+            value={value}
+            maxLength={15}
+            onChange={(event) => { handleValorChange(event); }}
+            type="text"
+            placeholder="Digite aqui o valor do produto"
+            error={getErrorMessageFieldName('value')}
+            disabled={isSubmitting || !measureId}
+          />
+        </FormGroup>
 
         {total
         && (
@@ -166,7 +166,7 @@ const ProductModal = forwardRef(({
           disabled={!isFormValid}
           isLoading={isSubmitting}
         >
-          {mode}
+          Salvar
         </Button>
       </Form>
     </ContainerModal>
