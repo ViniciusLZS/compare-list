@@ -6,7 +6,7 @@ export const ContainerMessage = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10rem;
+  margin-top: 5rem;
 
   p {
     text-align: center;

@@ -30,6 +30,10 @@ export default function Home() {
           </Link>
         </div>
 
+        <S.ContainerGoogle>
+          <div id="buttonGoogle" />
+        </S.ContainerGoogle>
+
         <Message />
       </S.Container>
     );

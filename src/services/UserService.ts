@@ -16,6 +16,10 @@ class UserService {
     return this.httpClient.post('/auth/login', { body: user });
   }
 
+  loginWithGoogle(user: {email: string ; name: string; sub: string }) {
+    return this.httpClient.post('/auth/google', { body: user });
+  }
+
   async getUser(token: string) {
     const user = await this.httpClient.get('/auth/user', {
       headers: {
