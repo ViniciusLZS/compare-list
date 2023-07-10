@@ -70,7 +70,7 @@ export default function List() {
         {!isLoading && (
         <S.ButtonContainer>
           <Link to="/mylists"><Button type="button">Feito!</Button></Link>
-          <Button type="button" handleClick={() => handleAddProduct()}>Adicionar</Button>
+          <Button type="button" onClick={() => handleAddProduct()}>Adicionar</Button>
         </S.ButtonContainer>
         )}
       </S.Content>

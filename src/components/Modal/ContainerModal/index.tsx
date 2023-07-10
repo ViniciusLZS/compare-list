@@ -93,7 +93,7 @@ export default function ContainerModal(
                 type="button"
                 danger={danger}
                 isLoading={isLoading}
-                handleClick={onConfirm}
+                onClick={onConfirm}
               >
                 {confirmLabel}
               </Button>

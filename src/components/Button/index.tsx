@@ -9,7 +9,7 @@ interface ButtonProps {
   children: ReactNode;
   disabled?: boolean;
   isLoading?: boolean;
-  handleClick?: () => void;
+  onClick?: () => void;
   variant?: 'default' | 'transparent';
   danger?: boolean;
   type?: 'button' | 'submit' | 'reset' | undefined;
@@ -20,7 +20,7 @@ export default function Button({
   children,
   disabled = false,
   isLoading = false,
-  handleClick,
+  onClick,
   variant = 'default',
   danger = false,
   type = undefined,
@@ -28,7 +28,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <S.StyledButton
-      onClick={handleClick}
+      onClick={onClick}
       disabled={disabled || isLoading}
       variant={variant}
       danger={danger}

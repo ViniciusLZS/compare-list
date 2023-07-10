@@ -82,7 +82,7 @@ export default function MyLists() {
 
         <div className="details">
           <strong>Ocorreu um erro ao obter os suas listas!</strong>
-          <Button type="button" handleClick={() => handleTryAgain()}>Tentar novamente</Button>
+          <Button type="button" onClick={() => handleTryAgain()}>Tentar novamente</Button>
         </div>
       </S.ErrorContainer>
       )}
