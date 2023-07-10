@@ -7,6 +7,37 @@ export const Container = styled.div`
   justify-content: center;
   margin-top: 10rem;
 
+  span {
+    position: relative;
+    margin-top: 2rem;
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.gray[200]};
+
+    &::before {
+      position: absolute;
+      left: -14rem;
+      bottom: 0.8rem;
+
+      display: inline-block;
+      content: '';
+      width: 12rem;
+      height: 0.2rem;
+      background: ${({ theme }) => theme.colors.gray[200]};
+    }
+
+    &::after {
+      position: absolute;
+      right: -14rem;
+      bottom: 0.8rem;
+
+      display: inline-block;
+      content: '';
+      width: 12rem;
+      height: 0.2rem;
+      background: ${({ theme }) => theme.colors.gray[200]};
+    }
+  }
+
   .buttons {
     display: flex;
     flex-direction: column;
@@ -33,5 +64,5 @@ export const Container = styled.div`
 `;
 
 export const ContainerGoogle = styled.div`
-  margin-top: 5rem;
+  margin-top: 2rem;
 `;

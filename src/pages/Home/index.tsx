@@ -30,6 +30,8 @@ export default function Home() {
           </Link>
         </div>
 
+        <span>ou</span>
+
         <S.ContainerGoogle>
           <div id="buttonGoogle" />
         </S.ContainerGoogle>
