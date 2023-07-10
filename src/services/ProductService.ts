@@ -10,7 +10,7 @@ class ProductService {
   }
 
   async listProducts({ id, orderBy = 'ASC', token }: {
-    id: string; orderBy: string; token: string;
+    id: string; orderBy?: string; token: string;
   }) {
     const products = await this.httpClient.get(`/product/list/${id}?orderBy=${orderBy}`, {
       headers: {

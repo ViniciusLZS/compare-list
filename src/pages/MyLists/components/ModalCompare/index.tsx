@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import * as S from './styles';
 
 import formatDate from '../../../../utils/formatDate';
@@ -28,6 +29,12 @@ export default function ModalCompare({
   isVisible,
   onCloseModal,
 }: ModalCompareProps) {
+  const history = useHistory();
+
+  const handlePageCompare = () => {
+    history.push(`/compare/${listCompate[0]?.id}/${listCompate[1]?.id}`);
+  };
+
   if (!isVisible) {
     return null;
   }
@@ -51,7 +58,14 @@ export default function ModalCompare({
           </div>
         </S.Info>
 
-        {listCompate.length === 2 && <Button>Pronto!</Button>}
+        {listCompate.length === 2
+        && (
+        <Button
+          onClick={handlePageCompare}
+        >
+          Pronto!
+        </Button>
+        )}
       </S.Content>
     </S.Container>
   );

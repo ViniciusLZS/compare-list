@@ -11,6 +11,7 @@ import Profile from '../../pages/Profile';
 import NewList from '../../pages/NewList';
 import MyLists from '../../pages/MyLists';
 import List from '../../pages/List';
+import Compare from '../../pages/CompareLists';
 
 export default function RoutesPublics() {
   const authContext = useContext(AuthContext);
@@ -32,6 +33,7 @@ export default function RoutesPublics() {
           <Route path="/newlist" component={NewList} />
           <Route path="/mylists" component={MyLists} />
           <Route path="/list/:id" component={List} />
+          <Route path="/compare/:id1/:id2" component={Compare} />
         </>
       )}
     </>
