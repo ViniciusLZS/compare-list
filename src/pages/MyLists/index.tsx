@@ -11,14 +11,16 @@ import useMyList from './useMyList';
 import Button from '../../components/Button';
 import Loader from '../../components/Loader';
 import ContainerModal from '../../components/Modal/ContainerModal';
+import ModalEdit from './components/ModalEdit';
+import ModalCompare from './components/ModalCompare';
 
 import Calendar from '../../assets/image/icons/calendar.svg';
 import Trash from '../../assets/image/icons/bin.svg';
 import Arrow from '../../assets/image/icons/arrow.svg';
 import Empty from '../../assets/image/empty-box.svg';
 import Sad from '../../assets/image/icons/sad.svg';
-import Edit from '../../assets/image/icons/edit.svg';
-import ModalEdit from './components/ModalEdit';
+import Edit from '../../assets/image/icons/myList/edit.svg';
+import Compare from '../../assets/image/icons/myList/compare.svg';
 
 export default function MyLists() {
   const {
@@ -26,23 +28,41 @@ export default function MyLists() {
     lists,
     orderBy,
     hasError,
+    listCompate,
     listBeingDeleted,
     isLoading,
     isLoadingDelete,
-    isDeleteModalVisible,
     isEditModalVisible,
+    isCompareModalVisible,
+    isDeleteModalVisible,
     handleToogleOrderBy,
     handleTryAgain,
-    handleEditProduct,
-    handleDeleteProduct,
+    handleEditList,
+    handleCompareList,
+    handleDeleteList,
     handleConfirmDeleteList,
+    handleCloseCompareModal,
     handleCloseDeleteModal,
-    onSubmit,
+    handleEditSubmit,
   } = useMyList();
 
   return (
     <S.Container>
       <Loader isLoading={isLoading} />
+
+      <ModalEdit
+        ref={modalFormRef}
+        isLoading={isLoadingDelete}
+        isModalVisible={isEditModalVisible}
+        onCloseModal={handleCloseDeleteModal}
+        onSubmit={handleEditSubmit}
+      />
+
+      <ModalCompare
+        listCompate={listCompate}
+        isVisible={isCompareModalVisible}
+        onCloseModal={handleCloseCompareModal}
+      />
 
       <ContainerModal
         danger
@@ -55,14 +75,6 @@ export default function MyLists() {
       >
         <p>Esta ação não poderá ser desfeita!</p>
       </ContainerModal>
-
-      <ModalEdit
-        ref={modalFormRef}
-        isLoading={isLoadingDelete}
-        isModalVisible={isEditModalVisible}
-        onCloseModal={handleCloseDeleteModal}
-        onSubmit={onSubmit}
-      />
 
       {hasError && !isLoading && (
       <S.ErrorContainer>
@@ -95,7 +107,6 @@ export default function MyLists() {
 
       {(lists && !hasError) && !isLoading && (
         <>
-
           {lists.length < 1 && (
             <S.EmptyList>
               <img src={Empty} alt="vazio" />
@@ -130,15 +141,24 @@ export default function MyLists() {
                     </S.Info>
                   </Link>
 
-                  <S.Trash>
-                    <button type="button" onClick={() => handleEditProduct(item)}>
+                  <S.ContainerButton>
+                    <button type="button" onClick={() => handleEditList(item)}>
                       <img src={Edit} alt="Editar" />
                     </button>
 
-                    <button type="button" onClick={() => handleDeleteProduct(item)}>
+                    {listCompate.length !== 2 && (
+                    <button
+                      type="button"
+                      onClick={(event) => handleCompareList(event, item)}
+                    >
+                      <img src={Compare} alt="Comparar" />
+                    </button>
+                    )}
+
+                    <button type="button" onClick={() => handleDeleteList(item)}>
                       <img src={Trash} alt="Lixeira" />
                     </button>
-                  </S.Trash>
+                  </S.ContainerButton>
                 </S.Content>
               </S.Card>
             ))}

@@ -113,6 +113,10 @@ export const List = styled.div`
     text-decoration: none;
     color: ${({ theme }) => theme.colors.default.black};
   }
+
+  .select {
+    box-shadow: 0px 5px 15px ${({ theme }) => theme.colors.success.main};
+  }
 `;
 
 export const Card = styled.div`
@@ -127,8 +131,10 @@ export const Card = styled.div`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   transition:  background-color 0.3s ease-in;
 
-  &:hover {
-    box-shadow: 0px 5px 15px ${({ theme }) => theme.colors.primary.dark};
+  @media(min-width: 700px) {
+    &:hover {
+      box-shadow: 0px 5px 15px ${({ theme }) => theme.colors.primary.dark};
+    }
   }
 `;
 
@@ -144,6 +150,7 @@ export const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 
 export const Info = styled.div`
@@ -169,15 +176,12 @@ export const Value = styled.div`
   border-radius: 1rem;
 `;
 
-export const Trash = styled.div`
+export const ContainerButton = styled.div`
   width: 100%;
-  max-width: 4rem;
-  margin-right: 1rem;
 
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
+  justify-content: space-around;
   gap: 1rem;
 
   button {
@@ -187,6 +191,6 @@ export const Trash = styled.div`
   }
 
   @media(min-width: 700px) {
-    margin-right: 3rem;
+
   }
 `;

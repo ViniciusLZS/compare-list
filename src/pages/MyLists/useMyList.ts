@@ -51,13 +51,16 @@ export default function useMyList() {
   const [isLoading, setIsLoading] = useState(true);
   const [submitting, setSubmitting] = useState(true);
 
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [isCompareModalVisible, setIsCompareModalVisible] = useState(false);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 
   const [mounted, setMounted] = useState(true);
 
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [listBeingDeleted, setListBeingDeleted] = useState<ListBeingProps | null>(null);
+  const [listCompate, setListCompate] = useState <ListProps[]>([]);
+  const [elementSelectCompate, setElementSelectCompate] = useState<HTMLElement []>([]);
 
   const modalFormRef = useRef<ProductModalRef | null>(null);
 
@@ -97,16 +100,6 @@ export default function useMyList() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [[]]);
 
-  function handleToogleOrderBy() {
-    setOrderBy(
-      (prevState) => (prevState === 'asc' ? 'desc' : 'asc'),
-    );
-  }
-
-  function handleTryAgain() {
-    loaderList();
-  }
-
   useEffect(() => {
     let isMounted = true;
     async function loaderGetProduct() {
@@ -133,14 +126,57 @@ export default function useMyList() {
     };
   }, [list, token]);
 
-  function handleEditProduct(listEdit: ListProps) {
+  useEffect(() => {
+    elementSelectCompate.forEach((element) => {
+      element.classList.add('select');
+    });
+
+    if (listCompate.length === 0) {
+      elementSelectCompate.forEach((element) => {
+        element.classList.remove('select');
+        setElementSelectCompate([]);
+      });
+    }
+  }, [elementSelectCompate, listCompate]);
+
+  function handleToogleOrderBy() {
+    setOrderBy(
+      (prevState) => (prevState === 'asc' ? 'desc' : 'asc'),
+    );
+  }
+
+  function handleTryAgain() {
+    loaderList();
+  }
+
+  function handleEditList(listEdit: ListProps) {
     modalFormRef.current?.setFieldValues(listEdit);
     setList(listEdit);
     setIsEditModalVisible(true);
   }
 
-  function handleDeleteProduct(product: ListProps) {
-    setListBeingDeleted(product);
+  function handleCompareList(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    listCompare: ListProps,
+  ) {
+    const parentDiv = event.currentTarget.parentNode;
+    const grandparentElement = parentDiv?.parentNode?.parentElement;
+    if (grandparentElement) {
+      setElementSelectCompate((prevState) => [...prevState, grandparentElement]);
+    }
+
+    setListCompate((prevState) => [...prevState, listCompare]);
+
+    setIsCompareModalVisible(true);
+  }
+
+  function handleCloseCompareModal() {
+    setIsCompareModalVisible(false);
+    setListCompate([]);
+  }
+
+  function handleDeleteList(listDelete: ListProps) {
+    setListBeingDeleted(listDelete);
     setIsDeleteModalVisible(true);
   }
 
@@ -151,7 +187,7 @@ export default function useMyList() {
     setListBeingDeleted(null);
   };
 
-  async function onSubmit(formData: FormEditProps) {
+  async function handleEditSubmit(formData: FormEditProps) {
     try {
       setIsLoadingDelete(true);
       if (list) {
@@ -207,17 +243,21 @@ export default function useMyList() {
     list,
     orderBy,
     hasError,
+    listCompate,
     listBeingDeleted,
     isLoading,
     isLoadingDelete,
-    isDeleteModalVisible,
     isEditModalVisible,
+    isCompareModalVisible,
+    isDeleteModalVisible,
     handleToogleOrderBy,
     handleTryAgain,
-    handleEditProduct,
-    handleDeleteProduct,
+    handleEditList,
+    handleCompareList,
+    handleDeleteList,
     handleConfirmDeleteList,
+    handleCloseCompareModal,
     handleCloseDeleteModal,
-    onSubmit,
+    handleEditSubmit,
   };
 }

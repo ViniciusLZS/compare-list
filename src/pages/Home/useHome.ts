@@ -49,7 +49,7 @@ export default function useHome() {
           type: 'standard',
           shape: 'pill',
           theme: 'outline',
-          text: 'continue_with',
+          text: 'continuar com',
           logo_alignment: 'left',
         }, // customization attributes
       );
@@ -59,7 +59,7 @@ export default function useHome() {
   }, [authContext]);
 
   useEffect(() => {
-    initializeGoogleOneTap();
+    window.onload = initializeGoogleOneTap;
   }, [initializeGoogleOneTap]);
 
   return {
