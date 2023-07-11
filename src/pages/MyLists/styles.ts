@@ -68,7 +68,7 @@ export const ListHeader = styled.div`
 
     img {
 
-      transform: ${({ orderBy }: {orderBy: string}) => (orderBy === 'asc' ? 'rotate(270deg)' : 'rotate(90deg)')};
+      transform: ${({ orderBy }: {orderBy: string}) => (orderBy === 'desc' ? 'rotate(270deg)' : 'rotate(90deg)')};
       transition: transform 0.2s ease-in;
     }
   }

@@ -46,7 +46,7 @@ interface ProductModalRef {
 export default function useMyList() {
   const [lists, setLists] = useState<ListProps[]>([]);
   const [list, setList] = useState<ListProps | null>(null);
-  const [orderBy, setOrderBy] = useState('asc');
+  const [orderBy, setOrderBy] = useState('desc');
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [submitting, setSubmitting] = useState(true);
@@ -94,11 +94,6 @@ export default function useMyList() {
   useEffect(() => () => {
     setMounted(false);
   }, []);
-
-  useEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight - window.innerHeight);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [[]]);
 
   useEffect(() => {
     let isMounted = true;
