@@ -1,12 +1,15 @@
+/* eslint-disable no-plusplus */
 import { useParams } from 'react-router-dom';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as S from './styles';
 import ListService from '../../services/ListService';
 
 import Compare from '../../assets/image/icons/myList/compare.svg';
 import maskMoney from '../../utils/maskMoney';
 import ProductService from '../../services/ProductService';
+
+import imageNotFound from '../../assets/image/imageNotFound.svg';
 
 interface Params {
   id1: string;
@@ -60,20 +63,47 @@ export default function CompareLists() {
   }, [params, token]);
 
   const compareArrays = (arr1: ProductProps[], arr2: ProductProps[]) => {
-    const arrayGlobal = [];
+    const arrayGlobal: ProductProps[][] = [];
 
     if (arr2) {
-      // eslint-disable-next-line no-plusplus
       for (let i = 0; i < arr1.length; i++) {
-      // eslint-disable-next-line no-plusplus
         for (let j = 0; j < arr2.length; j++) {
           if (arr1[i].name === arr2[j].name) {
-            const array = [
-              arr1[i],
-              arr2[j],
-            ];
+            const array = [arr1[i], arr2[j]];
             arrayGlobal.push(array);
           }
+        }
+      }
+
+      for (let i = 0; i < arr1.length; i++) {
+        let found = false;
+        for (let j = 0; j < arrayGlobal.length; j++) {
+          if (arr1[i].name === arrayGlobal[j][0]?.name) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          const array = [arr1[i], {
+            id: Math.random().toString(), name: '', value: 0, amount: 0, total: 0, measureName: '', image: '',
+          }];
+          arrayGlobal.push(array);
+        }
+      }
+
+      for (let i = 0; i < arr2.length; i++) {
+        let found = false;
+        for (let j = 0; j < arrayGlobal.length; j++) {
+          if (arr2[i].name === arrayGlobal[j][1]?.name) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          const array = [{
+            id: Math.random().toString(), name: '', value: 0, amount: 0, total: 0, measureName: '', image: '',
+          }, arr2[i]];
+          arrayGlobal.push(array);
         }
       }
     }
@@ -100,37 +130,72 @@ export default function CompareLists() {
         </div>
       </S.Header>
       <S.Content>
-        <S.Card>
-          <S.CardSmall>
-            {/* <S.Title view={view}>{product.name}</S.Title>
+        {compareResult.map((product) => (
+          <S.Card key={product[0].id}>
+            <S.CardSmall>
+              {product[0].name ? (
+                <>
+                  <S.Title>{product[0].name}</S.Title>
 
-              <S.Image view={view}>
-                <img
-                  src={product.image
-                    ? `${product.image}`
-                    : imageNotFound}
-                  alt=""
-                />
-              </S.Image> */}
+                  <S.Image>
+                    <img
+                      src={product[0].image
+                        ? `${product[0].image}`
+                        : imageNotFound}
+                      alt=""
+                    />
+                  </S.Image>
 
-            {/* <S.ContainerValue view={view}>
-              <div className="values">
-                <span>
-                  {`${product.amount} ${product.measureName || 'Medida'}`}
-                </span>
-              </div>
+                  <S.ContainerValue>
+                    <div className="values">
+                      <span>
+                        {`${product[0].amount} ${product[0].measureName || 'Medida'}`}
+                      </span>
+                      <span>{product[0].value !== null ? maskMoney(product[0].value.toString()) : 'R$ 0,00'}</span>
+                    </div>
 
-              <div className="total">
-              </div>
-            </S.ContainerValue> */}
-          </S.CardSmall>
+                    <div className="total">
+                      <span>{product[0].total !== null ? maskMoney(product[0].total.toString()) : 'R$ 0,00'}</span>
+                    </div>
+                  </S.ContainerValue>
+                </>
+              ) : <p>Não existe produto para similar</p>}
+            </S.CardSmall>
 
-          <img src={Compare} alt="Símbolo de Comparação" />
+            <img src={Compare} alt="Símbolo de Comparação" />
 
-          <S.CardSmall>
-            <p>213123</p>
-          </S.CardSmall>
-        </S.Card>
+            <S.CardSmall>
+              {product[1].name ? (
+                <>
+                  <S.Title>{product[1].name}</S.Title>
+
+                  <S.Image>
+                    <img
+                      src={product[1].image
+                        ? `${product[1].image}`
+                        : imageNotFound}
+                      alt=""
+                    />
+                  </S.Image>
+
+                  <S.ContainerValue>
+                    <div className="values">
+                      <span>
+                        {`${product[1].amount} ${product[1].measureName || 'Medida'}`}
+                      </span>
+                      <span>{product[1].value !== null ? maskMoney(product[1].value.toString()) : 'R$ 0,00'}</span>
+                    </div>
+
+                    <div className="total">
+                      <span>{product[1].total !== null ? maskMoney(product[1].total.toString()) : 'R$ 0,00'}</span>
+                    </div>
+                  </S.ContainerValue>
+                </>
+              ) : <p>Não existe produto para similar</p>}
+            </S.CardSmall>
+          </S.Card>
+        ))}
+
       </S.Content>
     </S.Container>
   );
