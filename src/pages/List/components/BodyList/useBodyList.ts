@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface Product {
   id: string;
@@ -17,7 +17,6 @@ interface BodyListProps {
 }
 
 export default function useBodyList({
-  view,
   onLoadeProducts,
   onEditForm,
   onDeleteProduct,
