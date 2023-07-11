@@ -26,11 +26,6 @@ export default function useBodyList({
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [productBeingDeleted, setProductBeingDeleted] = useState<Product | null>(null);
 
-  useEffect(() => {
-    window.scrollTo(0, document.body.scrollHeight - window.innerHeight);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [view, []]);
-
   function handleTryAgain() {
     onLoadeProducts();
   }

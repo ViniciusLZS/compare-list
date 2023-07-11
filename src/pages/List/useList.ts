@@ -72,6 +72,7 @@ export default function useList() {
       setIsLoading(false);
     }
   }, [id, orderBy, token]);
+
   useEffect(() => {
     loadeProducts();
 

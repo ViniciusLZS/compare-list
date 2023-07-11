@@ -2,18 +2,18 @@
 
 import * as S from './styles';
 
-import maskMoney from '../../utils/maskMoney';
+import maskMoney from '../../../../utils/maskMoney';
 
-import Loader from '../Loader';
-
-import imageNotFound from '../../assets/image/imageNotFound.svg';
-
-import Trash from '../../assets/image/icons/bin.svg';
-import Empty from '../../assets/image/empty-box.svg';
-import Sad from '../../assets/image/icons/sad.svg';
-import Button from '../Button';
-import ContainerModal from '../Modal/ContainerModal';
 import useBodyList from './useBodyList';
+
+import Loader from '../../../../components/Loader';
+import Button from '../../../../components/Button';
+import ContainerModal from '../../../../components/Modal/ContainerModal';
+
+import Trash from '../../../../assets/image/icons/bin.svg';
+import Empty from '../../../../assets/image/empty-box.svg';
+import Sad from '../../../../assets/image/icons/sad.svg';
+import imageNotFound from '../../../../assets/image/imageNotFound.svg';
 
 interface Product {
   id: string;
