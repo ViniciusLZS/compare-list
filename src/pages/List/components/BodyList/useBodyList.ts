@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface Product {
   id: string;
@@ -17,6 +17,7 @@ interface BodyListProps {
 }
 
 export default function useBodyList({
+  view,
   onLoadeProducts,
   onEditForm,
   onDeleteProduct,
@@ -24,6 +25,11 @@ export default function useBodyList({
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [productBeingDeleted, setProductBeingDeleted] = useState<Product | null>(null);
+
+  useEffect(() => {
+    window.scrollTo(0, document.body.scrollHeight - window.innerHeight);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view, []]);
 
   function handleTryAgain() {
     onLoadeProducts();
