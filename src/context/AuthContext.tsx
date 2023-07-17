@@ -94,18 +94,21 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     [history],
   );
 
-  useEffect(() => {
-    async function autoLogin() {
+  const autoLogin = useCallback(async () => {
+    try {
       const token = window.localStorage.getItem('token');
       if (token) {
         await getToken(token);
-      } else {
-        setLogin(false);
-        history.push('/');
       }
+    } catch {
+      setLogin(false);
+      history.push('/');
     }
-    autoLogin();
   }, [getToken, history]);
+
+  useEffect(() => {
+    autoLogin();
+  }, [autoLogin]);
 
   const authValue = useMemo<AuthValue>(() => ({
     login, user, userLogin, userLogout, userLoginGoogle,
