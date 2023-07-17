@@ -131,7 +131,7 @@ export const Card = styled.div`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   transition:  background-color 0.3s ease-in;
 
-  @media(min-width: 700px) {
+  @media(min-width: 800px) {
     &:hover {
       box-shadow: 0px 5px 15px ${({ theme }) => theme.colors.primary.dark};
     }
@@ -188,9 +188,5 @@ export const ContainerButton = styled.div`
     padding: 1rem;
     background-color: transparent;
     border: none;
-  }
-
-  @media(min-width: 700px) {
-
   }
 `;
