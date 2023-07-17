@@ -151,6 +151,7 @@ export const Content = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  position: relative;
 `;
 
 export const Info = styled.div`
@@ -159,6 +160,22 @@ export const Info = styled.div`
   justify-content: space-around;
   padding: 1rem;
   position: relative;
+`;
+
+export const Options = styled.button`
+  position: absolute;
+  top: -3.5rem;
+  right: 1rem;
+
+  padding: 1rem;
+
+  border: none;
+  background: transparent;
+
+  img {
+    height: 2rem;
+    max-width: 2rem;
+  }
 `;
 
 export const Date = styled.div`
@@ -176,17 +193,43 @@ export const Value = styled.div`
   border-radius: 1rem;
 `;
 
-export const ContainerButton = styled.div`
+export const ContainerOptions = styled.div`
+  position: absolute;
+  top: 0;
+  right: 3rem;
+  z-index: 10;
+
+
   width: 100%;
+  max-height: 15rem;
+  max-width: 12rem;
+  padding: 1rem;
+
+  background: ${({ theme }) => theme.colors.default.white};
+  box-shadow: -5px -3px 5px 0px rgba(0, 0, 0, 0.06);
+  border-radius: 0.8rem;
 
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  gap: 1rem;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+
+  div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 
   button {
-    padding: 1rem;
-    background-color: transparent;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
     border: none;
+    background: transparent;
   }
 `;

@@ -54,6 +54,7 @@ export default function useMyList() {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isCompareModalVisible, setIsCompareModalVisible] = useState(false);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [isMenuOptionsVisible, setIsMenuOptionsVisible] = useState('');
 
   const [mounted, setMounted] = useState(true);
 
@@ -142,6 +143,10 @@ export default function useMyList() {
 
   function handleTryAgain() {
     loaderList();
+  }
+
+  function handleMenuOptions(id: string) {
+    setIsMenuOptionsVisible((prevState) => (prevState === id ? '' : id));
   }
 
   function handleEditList(listEdit: ListProps) {
@@ -245,8 +250,10 @@ export default function useMyList() {
     isEditModalVisible,
     isCompareModalVisible,
     isDeleteModalVisible,
+    isMenuOptionsVisible,
     handleToogleOrderBy,
     handleTryAgain,
+    handleMenuOptions,
     handleEditList,
     handleCompareList,
     handleDeleteList,
