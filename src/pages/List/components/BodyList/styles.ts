@@ -172,6 +172,8 @@ export const Image = styled.div<ImageProps>`
   padding-top: 1rem;
 
   img {
+    max-width: 8rem;
+    max-height: 8rem;
     width: 100%;
     height: 100%;
     max-width: 8rem;

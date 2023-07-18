@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import * as S from './styles';
 
-import BodyList from '../../components/BodyList';
+import BodyList from './components/BodyList';
 import PageHeader from '../../components/PageHeader';
 import ProgressBar from '../../components/ProgressBar';
 import Button from '../../components/Button';

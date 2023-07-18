@@ -37,11 +37,15 @@ export const Bar = styled.div<BarProps>`
 
     span {
       min-width: 6rem;
+
       position: absolute;
+      text-align: center;
       top:-1.7rem;
       left: ${({ percentege }) => (percentege < 20 ? '0' : percentege)};
+
       font-size: 1.2rem;
       padding-right: 0.2rem;
+      white-space: nowrap;
 
       ${({ theme, exceededLimit }) => exceededLimit && css`color: ${theme.colors.danger.dark}`}
     }

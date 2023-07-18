@@ -21,6 +21,7 @@ import Empty from '../../assets/image/empty-box.svg';
 import Sad from '../../assets/image/icons/sad.svg';
 import Edit from '../../assets/image/icons/myList/edit.svg';
 import Compare from '../../assets/image/icons/myList/compare.svg';
+import Options from '../../assets/image/icons/myList/options.svg';
 
 export default function MyLists() {
   const {
@@ -35,8 +36,10 @@ export default function MyLists() {
     isEditModalVisible,
     isCompareModalVisible,
     isDeleteModalVisible,
+    isMenuOptionsVisible,
     handleToogleOrderBy,
     handleTryAgain,
+    handleMenuOptions,
     handleEditList,
     handleCompareList,
     handleDeleteList,
@@ -141,24 +144,39 @@ export default function MyLists() {
                     </S.Info>
                   </Link>
 
-                  <S.ContainerButton>
+                  <S.Options type="button" onClick={() => handleMenuOptions(item.id)}>
+                    <img src={Options} alt="Opções" />
+                  </S.Options>
+
+                  {isMenuOptionsVisible === item.id && (
+                  <S.ContainerOptions>
                     <button type="button" onClick={() => handleEditList(item)}>
-                      <img src={Edit} alt="Editar" />
+                      <div>
+                        <img src={Edit} alt="Editar" />
+                        <p>Editar</p>
+                      </div>
                     </button>
 
-                    {listCompate.length !== 2 && (
+                    {(listCompate.length !== 2 && item.total > 0) && (
                     <button
                       type="button"
                       onClick={(event) => handleCompareList(event, item)}
                     >
-                      <img src={Compare} alt="Comparar" />
+                      <div>
+                        <img src={Compare} alt="Comparar" />
+                        <p>Comparar</p>
+                      </div>
                     </button>
                     )}
 
                     <button type="button" onClick={() => handleDeleteList(item)}>
-                      <img src={Trash} alt="Lixeira" />
+                      <div>
+                        <img src={Trash} alt="Lixeira" />
+                        <p>Deletar</p>
+                      </div>
                     </button>
-                  </S.ContainerButton>
+                  </S.ContainerOptions>
+                  )}
                 </S.Content>
               </S.Card>
             ))}

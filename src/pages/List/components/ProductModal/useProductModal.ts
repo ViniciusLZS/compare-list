@@ -19,6 +19,7 @@ interface ProductProps {
   total: string;
   image: string;
   measureId: string;
+  measureName: string;
 }
 
 interface FormModalData {
@@ -70,6 +71,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
       setTotal(product.total ?? '');
       setImage(product.image ?? '');
       setMeasureId(product.measureId ?? '');
+      setMeasureName(product.measureName ?? '');
     },
     resetFields: () => {
       setName('');
@@ -78,6 +80,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
       setTotal('');
       setImage('');
       setMeasureId('');
+      setMeasureName('');
     },
   }));
 
@@ -138,7 +141,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
 
   useEffect(() => {
     function handleCalculateTotal() {
-      if ((amount && measureId) && value) {
+      if ((amount && measureId) && (value && measureName)) {
         const resultTotal = CalculateTotal({ value, amount, measureName });
         setTotal(resultTotal);
       }

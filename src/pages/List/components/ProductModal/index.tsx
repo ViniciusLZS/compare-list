@@ -138,20 +138,21 @@ const ProductModal = forwardRef(({
           </FormGroup>
         </S.Amount>
 
-        <FormGroup error={getErrorMessageFieldName('value')}>
-          <Input
-            label="Valor"
-            value={value}
-            maxLength={15}
-            onChange={(event) => { handleValorChange(event); }}
-            type="text"
-            placeholder="Digite aqui o valor do produto"
-            error={getErrorMessageFieldName('value')}
-            disabled={isSubmitting || !measureId}
-          />
-        </FormGroup>
+        <S.Value>
+          <FormGroup error={getErrorMessageFieldName('value')}>
+            <Input
+              label="Valor"
+              value={value}
+              maxLength={15}
+              onChange={(event) => { handleValorChange(event); }}
+              type="text"
+              placeholder="Digite aqui o valor do produto"
+              error={getErrorMessageFieldName('value')}
+              disabled={isSubmitting || !measureId}
+            />
+          </FormGroup>
 
-        {total
+          {total
         && (
         <S.TotalContainer>
           <span>Total</span>
@@ -160,6 +161,7 @@ const ProductModal = forwardRef(({
           </S.Total>
         </S.TotalContainer>
         )}
+        </S.Value>
 
         <Button
           className="positionButton"
