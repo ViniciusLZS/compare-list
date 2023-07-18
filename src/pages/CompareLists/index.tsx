@@ -62,9 +62,8 @@ export default function CompareLists() {
           });
           setProducts((prevState) => [...prevState, product]);
         }
-      } catch {} finally {
         setIsLoading(false);
-      }
+      } catch {}
     };
 
     const ids = Object.entries(params);
