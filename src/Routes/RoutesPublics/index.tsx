@@ -1,12 +1,13 @@
 import { useContext } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { AuthContext } from '../../context/AuthContext';
 
 import Logo from '../../components/Logo';
 
+import Home from '../../pages/Home';
 import SignIn from '../../pages/SignIn';
-import signUp from '../../pages/SignUp';
+import SignUp from '../../pages/SignUp';
 import Profile from '../../pages/Profile';
 import NewList from '../../pages/NewList';
 import MyLists from '../../pages/MyLists';
@@ -16,26 +17,27 @@ import Compare from '../../pages/CompareLists';
 export default function RoutesPublics() {
   const authContext = useContext(AuthContext);
   const { login } = authContext || {};
+
   return (
     <>
       <Logo />
-      {!login
-      && (
-      <>
-        <Route path="/signin" component={SignIn} />
-        <Route path="/signup" component={signUp} />
-      </>
-      )}
-
-      {login && (
-        <>
-          <Route path="/profile" component={Profile} />
-          <Route path="/newlist" component={NewList} />
-          <Route path="/mylists" component={MyLists} />
-          <Route path="/list/:id" component={List} />
-          <Route path="/compare/:id1/:id2" component={Compare} />
-        </>
-      )}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {login ? (
+          <>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/newlist" element={<NewList />} />
+            <Route path="/mylists" element={<MyLists />} />
+            <Route path="/list/:id" element={<List />} />
+            <Route path="/compare/:id1/:id2" element={<Compare />} />
+          </>
+        ) : (
+          <>
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+          </>
+        )}
+      </Routes>
     </>
   );
 }

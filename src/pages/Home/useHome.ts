@@ -1,7 +1,7 @@
 import {
   useContext, useEffect, useCallback,
 } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from '../../context/AuthContext';
 
@@ -15,13 +15,13 @@ declare global {
 
 export default function useHome() {
   const authContext = useContext(AuthContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (authContext?.login) {
-      history.push('/profile');
+      navigate('/profile');
     }
-  }, [authContext, history]);
+  }, [authContext, navigate]);
 
   const initializeGoogleOneTap = useCallback(() => {
     function handleCredentialResponse(response: any) {

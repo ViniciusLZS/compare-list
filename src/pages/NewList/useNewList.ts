@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ListService from '../../services/ListService';
 import toast from '../../utils/toast';
 
@@ -8,7 +8,7 @@ interface ListProps {
 }
 
 export default function useNewList() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const token = window.localStorage.getItem('token') ?? '';
 
   const handleSubmit = async (list: ListProps) => {
@@ -21,7 +21,7 @@ export default function useNewList() {
         duration: 5000,
       });
 
-      history.push(`/list/${newList.id}`);
+      navigate(`/list/${newList.id}`);
     } catch {
       toast({
         type: 'danger',

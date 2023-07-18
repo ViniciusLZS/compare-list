@@ -2,7 +2,7 @@ import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import ListService from '../../services/ListService';
 import ProductService from '../../services/ProductService';
@@ -17,10 +17,6 @@ interface ProductProps {
   total: number;
   measureName: string
   image: string;
-}
-
-interface ListParams {
-  id: string;
 }
 
 interface FormData {
@@ -52,13 +48,13 @@ export default function useList() {
   const [productId, setProductId] = useState('');
   const [mode, setMode] = useState('');
 
-  const { id } = useParams<ListParams>();
+  const { id } = useParams();
 
   const token = localStorage.getItem('token') ?? '';
 
   const modalFormRef = useRef<ProductModalRef | null>(null);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const loadeList = useCallback(async () => {
     try {
@@ -67,9 +63,9 @@ export default function useList() {
         setList(getList);
       }
     } catch (error) {
-      history.push('/mylists');
+      navigate('/mylists', { replace: true });
     }
-  }, [id, token, history]);
+  }, [id, token, navigate]);
 
   useEffect(() => {
     loadeList();
@@ -79,11 +75,13 @@ export default function useList() {
     try {
       setIsLoading(true);
 
-      const listProducts = await ProductService.listProducts({
-        id, token, orderBy, signal,
-      });
+      if (id) {
+        const listProducts = await ProductService.listProducts({
+          id, token, orderBy, signal,
+        });
+        setProducts(listProducts);
+      }
 
-      setProducts(listProducts);
       setHasError(false);
     } catch {
       setHasError(true);
@@ -111,7 +109,7 @@ export default function useList() {
           modalFormRef.current?.setFieldValues(product);
         }
       } catch (error) {
-        history.push('/list');
+        navigate('/list', { replace: true });
         toast({
           type: 'danger',
           text: 'Produto não encontrado',
@@ -119,7 +117,7 @@ export default function useList() {
       }
     }
     loaderGetProduct();
-  }, [productId, token, history]);
+  }, [productId, token, navigate]);
 
   useEffect(() => {
     if (submitting || hasError || products.length < 1) {

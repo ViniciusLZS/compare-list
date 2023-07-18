@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import UserService from '../../services/UserService';
 import toast from '../../utils/toast';
 
@@ -9,7 +9,7 @@ interface UserProps {
 }
 
 export default function useSignUp() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = async (User: UserProps) => {
     try {
@@ -19,7 +19,7 @@ export default function useSignUp() {
         type: 'success',
         text: 'Cadastrado com sucesso!',
       });
-      history.push('/signin');
+      navigate('/signin');
     } catch {
       toast({
         type: 'danger',
