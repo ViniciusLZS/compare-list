@@ -129,15 +129,19 @@ export const Title = styled.h3`
 `;
 
 export const Image = styled.div`
-  max-width: 5rem;
+  max-width: 6rem;
+  max-height: 5rem;
 
   img {
+    max-height: 5.5rem;
     width: 100%;
   }
 `;
 
 interface ContainerValueProps {
   lowPrice?: string | null;
+  match?: string;
+  compareValue?: string | null;
 }
 export const ContainerValue = styled.div<ContainerValueProps>`
   width: 100%;
@@ -147,12 +151,15 @@ export const ContainerValue = styled.div<ContainerValueProps>`
   gap: 1rem;
   font-size: 1.3rem;
 
-  .values {
+
+  .amount {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    gap: 0.5rem;
+    border-radius: 1rem;
+    margin: 0 1rem;
+
+    ${({ match }) => (match ? css` background:${({ theme }) => theme.colors.warning.main};` : css` background:${({ theme }) => theme.colors.primary.main};`)}
 
     span {
       display: flex;
@@ -160,6 +167,28 @@ export const ContainerValue = styled.div<ContainerValueProps>`
       justify-content: center;
     }
   }
+
+  .values {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    margin: 0 1rem;
+
+    ${({ compareValue }) => !compareValue && css` background:${({ theme }) => theme.colors.primary.main};!important`}
+
+    ${({ compareValue }) => compareValue === 'low' && css` background:${({ theme }) => theme.colors.success.main};`}
+
+    ${({ compareValue }) => compareValue === 'hight' && css` background:${({ theme }) => theme.colors.danger.light};`}
+
+    span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+
 
   .total {
     display: flex;
@@ -172,7 +201,7 @@ export const ContainerValue = styled.div<ContainerValueProps>`
 
     ${({ lowPrice }) => lowPrice === 'low' && css` background:${({ theme }) => theme.colors.success.main};`}
 
-    ${({ lowPrice }) => lowPrice === 'hight' && css` background:${({ theme }) => theme.colors.danger.main};`}
+    ${({ lowPrice }) => lowPrice === 'hight' && css` background:${({ theme }) => theme.colors.danger.light};`}
 
     span {
       display: flex;

@@ -37,6 +37,8 @@ interface ProductProps {
   measureName: string
   image: string;
   lowPrice?:string | null;
+  match?: string;
+  compareValue?:string | null;
 }
 
 export default function CompareLists() {
@@ -76,23 +78,46 @@ export default function CompareLists() {
         for (let j = 0; j < arr2.length; j++) {
           if (arr1[i].name === arr2[j].name) {
             let array;
+            let array1;
+            let array2;
+
             if (Number(arr1[i].total) < Number(arr2[j].total)) {
-              const array1 = { ...arr1[i], lowPrice: 'low' };
-              const array2 = { ...arr2[j], lowPrice: 'hight' };
+              array1 = { ...arr1[i], lowPrice: 'low' };
+              array2 = { ...arr2[j], lowPrice: 'hight' };
               array = [array1, array2];
-              arrayGlobal.push(array);
             } else
             if (Number(arr2[j].total) < Number(arr1[i].total)) {
-              const array1 = { ...arr1[i], lowPrice: 'hight' };
-              const array2 = { ...arr2[j], lowPrice: 'low' };
+              array1 = { ...arr1[i], lowPrice: 'hight' };
+              array2 = { ...arr2[j], lowPrice: 'low' };
               array = [array1, array2];
-              arrayGlobal.push(array);
             } else {
-              const array1 = { ...arr1[i], lowPrice: null };
-              const array2 = { ...arr2[j], lowPrice: null };
+              array1 = { ...arr1[i], lowPrice: null };
+              array2 = { ...arr2[j], lowPrice: null };
               array = [array1, array2];
-              arrayGlobal.push(array);
             }
+
+            if (Number(arr1[i].value) < Number(arr2[j].value)) {
+              array1 = { ...array1, compareValue: 'low' };
+              array2 = { ...array2, compareValue: 'hight' };
+              array = [array1, array2];
+            } else
+            if (Number(arr2[j].value) < Number(arr1[i].value)) {
+              array1 = { ...array1, compareValue: 'hight' };
+              array2 = { ...array2, compareValue: 'low' };
+              array = [array1, array2];
+            } else {
+              array1 = { ...array1, compareValue: null };
+              array2 = { ...array2, compareValue: null };
+              array = [array1, array2];
+            }
+
+            if ((arr1[i].amount !== arr2[j].amount)
+             || (arr1[i].measureName !== arr2[j].measureName)) {
+              array1 = { ...array1, match: 'false' };
+              array2 = { ...array2, match: 'false' };
+              array = [array1, array2];
+            }
+            arrayGlobal.push(array);
           }
         }
       }
@@ -171,12 +196,21 @@ export default function CompareLists() {
                       />
                     </S.Image>
 
-                    <S.ContainerValue lowPrice={product[0].lowPrice}>
-                      <div className="values">
+                    <S.ContainerValue
+                      match={product[0].match}
+                      compareValue={product[0].compareValue}
+                      lowPrice={product[0].lowPrice}
+                    >
+                      <div className="amount">
                         <span>
                           {`${product[0].amount} ${product[0].measureName || 'Medida'}`}
                         </span>
-                        <span>{product[0].value !== null ? maskMoney(product[0].value.toString()) : 'R$ 0,00'}</span>
+                      </div>
+
+                      <div className="values">
+                        <span>
+                          {product[0].value !== null ? maskMoney(product[0].value.toString()) : 'R$ 0,00'}
+                        </span>
                       </div>
 
                       <div className="total">
@@ -203,12 +237,21 @@ export default function CompareLists() {
                       />
                     </S.Image>
 
-                    <S.ContainerValue lowPrice={product[1].lowPrice}>
-                      <div className="values">
+                    <S.ContainerValue
+                      match={product[1].match}
+                      compareValue={product[1].compareValue}
+                      lowPrice={product[1].lowPrice}
+                    >
+                      <div className="amount">
                         <span>
                           {`${product[1].amount} ${product[1].measureName || 'Medida'}`}
                         </span>
-                        <span>{product[1].value !== null ? maskMoney(product[1].value.toString()) : 'R$ 0,00'}</span>
+                      </div>
+
+                      <div className="values">
+                        <span>
+                          {product[1].value !== null ? maskMoney(product[1].value.toString()) : 'R$ 0,00'}
+                        </span>
                       </div>
 
                       <div className="total">
@@ -216,7 +259,7 @@ export default function CompareLists() {
                       </div>
                     </S.ContainerValue>
                   </>
-                ) : <p>Não existe produto para similar</p>}
+                ) : <p>Não foi encontrar um nome igual para comparar.</p>}
               </S.CardSmall>
             </S.Card>
           ))}

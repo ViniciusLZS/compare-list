@@ -20,6 +20,10 @@ export default {
       dark: '#F63131',
     },
 
+    warning: {
+      main: '#F2CB05',
+    },
+
     success: {
       main: '#51CA73',
     },
