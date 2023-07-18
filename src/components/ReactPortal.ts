@@ -1,9 +1,8 @@
-import { ReactNode } from 'react';
 import ReactDom from 'react-dom';
 
 interface ReactPortalProps {
   containerId?: string;
-  children: ReactNode;
+  children: any;
 }
 
 export default function ReactPortal({ containerId = 'portal-root', children }: ReactPortalProps) {

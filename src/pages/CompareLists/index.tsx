@@ -12,11 +12,6 @@ import ProductService from '../../services/ProductService';
 import imageNotFound from '../../assets/image/imageNotFound.svg';
 import Loader from '../../components/Loader';
 
-interface Params {
-  id1: string;
-  id2: string;
-}
-
 interface ListProps {
   id: string;
   name: string;
@@ -48,23 +43,25 @@ export default function CompareLists() {
 
   const token = localStorage.getItem('token') || '';
 
-  const params = useParams<Params>();
+  const params = useParams();
 
   useEffect(() => {
     const controller = new AbortController();
 
-    const handleList = async (id: string) => {
+    const handleList = async (id: string | undefined) => {
       try {
         setIsLoading(true);
-        const list = await ListService.getList({ id, token, signal: controller.signal });
-        setLists((prevState) => [...prevState, list]);
+        if (id) {
+          const list = await ListService.getList({ id, token, signal: controller.signal });
+          setLists((prevState) => [...prevState, list]);
 
-        const product: ProductProps[] = await ProductService.listProducts({
-          id,
-          token,
-          signal: controller.signal,
-        });
-        setProducts((prevState) => [...prevState, product]);
+          const product: ProductProps[] = await ProductService.listProducts({
+            id,
+            token,
+            signal: controller.signal,
+          });
+          setProducts((prevState) => [...prevState, product]);
+        }
       } catch {} finally {
         setIsLoading(false);
       }
