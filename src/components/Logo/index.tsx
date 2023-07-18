@@ -1,15 +1,17 @@
-import PropTypes from 'prop-types';
-
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import * as S from './styles';
 
 import LogoSvg from '../../assets/image/logo.svg';
 import ArrowBack from '../../assets/image/icons/arrow.svg';
 import Menu from '../Menu';
 
-export default function Logo({ size = 32 }) {
+export default function Logo({ size = 100 }) {
   function handleBack() {
     window.history.back();
+  }
+  const { pathname } = useLocation();
+  if (pathname.length === 1) {
+    return null;
   }
 
   return (
@@ -27,11 +29,3 @@ export default function Logo({ size = 32 }) {
     </S.Container>
   );
 }
-
-Logo.propTypes = {
-  size: PropTypes.number,
-};
-
-Logo.defaultProps = {
-  size: 100,
-};

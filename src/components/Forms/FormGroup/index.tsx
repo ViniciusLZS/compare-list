@@ -1,10 +1,9 @@
-import PropTypes from 'prop-types';
 import { ReactNode } from 'react';
 
 import * as S from './styles';
 
 export default function FormGroup({ children, error = null }
-  : {children: ReactNode, error: string | null}) {
+  : {children: ReactNode, error?: string | null}) {
   return (
     <S.Container>
       <div className="form-item">
@@ -14,12 +13,3 @@ export default function FormGroup({ children, error = null }
     </S.Container>
   );
 }
-
-FormGroup.propTypes = {
-  children: PropTypes.node.isRequired,
-  error: PropTypes.string,
-};
-
-FormGroup.defaultProps = {
-  error: null,
-};
