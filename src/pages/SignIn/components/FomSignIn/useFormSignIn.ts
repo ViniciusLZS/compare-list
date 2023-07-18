@@ -1,5 +1,5 @@
 import {
-  useContext, useEffect, useState, ChangeEvent, FormEvent,
+  useContext, useState, ChangeEvent, FormEvent,
 } from 'react';
 
 import useErrors from '../../../../hooks/useErrors';
@@ -11,7 +11,6 @@ export default function useFormSignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isMounted, setIsMounted] = useState(true);
 
   const {
     errors, setError, removeError, getErrorMessageFieldName,
@@ -58,14 +57,8 @@ export default function useFormSignIn() {
       });
     }
 
-    if (isMounted) {
-      setIsSubmitting(false);
-    }
+    setIsSubmitting(false);
   }
-
-  useEffect(() => () => {
-    setIsMounted(false);
-  }, []);
 
   return {
     handleSubmit,

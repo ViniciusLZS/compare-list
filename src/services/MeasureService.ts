@@ -9,11 +9,12 @@ class MeasureService {
     this.httpClient = new HttpClient(baseURL());
   }
 
-  async listMeasures(token: string) {
+  async listMeasures(token: string, signal?: any) {
     const measures = await this.httpClient.get('/measure', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      signal,
     });
 
     return measures.map(MeasureMapper.toDomain);

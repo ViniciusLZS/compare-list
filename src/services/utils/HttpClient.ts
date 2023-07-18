@@ -11,11 +11,13 @@ class HttpClient {
   get(path: string, options: {
     headers: {
       Authorization: string
-    }
+    };
+    signal?: any;
   }) {
     return this.makeRequest(path, {
       method: 'GET',
       headers: options?.headers,
+      signal: options?.signal,
     });
   }
 
@@ -61,9 +63,10 @@ class HttpClient {
   }
 
   async makeRequest(path: string, options: {
-    method: string
-    body?: {[key: string]: string | number | boolean;}| null
-    headers?: {Authorization: string} | null
+    method: string;
+    body?: {[key: string]: string | number | boolean;}| null;
+    headers?: {Authorization: string} | null;
+    signal?: any;
   }) {
     await delay(500);
 
@@ -83,6 +86,7 @@ class HttpClient {
       method: options.method,
       body: JSON.stringify(options.body),
       headers,
+      signal: options.signal,
     });
 
     let responseBody = null;

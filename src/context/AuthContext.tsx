@@ -2,7 +2,7 @@ import {
   createContext, useCallback, useEffect, useMemo, useState, ReactNode,
 } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import UserService from '../services/UserService';
 import toast from '../utils/toast';
@@ -27,12 +27,14 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   const [user, setUser] = useState<null | User>(null);
   const [login, setLogin] = useState(false);
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const getToken = useCallback(async (token: string) => {
-    const response = await UserService.getUser(token);
-    setUser(response);
-    setLogin(true);
+    try {
+      const response = await UserService.getUser(token);
+      setUser(response);
+      setLogin(true);
+    } catch {}
   }, []);
 
   const userLoginGoogle = useCallback(async (formData
@@ -48,8 +50,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         type: 'success',
         text: 'Login feito com sucesso!',
       });
-
-      history.push('/profile');
+      navigate('/profile', { replace: true });
     } catch (error) {
       setLogin(false);
       toast({
@@ -57,7 +58,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         text: 'Email ou senha invalido!',
       });
     }
-  }, [getToken, history]);
+  }, [getToken, navigate]);
 
   const userLogin = useCallback(async (formData: {
     email: string
@@ -75,7 +76,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         text: 'Login feito com sucesso!',
       });
 
-      history.push('/profile');
+      navigate('/profile', { replace: true });
     } catch (error) {
       setLogin(false);
       toast({
@@ -83,15 +84,15 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         text: 'Email ou senha invalido!',
       });
     }
-  }, [getToken, history]);
+  }, [getToken, navigate]);
 
   const userLogout = useCallback(
     () => {
       setLogin(false);
       window.localStorage.removeItem('token');
-      history.push('/');
+      navigate('/', { replace: true });
     },
-    [history],
+    [navigate],
   );
 
   const autoLogin = useCallback(async () => {
@@ -102,9 +103,9 @@ export function AuthProvider({ children }: {children: ReactNode}) {
       }
     } catch {
       setLogin(false);
-      history.push('/');
+      navigate('/', { replace: true });
     }
-  }, [getToken, history]);
+  }, [getToken, navigate]);
 
   useEffect(() => {
     autoLogin();

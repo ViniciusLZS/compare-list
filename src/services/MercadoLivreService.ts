@@ -8,11 +8,12 @@ class CategoriesService {
     this.httpClient = new HttpClient(baseURL());
   }
 
-  listAllCategories(token: string) {
+  listAllCategories(token: string, signal?: any) {
     return this.httpClient.get('/api/categories', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      signal,
     });
   }
 

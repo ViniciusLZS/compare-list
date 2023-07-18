@@ -12,11 +12,6 @@ import ProductService from '../../services/ProductService';
 import imageNotFound from '../../assets/image/imageNotFound.svg';
 import Loader from '../../components/Loader';
 
-interface Params {
-  id1: string;
-  id2: string;
-}
-
 interface ListProps {
   id: string;
   name: string;
@@ -48,26 +43,37 @@ export default function CompareLists() {
 
   const token = localStorage.getItem('token') || '';
 
-  const params = useParams<Params>();
+  const params = useParams();
 
   useEffect(() => {
-    const handleList = async (id: string) => {
+    const controller = new AbortController();
+
+    const handleList = async (id: string | undefined) => {
       try {
         setIsLoading(true);
-        const list = await ListService.getList({ id, token });
-        setLists((prevState) => [...prevState, list]);
+        if (id) {
+          const list = await ListService.getList({ id, token, signal: controller.signal });
+          setLists((prevState) => [...prevState, list]);
 
-        const product: ProductProps[] = await ProductService.listProducts({ id, token });
-        setProducts((prevState) => [...prevState, product]);
-      } catch {} finally {
+          const product: ProductProps[] = await ProductService.listProducts({
+            id,
+            token,
+            signal: controller.signal,
+          });
+          setProducts((prevState) => [...prevState, product]);
+        }
         setIsLoading(false);
-      }
+      } catch {}
     };
 
     const ids = Object.entries(params);
     ids.forEach((id) => {
       handleList(id[1]);
     });
+
+    return () => {
+      controller.abort();
+    };
   }, [params, token]);
 
   const compareArrays = (arr1: ProductProps[], arr2: ProductProps[]) => {
@@ -86,30 +92,30 @@ export default function CompareLists() {
               array2 = { ...arr2[j], lowPrice: 'hight' };
               array = [array1, array2];
             } else
-            if (Number(arr2[j].total) < Number(arr1[i].total)) {
-              array1 = { ...arr1[i], lowPrice: 'hight' };
-              array2 = { ...arr2[j], lowPrice: 'low' };
-              array = [array1, array2];
-            } else {
-              array1 = { ...arr1[i], lowPrice: null };
-              array2 = { ...arr2[j], lowPrice: null };
-              array = [array1, array2];
-            }
+              if (Number(arr2[j].total) < Number(arr1[i].total)) {
+                array1 = { ...arr1[i], lowPrice: 'hight' };
+                array2 = { ...arr2[j], lowPrice: 'low' };
+                array = [array1, array2];
+              } else {
+                array1 = { ...arr1[i], lowPrice: null };
+                array2 = { ...arr2[j], lowPrice: null };
+                array = [array1, array2];
+              }
 
             if (Number(arr1[i].value) < Number(arr2[j].value)) {
               array1 = { ...array1, compareValue: 'low' };
               array2 = { ...array2, compareValue: 'hight' };
               array = [array1, array2];
             } else
-            if (Number(arr2[j].value) < Number(arr1[i].value)) {
-              array1 = { ...array1, compareValue: 'hight' };
-              array2 = { ...array2, compareValue: 'low' };
-              array = [array1, array2];
-            } else {
-              array1 = { ...array1, compareValue: null };
-              array2 = { ...array2, compareValue: null };
-              array = [array1, array2];
-            }
+              if (Number(arr2[j].value) < Number(arr1[i].value)) {
+                array1 = { ...array1, compareValue: 'hight' };
+                array2 = { ...array2, compareValue: 'low' };
+                array = [array1, array2];
+              } else {
+                array1 = { ...array1, compareValue: null };
+                array2 = { ...array2, compareValue: null };
+                array = [array1, array2];
+              }
 
             if ((arr1[i].amount !== arr2[j].amount)
              || (arr1[i].measureName !== arr2[j].measureName)) {

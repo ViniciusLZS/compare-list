@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as S from './styles';
 
 import formatDate from '../../../../utils/formatDate';
@@ -29,10 +29,10 @@ export default function ModalCompare({
   isVisible,
   onCloseModal,
 }: ModalCompareProps) {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handlePageCompare = () => {
-    history.push(`/compare/${listCompate[0]?.id}/${listCompate[1]?.id}`);
+    navigate(`/compare/${listCompate[0]?.id}/${listCompate[1]?.id}`);
   };
 
   if (!isVisible) {

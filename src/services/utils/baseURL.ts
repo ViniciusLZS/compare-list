@@ -1,6 +1,6 @@
 export default function baseURL() {
   const local = window.location.origin;
-  let baseURLs;
+  let baseURLs = 'http://localhost:3001';
   if (local === 'http://localhost:3001') {
     baseURLs = 'http://localhost:3001';
   } else {

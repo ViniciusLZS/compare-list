@@ -2,7 +2,7 @@ import {
   useCallback, useEffect, useRef, useState,
 } from 'react';
 
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import ListService from '../../services/ListService';
 import ProductService from '../../services/ProductService';
@@ -17,10 +17,6 @@ interface ProductProps {
   total: number;
   measureName: string
   image: string;
-}
-
-interface ListParams {
-  id: string;
 }
 
 interface FormData {
@@ -52,20 +48,41 @@ export default function useList() {
   const [productId, setProductId] = useState('');
   const [mode, setMode] = useState('');
 
-  const { id } = useParams<ListParams>();
-  const token = localStorage.getItem('token') ?? '';
-  const modalFormRef = useRef<ProductModalRef | null>(null);
-  const history = useHistory();
+  const { id } = useParams();
 
-  const loadeProducts = useCallback(async () => {
+  const token = localStorage.getItem('token') ?? '';
+
+  const modalFormRef = useRef<ProductModalRef | null>(null);
+
+  const navigate = useNavigate();
+
+  const loadeList = useCallback(async () => {
+    try {
+      if (token && id) {
+        const getList = await ListService.getList({ id, token });
+        setList(getList);
+      }
+    } catch (error) {
+      navigate('/mylists', { replace: true });
+    }
+  }, [id, token, navigate]);
+
+  useEffect(() => {
+    loadeList();
+  }, [loadeList, products]);
+
+  const loadeProducts = useCallback(async (signal?: any) => {
     try {
       setIsLoading(true);
 
-      const listProducts = await ProductService.listProducts({ id, token, orderBy });
+      if (id) {
+        const listProducts = await ProductService.listProducts({
+          id, token, orderBy, signal,
+        });
+        setProducts(listProducts);
+      }
 
       setHasError(false);
-
-      setProducts(listProducts);
     } catch {
       setHasError(true);
     } finally {
@@ -74,52 +91,33 @@ export default function useList() {
   }, [id, orderBy, token]);
 
   useEffect(() => {
-    loadeProducts();
+    const controller = new AbortController();
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    return () => { };
+    loadeProducts(controller.signal);
+
+    return () => {
+      controller.abort();
+    };
   }, [loadeProducts, submitting]);
 
-  const loadeList = useCallback(async () => {
-    try {
-      if (token) {
-        const getList = await ListService.getList({ id, token });
-        setList(getList);
-      }
-    } catch (error) {
-      history.push('/mylists');
-    }
-  }, [id, token, history]);
   useEffect(() => {
-    loadeList();
-  }, [loadeList, products]);
-
-  useEffect(() => {
-    let isMounted = true;
     async function loaderGetProduct() {
       try {
         if (productId) {
           const product = await ProductService.getProduct({ productId, token });
-          if (isMounted) {
-            modalFormRef.current?.setFieldValues(product);
-          }
+
+          modalFormRef.current?.setFieldValues(product);
         }
       } catch (error) {
-        if (isMounted) {
-          history.push('/list');
-          toast({
-            type: 'danger',
-            text: 'Produto não encontrado',
-          });
-        }
+        navigate('/list', { replace: true });
+        toast({
+          type: 'danger',
+          text: 'Produto não encontrado',
+        });
       }
     }
     loaderGetProduct();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [productId, token, history]);
+  }, [productId, token, navigate]);
 
   useEffect(() => {
     if (submitting || hasError || products.length < 1) {

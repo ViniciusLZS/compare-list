@@ -55,7 +55,7 @@ const ProductModal = forwardRef(({
     handleProductSelect,
     handleValorChange,
     handleAmountChange,
-  } = useProductModal({ onSubmit, ref });
+  } = useProductModal({ onSubmit, ref, isVisible });
 
   return (
 

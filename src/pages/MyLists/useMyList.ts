@@ -56,8 +56,6 @@ export default function useMyList() {
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [isMenuOptionsVisible, setIsMenuOptionsVisible] = useState('');
 
-  const [mounted, setMounted] = useState(true);
-
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
   const [listBeingDeleted, setListBeingDeleted] = useState<ListBeingProps | null>(null);
   const [listCompate, setListCompate] = useState <ListProps[]>([]);
@@ -67,34 +65,30 @@ export default function useMyList() {
 
   const token = localStorage.getItem('token') ?? '';
 
-  const loaderList = useCallback(async () => {
+  const loaderList = useCallback(async (signal?: any) => {
     try {
       setIsLoading(true);
 
-      const listAll = await ListService.listAll({ orderBy, token });
+      const listAll = await ListService.listAll({ orderBy, token, signal });
 
-      if (mounted) {
-        setLists(listAll);
-        setHasError(false);
-      }
+      setLists(listAll);
+      setHasError(false);
     } catch (error) {
-      if (mounted) {
-        setHasError(true);
-      }
+      setHasError(true);
     } finally {
-      if (mounted) {
-        setIsLoading(false);
-      }
+      setIsLoading(false);
     }
-  }, [orderBy, token, mounted]);
+  }, [orderBy, token]);
 
   useEffect(() => {
-    loaderList();
-  }, [loaderList, submitting]);
+    const controller = new AbortController();
 
-  useEffect(() => () => {
-    setMounted(false);
-  }, []);
+    loaderList(controller.signal);
+
+    return () => {
+      controller.abort();
+    };
+  }, [loaderList, submitting]);
 
   useEffect(() => {
     let isMounted = true;

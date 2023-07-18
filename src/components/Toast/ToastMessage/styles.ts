@@ -55,7 +55,7 @@ export const Container = styled.div<ContainerProps>`
   cursor: pointer;
 
   animation: ${messageIn} 0.3s;
-  ${({ isLeaving }) => isLeaving && css` animation: ${messageOut} 0.3s; `}
+  ${({ isLeaving }) => isLeaving && css` animation: ${messageOut} 0.3s forwards;`}
 
   ${({ type }) => containerVariants[type] || containerVariants.default};
 

@@ -40,7 +40,7 @@ export const Overlay = styled.div`
   overflow-y: scroll;
 
   animation: ${fadeIn} 0.3s;
-  ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${fadeOut} 0.3s; `}
+  ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${fadeOut} 0.3s forwards; `}
 `;
 
 interface ConatinerProps {
@@ -60,7 +60,7 @@ export const Container = styled.div<ConatinerProps>`
   position: relative;
 
   animation: ${scaleIn} 0.3s;
-  ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${scaleOut} 0.3s; `}
+  ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${scaleOut} 0.3s forwards; `}
 
   > h1 {
     padding-left: 1rem;
