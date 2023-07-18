@@ -30,9 +30,11 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   const history = useHistory();
 
   const getToken = useCallback(async (token: string) => {
-    const response = await UserService.getUser(token);
-    setUser(response);
-    setLogin(true);
+    try {
+      const response = await UserService.getUser(token);
+      setUser(response);
+      setLogin(true);
+    } catch {}
   }, []);
 
   const userLoginGoogle = useCallback(async (formData

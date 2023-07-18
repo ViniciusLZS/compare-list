@@ -53,19 +53,38 @@ export default function useList() {
   const [mode, setMode] = useState('');
 
   const { id } = useParams<ListParams>();
+
   const token = localStorage.getItem('token') ?? '';
+
   const modalFormRef = useRef<ProductModalRef | null>(null);
+
   const history = useHistory();
 
-  const loadeProducts = useCallback(async () => {
+  const loadeList = useCallback(async () => {
+    try {
+      if (token && id) {
+        const getList = await ListService.getList({ id, token });
+        setList(getList);
+      }
+    } catch (error) {
+      history.push('/mylists');
+    }
+  }, [id, token, history]);
+
+  useEffect(() => {
+    loadeList();
+  }, [loadeList, products]);
+
+  const loadeProducts = useCallback(async (signal?: any) => {
     try {
       setIsLoading(true);
 
-      const listProducts = await ProductService.listProducts({ id, token, orderBy });
-
-      setHasError(false);
+      const listProducts = await ProductService.listProducts({
+        id, token, orderBy, signal,
+      });
 
       setProducts(listProducts);
+      setHasError(false);
     } catch {
       setHasError(true);
     } finally {
@@ -74,51 +93,32 @@ export default function useList() {
   }, [id, orderBy, token]);
 
   useEffect(() => {
-    loadeProducts();
+    const controller = new AbortController();
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    return () => { };
+    loadeProducts(controller.signal);
+
+    return () => {
+      controller.abort();
+    };
   }, [loadeProducts, submitting]);
 
-  const loadeList = useCallback(async () => {
-    try {
-      if (token) {
-        const getList = await ListService.getList({ id, token });
-        setList(getList);
-      }
-    } catch (error) {
-      history.push('/mylists');
-    }
-  }, [id, token, history]);
   useEffect(() => {
-    loadeList();
-  }, [loadeList, products]);
-
-  useEffect(() => {
-    let isMounted = true;
     async function loaderGetProduct() {
       try {
         if (productId) {
           const product = await ProductService.getProduct({ productId, token });
-          if (isMounted) {
-            modalFormRef.current?.setFieldValues(product);
-          }
+
+          modalFormRef.current?.setFieldValues(product);
         }
       } catch (error) {
-        if (isMounted) {
-          history.push('/list');
-          toast({
-            type: 'danger',
-            text: 'Produto não encontrado',
-          });
-        }
+        history.push('/list');
+        toast({
+          type: 'danger',
+          text: 'Produto não encontrado',
+        });
       }
     }
     loaderGetProduct();
-
-    return () => {
-      isMounted = false;
-    };
   }, [productId, token, history]);
 
   useEffect(() => {

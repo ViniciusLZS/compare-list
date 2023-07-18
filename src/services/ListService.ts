@@ -9,21 +9,23 @@ class ListService {
     this.httpClient = new HttpClient(baseURL());
   }
 
-  async listAll({ token, orderBy = 'created_at' }: {token: string; orderBy: string;}) {
+  async listAll({ token, orderBy = 'created_at', signal }: {token: string; orderBy: string; signal: any}) {
     const lists = await this.httpClient.get(`/list/user?orderBy=${orderBy}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      signal,
     });
 
     return lists.map(ListMapper.toDomain);
   }
 
-  async getList({ id, token }: {id: string; token: string;}) {
+  async getList({ id, token, signal }: {id: string; token: string; signal?: any}) {
     const list = await this.httpClient.get(`/list/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      signal,
     });
 
     return ListMapper.toDomain(list);

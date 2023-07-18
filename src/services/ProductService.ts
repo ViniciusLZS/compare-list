@@ -9,13 +9,16 @@ class ProductService {
     this.httpClient = new HttpClient(baseURL());
   }
 
-  async listProducts({ id, orderBy = 'ASC', token }: {
-    id: string; orderBy?: string; token: string;
+  async listProducts({
+    id, orderBy = 'ASC', token, signal,
+  }: {
+    id: string; orderBy?: string; token: string; signal?: any;
   }) {
     const products = await this.httpClient.get(`/product/list/${id}?orderBy=${orderBy}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      signal,
     });
 
     return products.map(ProductMapper.toDomain);

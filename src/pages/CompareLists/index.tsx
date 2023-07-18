@@ -51,13 +51,19 @@ export default function CompareLists() {
   const params = useParams<Params>();
 
   useEffect(() => {
+    const controller = new AbortController();
+
     const handleList = async (id: string) => {
       try {
         setIsLoading(true);
-        const list = await ListService.getList({ id, token });
+        const list = await ListService.getList({ id, token, signal: controller.signal });
         setLists((prevState) => [...prevState, list]);
 
-        const product: ProductProps[] = await ProductService.listProducts({ id, token });
+        const product: ProductProps[] = await ProductService.listProducts({
+          id,
+          token,
+          signal: controller.signal,
+        });
         setProducts((prevState) => [...prevState, product]);
       } catch {} finally {
         setIsLoading(false);
@@ -68,6 +74,10 @@ export default function CompareLists() {
     ids.forEach((id) => {
       handleList(id[1]);
     });
+
+    return () => {
+      controller.abort();
+    };
   }, [params, token]);
 
   const compareArrays = (arr1: ProductProps[], arr2: ProductProps[]) => {

@@ -33,10 +33,11 @@ interface FormModalData {
 
 interface useProductModalProps {
   onSubmit: (formData: FormModalData) => Promise<void>;
-  ref: React.ForwardedRef<any>
+  ref: React.ForwardedRef<any>;
+  isVisible: boolean
 }
 
-export default function useProductModal({ onSubmit, ref }: useProductModalProps) {
+export default function useProductModal({ onSubmit, ref, isVisible }: useProductModalProps) {
   const [name, setName] = useState('');
   const [value, setValue] = useState('');
   const [amount, setAmount] = useState('');
@@ -52,7 +53,7 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [mounted, setIsMounted] = useState(true);
+
   const [dropdown, setDropdown] = useState(true);
 
   const {
@@ -85,10 +86,15 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
   }));
 
   useEffect(() => {
+    const controller = new AbortController();
     async function loadCategories() {
       try {
-        const categoriesList = await MercadoLivreService.listAllCategories(token);
-        if (mounted) {
+        if (isVisible) {
+          const categoriesList = await MercadoLivreService.listAllCategories(
+            token,
+            controller.signal,
+          );
+
           setCategories(categoriesList);
         }
       } catch { }
@@ -97,8 +103,9 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
 
     async function loadMeasures() {
       try {
-        const measuresList = await MeasureService.listMeasures(token);
-        if (mounted) {
+        if (isVisible) {
+          const measuresList = await MeasureService.listMeasures(token, controller.signal);
+
           setMeasures(measuresList);
         }
       } catch { }
@@ -106,9 +113,9 @@ export default function useProductModal({ onSubmit, ref }: useProductModalProps)
     loadMeasures();
 
     return () => {
-      setIsMounted(false);
+      controller.abort();
     };
-  }, [token, mounted]);
+  }, [token, isVisible]);
 
   useEffect(() => {
     async function handleSubmitProduct() {
