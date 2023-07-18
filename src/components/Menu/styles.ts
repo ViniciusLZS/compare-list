@@ -38,7 +38,7 @@ export const Dropdown = styled.div`
   z-index: 100;
 
   animation: ${dropdownIn} 0.3s;
-  ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${dropdownOut} 0.3s; `}
+  ${({ isLeaving }: {isLeaving: boolean}) => isLeaving && css` animation: ${dropdownOut} 0.3s forwards;`}
 
   position: absolute;
   right: 2rem;
