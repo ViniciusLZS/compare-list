@@ -50,8 +50,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         type: 'success',
         text: 'Login feito com sucesso!',
       });
-
-      navigate('/profile');
+      navigate('/profile', { replace: true });
     } catch (error) {
       setLogin(false);
       toast({
@@ -77,7 +76,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
         text: 'Login feito com sucesso!',
       });
 
-      navigate('/profile');
+      navigate('/profile', { replace: true });
     } catch (error) {
       setLogin(false);
       toast({
@@ -91,7 +90,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
     () => {
       setLogin(false);
       window.localStorage.removeItem('token');
-      navigate('/');
+      navigate('/', { replace: true });
     },
     [navigate],
   );
@@ -104,7 +103,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
       }
     } catch {
       setLogin(false);
-      navigate('/');
+      navigate('/', { replace: true });
     }
   }, [getToken, navigate]);
 
