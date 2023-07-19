@@ -59,7 +59,7 @@ export default function useHome() {
   }, [authContext]);
 
   useEffect(() => {
-    window.onload = initializeGoogleOneTap;
+    initializeGoogleOneTap();
   }, [initializeGoogleOneTap]);
 
   return {
