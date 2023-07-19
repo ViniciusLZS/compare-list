@@ -22,6 +22,7 @@ import Sad from '../../assets/image/icons/sad.svg';
 import Edit from '../../assets/image/icons/myList/edit.svg';
 import Compare from '../../assets/image/icons/myList/compare.svg';
 import Options from '../../assets/image/icons/myList/options.svg';
+import Copy from '../../assets/image/icons/myList/copy.svg';
 
 export default function MyLists() {
   const {
@@ -41,6 +42,7 @@ export default function MyLists() {
     handleTryAgain,
     handleMenuOptions,
     handleEditList,
+    handleCopyList,
     handleCompareList,
     handleDeleteList,
     handleConfirmDeleteList,
@@ -154,6 +156,13 @@ export default function MyLists() {
                       <div>
                         <img src={Edit} alt="Editar" />
                         <p>Editar</p>
+                      </div>
+                    </button>
+
+                    <button type="button" onClick={() => handleCopyList(item)}>
+                      <div>
+                        <img src={Copy} alt="Copiar" />
+                        <p>Copiar</p>
                       </div>
                     </button>
 

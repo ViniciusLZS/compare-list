@@ -140,6 +140,25 @@ export default function useMyList() {
     setIsEditModalVisible(true);
   }
 
+  async function handleCopyList(listCopy: ListProps) {
+    try {
+      setIsMenuOptionsVisible('');
+      setIsLoading(true);
+      await ListService.copyList({ token, id: listCopy.id });
+      loaderList();
+
+      toast({
+        type: 'success',
+        text: 'Copia feita com sucesso.',
+      });
+    } catch {
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao fazer a copia.',
+      });
+    } finally { setIsLoading(false); }
+  }
+
   function handleCompareList(
     event: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>,
     listCompare: ListProps,
@@ -241,6 +260,7 @@ export default function useMyList() {
     handleTryAgain,
     handleMenuOptions,
     handleEditList,
+    handleCopyList,
     handleCompareList,
     handleDeleteList,
     handleConfirmDeleteList,
