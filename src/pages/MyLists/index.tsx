@@ -151,7 +151,7 @@ export default function MyLists() {
                   </S.Options>
                   )}
 
-                  {listCompate.length === 1 && (
+                  {listCompate.length === 1 && item.total > 0 && (
                     <S.Options
                       className="compare"
                       type="button"
