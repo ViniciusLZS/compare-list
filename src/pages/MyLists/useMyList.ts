@@ -70,7 +70,6 @@ export default function useMyList() {
       setIsLoading(true);
 
       const listAll = await ListService.listAll({ orderBy, token, signal });
-
       setLists(listAll);
       setHasError(false);
     } catch (error) {
@@ -91,29 +90,21 @@ export default function useMyList() {
   }, [loaderList, submitting]);
 
   useEffect(() => {
-    let isMounted = true;
     async function loaderGetProduct() {
       try {
         if (list) {
           const listEdit = await ListService.getList({ id: list.id, token });
-          if (isMounted) {
-            modalFormRef.current?.setFieldValues(listEdit);
-          }
+
+          modalFormRef.current?.setFieldValues(listEdit);
         }
       } catch (error) {
-        if (isMounted) {
-          toast({
-            type: 'danger',
-            text: 'Produto não encontrado',
-          });
-        }
+        toast({
+          type: 'danger',
+          text: 'Produto não encontrado',
+        });
       }
     }
     loaderGetProduct();
-
-    return () => {
-      isMounted = false;
-    };
   }, [list, token]);
 
   useEffect(() => {
