@@ -98,14 +98,14 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   const autoLogin = useCallback(async () => {
     try {
       const token = window.localStorage.getItem('token');
-      if (token) {
+      if (token && !login) {
         await getToken(token);
       }
     } catch {
       setLogin(false);
       navigate('/', { replace: true });
     }
-  }, [getToken, navigate]);
+  }, [getToken, navigate, login]);
 
   useEffect(() => {
     autoLogin();
