@@ -150,7 +150,7 @@ export default function useMyList() {
   }
 
   function handleCompareList(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>,
     listCompare: ListProps,
   ) {
     const parentDiv = event.currentTarget.parentNode;
@@ -162,6 +162,7 @@ export default function useMyList() {
     setListCompate((prevState) => [...prevState, listCompare]);
 
     setIsCompareModalVisible(true);
+    setIsMenuOptionsVisible('');
   }
 
   function handleCloseCompareModal() {

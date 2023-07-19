@@ -53,7 +53,7 @@ export default function ModalCompare({
           </div>
           <img src={Compare} alt="fechar" />
           <div>
-            <span>{listCompate[1]?.name}</span>
+            <span>{listCompate[1]?.name ? listCompate[1]?.name : 'Selecione outra lista.' }</span>
             {listCompate[1] && <span>{formatDate(listCompate[1]?.createdAt)}</span>}
           </div>
         </S.Info>
