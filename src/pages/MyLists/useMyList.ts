@@ -164,10 +164,18 @@ export default function useMyList() {
     event: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>,
     listCompare: ListProps,
   ) {
-    const parentDiv = event.currentTarget.parentNode;
-    const grandparentElement = parentDiv?.parentNode?.parentElement;
-    if (grandparentElement) {
-      setElementSelectCompate((prevState) => [...prevState, grandparentElement]);
+    if (listCompate.length < 1) {
+      const parentDiv = event.currentTarget.parentNode;
+      const grandparentElement = parentDiv?.parentNode?.parentElement;
+      if (grandparentElement) {
+        setElementSelectCompate(() => [grandparentElement]);
+      }
+    } else {
+      const parentDiv = event.currentTarget.parentNode;
+      const grandparentElement = parentDiv?.parentElement;
+      if (grandparentElement) {
+        setElementSelectCompate((prevState) => [...prevState, grandparentElement]);
+      }
     }
 
     setListCompate((prevState) => [...prevState, listCompare]);

@@ -5,7 +5,7 @@ import formatDate from '../../../../utils/formatDate';
 
 import Close from '../../../../assets/image/icons/close.svg';
 import Compare from '../../../../assets/image/icons/myList/compare.svg';
-import Button from '../../../../components/Button';
+import Check from '../../../../assets/image/icons/myList/check.svg';
 
 interface ListProps {
   id: string;
@@ -60,11 +60,12 @@ export default function ModalCompare({
 
         {listCompate.length === 2
         && (
-        <Button
+        <button
+          type="button"
           onClick={handlePageCompare}
         >
-          Pronto!
-        </Button>
+          <img src={Check} alt="Verificação" />
+        </button>
         )}
       </S.Content>
     </S.Container>

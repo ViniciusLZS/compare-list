@@ -142,13 +142,24 @@ export default function MyLists() {
                       <S.Value>
                         <span>{item.total ? maskMoney(item.total.toString()) : 'R$ 0,00'}</span>
                       </S.Value>
-
                     </S.Info>
                   </Link>
 
+                  {listCompate.length === 0 && (
                   <S.Options type="button" onClick={() => handleMenuOptions(item.id)}>
                     <img src={Options} alt="Opções" />
                   </S.Options>
+                  )}
+
+                  {listCompate.length === 1 && (
+                    <S.Options
+                      className="compare"
+                      type="button"
+                      onClick={(event) => handleCompareList(event, item)}
+                    >
+                      <img src={Compare} alt="Comparar" />
+                    </S.Options>
+                  )}
 
                   {isMenuOptionsVisible === item.id && (
                   <S.ContainerOptions>
