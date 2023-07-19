@@ -152,11 +152,12 @@ export default function useMyList() {
         text: 'Copia feita com sucesso.',
       });
     } catch {
+      setIsLoading(false);
       toast({
         type: 'danger',
         text: 'Ocorreu um erro ao fazer a copia.',
       });
-    } finally { setIsLoading(false); }
+    }
   }
 
   function handleCompareList(
