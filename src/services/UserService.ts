@@ -16,7 +16,7 @@ class UserService {
     return this.httpClient.post('/auth/login', { body: user });
   }
 
-  loginWithGoogle(user: {email: string ; name: string; sub: string }) {
+  loginWithGoogle(user: {photo: string; email: string ; name: string; sub: string }) {
     return this.httpClient.post('/auth/google', { body: user });
   }
 
@@ -36,6 +36,16 @@ class UserService {
   }) {
     const body = UserMapper.toPersistence(user);
     return this.httpClient.post('/user', { body });
+  }
+
+  async UpdatePhoto(token: string, photo: string) {
+    const user = await this.httpClient.put('/user/update/photo', {
+      body: { photo },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return UserMapper.toDomain(user);
   }
 }
 

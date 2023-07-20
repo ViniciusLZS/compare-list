@@ -7,24 +7,35 @@ import { useNavigate } from 'react-router-dom';
 import UserService from '../services/UserService';
 import toast from '../utils/toast';
 
-interface User {
+interface UserProps {
   id: string;
+  photo: string;
   name: string;
   email: string;
 }
 
 export type AuthValue = {
   login: boolean;
-  user: User | null;
-  userLoginGoogle: (formData: {email: string ; name: string; sub: string })=> Promise<void>
+
+  user: UserProps | null;
+
+  userLoginGoogle: (formData: {
+    photo: string;
+    email: string ;
+    name: string;
+    sub: string;
+  })=> Promise<void>;
+
   userLogin: (formData: { email: string; password: string }) => Promise<void>;
+
   userLogout: () => void;
+  getToken: (token: string) => Promise<void>;
 };
 
 export const AuthContext = createContext<AuthValue | null>(null);
 
 export function AuthProvider({ children }: {children: ReactNode}) {
-  const [user, setUser] = useState<null | User>(null);
+  const [user, setUser] = useState<null | UserProps>(null);
   const [login, setLogin] = useState(false);
 
   const navigate = useNavigate();
@@ -38,7 +49,7 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   }, []);
 
   const userLoginGoogle = useCallback(async (formData
-    :{email: string ; name: string; sub: string }) => {
+    :{photo: string; email: string ; name: string; sub: string }) => {
     try {
       const token = await UserService.loginWithGoogle(formData);
 
@@ -112,8 +123,8 @@ export function AuthProvider({ children }: {children: ReactNode}) {
   }, [autoLogin]);
 
   const authValue = useMemo<AuthValue>(() => ({
-    login, user, userLogin, userLogout, userLoginGoogle,
-  }), [login, user, userLogin, userLogout, userLoginGoogle]);
+    login, user, userLogin, userLogout, userLoginGoogle, getToken,
+  }), [login, user, userLogin, userLogout, userLoginGoogle, getToken]);
 
   return (
     <AuthContext.Provider value={authValue}>

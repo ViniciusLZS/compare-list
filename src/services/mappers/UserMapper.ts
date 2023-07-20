@@ -7,6 +7,7 @@ interface PersistenceUserProps {
 
 interface DomainUserProps {
   id: string;
+  photo: string;
   name: string;
   email: string;
   password: string;
@@ -27,6 +28,7 @@ class UserMapper {
   toDomain(persistenceContact: DomainUserProps) {
     return {
       id: persistenceContact.id,
+      photo: persistenceContact.photo,
       name: persistenceContact.name,
       email: persistenceContact.email,
       password: persistenceContact.password,

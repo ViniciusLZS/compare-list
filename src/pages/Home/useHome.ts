@@ -29,6 +29,7 @@ export default function useHome() {
       const data = window.jwt_decode(credential);
       if (authContext) {
         authContext?.userLoginGoogle({
+          photo: data.picture,
           email: data.email,
           name: data.name,
           sub: data.sub,
