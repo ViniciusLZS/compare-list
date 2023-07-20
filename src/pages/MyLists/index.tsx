@@ -152,13 +152,11 @@ export default function MyLists() {
                   )}
 
                   {listCompate.length === 1 && item.total > 0 && (
-                    <S.Options
+                    <input
                       className="compare"
                       type="button"
                       onClick={(event) => handleCompareList(event, item)}
-                    >
-                      <img src={Compare} alt="Comparar" />
-                    </S.Options>
+                    />
                   )}
 
                   {isMenuOptionsVisible === item.id && (

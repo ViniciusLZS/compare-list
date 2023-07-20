@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 export const Container = styled.div`
   height: 100%;
@@ -142,18 +142,6 @@ export const Title = styled.h2`
   margin-top: 1rem;
 `;
 
-const buttonIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(50px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0px);
-  }
-`;
-
 export const Content = styled.div`
   display: flex;
   align-items: center;
@@ -170,12 +158,17 @@ export const Content = styled.div`
   }
 
   .compare {
+    position: absolute;
+
+
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
-    border: 1px solid ${({ theme }) => theme.colors.gray[100]};
-    animation: ${buttonIn} 0.3s;
+
+    border: none;
+    background-color: transparent;
   }
 `;
 
