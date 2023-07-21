@@ -10,6 +10,7 @@ import Button from '../../../../components/Button';
 import Select from '../../../../components/Select';
 import useProductModal from './useProductModal';
 import maskMoney from '../../../../utils/maskMoney';
+import AnalyticalCam from '../../../../components/AnalyticalCam';
 
 interface FormModalData {
   name: string;
@@ -65,6 +66,8 @@ const ProductModal = forwardRef(({
       handleDropdown={() => handleDropdown()}
       visible={isVisible}
     >
+      <AnalyticalCam />
+
       {image && (
         <div className="img">
           <img src={`${image}`} alt="img" />
