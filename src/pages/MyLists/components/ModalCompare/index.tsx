@@ -5,7 +5,7 @@ import formatDate from '../../../../utils/formatDate';
 
 import Close from '../../../../assets/image/icons/close.svg';
 import Compare from '../../../../assets/image/icons/myList/compare.svg';
-import Button from '../../../../components/Button';
+import Check from '../../../../assets/image/icons/myList/check.svg';
 
 interface ListProps {
   id: string;
@@ -53,18 +53,19 @@ export default function ModalCompare({
           </div>
           <img src={Compare} alt="fechar" />
           <div>
-            <span>{listCompate[1]?.name}</span>
+            <span>{listCompate[1]?.name ? listCompate[1]?.name : 'Selecione outra lista.' }</span>
             {listCompate[1] && <span>{formatDate(listCompate[1]?.createdAt)}</span>}
           </div>
         </S.Info>
 
         {listCompate.length === 2
         && (
-        <Button
+        <button
+          type="button"
           onClick={handlePageCompare}
         >
-          Pronto!
-        </Button>
+          <img src={Check} alt="Verificação" />
+        </button>
         )}
       </S.Content>
     </S.Container>

@@ -70,7 +70,6 @@ export default function useMyList() {
       setIsLoading(true);
 
       const listAll = await ListService.listAll({ orderBy, token, signal });
-
       setLists(listAll);
       setHasError(false);
     } catch (error) {
@@ -91,29 +90,21 @@ export default function useMyList() {
   }, [loaderList, submitting]);
 
   useEffect(() => {
-    let isMounted = true;
     async function loaderGetProduct() {
       try {
         if (list) {
           const listEdit = await ListService.getList({ id: list.id, token });
-          if (isMounted) {
-            modalFormRef.current?.setFieldValues(listEdit);
-          }
+
+          modalFormRef.current?.setFieldValues(listEdit);
         }
       } catch (error) {
-        if (isMounted) {
-          toast({
-            type: 'danger',
-            text: 'Produto não encontrado',
-          });
-        }
+        toast({
+          type: 'danger',
+          text: 'Produto não encontrado',
+        });
       }
     }
     loaderGetProduct();
-
-    return () => {
-      isMounted = false;
-    };
   }, [list, token]);
 
   useEffect(() => {
@@ -149,19 +140,48 @@ export default function useMyList() {
     setIsEditModalVisible(true);
   }
 
+  async function handleCopyList(listCopy: ListProps) {
+    try {
+      setIsMenuOptionsVisible('');
+      setIsLoading(true);
+      await ListService.copyList({ token, id: listCopy.id });
+      loaderList();
+
+      toast({
+        type: 'success',
+        text: 'Copia feita com sucesso.',
+      });
+    } catch {
+      setIsLoading(false);
+      toast({
+        type: 'danger',
+        text: 'Ocorreu um erro ao fazer a copia.',
+      });
+    }
+  }
+
   function handleCompareList(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    event: React.MouseEvent<HTMLButtonElement | HTMLDivElement, MouseEvent>,
     listCompare: ListProps,
   ) {
-    const parentDiv = event.currentTarget.parentNode;
-    const grandparentElement = parentDiv?.parentNode?.parentElement;
-    if (grandparentElement) {
-      setElementSelectCompate((prevState) => [...prevState, grandparentElement]);
+    if (listCompate.length < 1) {
+      const parentDiv = event.currentTarget.parentNode;
+      const grandparentElement = parentDiv?.parentNode?.parentElement;
+      if (grandparentElement) {
+        setElementSelectCompate(() => [grandparentElement]);
+      }
+    } else {
+      const parentDiv = event.currentTarget.parentNode;
+      const grandparentElement = parentDiv?.parentElement;
+      if (grandparentElement) {
+        setElementSelectCompate((prevState) => [...prevState, grandparentElement]);
+      }
     }
 
     setListCompate((prevState) => [...prevState, listCompare]);
 
     setIsCompareModalVisible(true);
+    setIsMenuOptionsVisible('');
   }
 
   function handleCloseCompareModal() {
@@ -249,6 +269,7 @@ export default function useMyList() {
     handleTryAgain,
     handleMenuOptions,
     handleEditList,
+    handleCopyList,
     handleCompareList,
     handleDeleteList,
     handleConfirmDeleteList,

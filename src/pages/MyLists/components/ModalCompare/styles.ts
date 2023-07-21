@@ -6,12 +6,12 @@ export const Container = styled.section`
   max-height: 15rem;
 
   position: fixed;
+  top: 9rem;
   z-index: 1000;
-  margin: 0 1rem;
+  margin: 0 2rem;
 
   background: ${({ theme }) => theme.colors.default.white};
   border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.colors.primary.dark};
 
   box-shadow: 0px 5px 15px ${({ theme }) => theme.colors.primary.dark};
 
@@ -35,7 +35,20 @@ export const Content = styled.section`
   flex-direction: column;
 
   button {
-    max-width: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 50%;
+    padding: 0.5rem;
+    background: ${({ theme }) => theme.colors.success.main};
+    box-shadow: 0px 0px 10px rgba(81, 202, 115, 0.5);;
+
+    img {
+      max-height: 4rem;
+      max-width: 3rem;
+    }
   }
 `;
 
@@ -84,7 +97,3 @@ export const Info = styled.section`
   }
 
 `;
-
-// export const Container = styled.section`
-
-// `;

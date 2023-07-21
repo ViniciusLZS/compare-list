@@ -73,6 +73,17 @@ class ListService {
       },
     });
   }
+
+  async copyList({ id, token, signal }: {id: string; token: string; signal?: any}) {
+    const list = await this.httpClient.get(`/list/copy/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      signal,
+    });
+
+    return ListMapper.toDomain(list);
+  }
 }
 
 export default new ListService();

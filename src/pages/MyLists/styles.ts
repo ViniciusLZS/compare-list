@@ -83,6 +83,7 @@ export const EmptyList = styled.div`
   justify-content: center;
   gap: 2rem;
   margin-top: 10rem;
+
   p {
     margin: 0 2rem;
     text-align: center;
@@ -92,6 +93,7 @@ export const EmptyList = styled.div`
       color: ${({ theme }) => theme.colors.primary.dark};
     }
   }
+
   a {
     margin-top: 10rem;
   }
@@ -106,13 +108,7 @@ export const List = styled.div`
   align-items: center;
   gap: 2rem;
 
-  a {
-    width: 100%;
-    max-width: 60rem;
-    max-height: 12rem;
-    text-decoration: none;
-    color: ${({ theme }) => theme.colors.default.black};
-  }
+  margin-bottom: 8rem;
 
   .select {
     box-shadow: 0px 5px 15px ${({ theme }) => theme.colors.success.main};
@@ -152,6 +148,28 @@ export const Content = styled.div`
   justify-content: center;
   flex-direction: column;
   position: relative;
+
+  a {
+    width: 100%;
+    max-width: 60rem;
+    max-height: 12rem;
+    text-decoration: none;
+    color: ${({ theme }) => theme.colors.default.black};
+  }
+
+  .compare {
+    position: absolute;
+
+
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    background-color: transparent;
+  }
 `;
 
 export const Info = styled.div`
@@ -171,6 +189,7 @@ export const Options = styled.button`
 
   border: none;
   background: transparent;
+
 
   img {
     height: 2rem;
@@ -195,8 +214,8 @@ export const Value = styled.div`
 
 export const ContainerOptions = styled.div`
   position: absolute;
-  top: 0;
-  right: 3rem;
+  top: -3rem;
+  right: 5rem;
   z-index: 10;
 
 
@@ -231,5 +250,9 @@ export const ContainerOptions = styled.div`
 
     border: none;
     background: transparent;
+
+    img {
+      max-width: 2rem;
+    }
   }
 `;

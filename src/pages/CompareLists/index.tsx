@@ -224,7 +224,7 @@ export default function CompareLists() {
                       </div>
                     </S.ContainerValue>
                   </>
-                ) : <p>Não existe produto para similar</p>}
+                ) : <p>Não foi encontrado um produto com o nome igual para comparar.</p>}
               </S.CardSmall>
 
               <img src={Compare} alt="Símbolo de Comparação" />
@@ -265,7 +265,7 @@ export default function CompareLists() {
                       </div>
                     </S.ContainerValue>
                   </>
-                ) : <p>Não foi encontrar um nome igual para comparar.</p>}
+                ) : <p>Não foi encontrado um produto com o nome igual para comparar.</p>}
               </S.CardSmall>
             </S.Card>
           ))}
