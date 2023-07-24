@@ -2,13 +2,15 @@ import { Link } from 'react-router-dom';
 
 import * as S from './styles';
 
+import useMenu from './useMenu';
+
 import menu from '../../assets/image/icons/menu/menu.svg';
 import profile from '../../assets/image/icons/menu/profile.svg';
 import newList from '../../assets/image/icons/menu/addList.svg';
 import myList from '../../assets/image/icons/menu/list.svg';
 import logout from '../../assets/image/icons/menu/logout.svg';
+import Setting from '../../assets/image/icons/menu/settings.svg';
 import close from '../../assets/image/icons/close.svg';
-import useMenu from './useMenu';
 
 export default function Menu() {
   const {
@@ -53,6 +55,13 @@ export default function Menu() {
             <Link to="/mylists" onClick={() => handleItemClick('/mylists')}>
               <img src={myList} alt="Listas" />
               Minhas listas
+            </Link>
+          </li>
+
+          <li className={activeItem === '/settings' ? 'active' : ''}>
+            <Link to="/settings" onClick={() => handleItemClick('/settings')}>
+              <img src={Setting} alt="Configurações" />
+              Configurações
             </Link>
           </li>
 
