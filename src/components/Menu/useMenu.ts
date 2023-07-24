@@ -43,6 +43,7 @@ export default function useMenu() {
 
   function handleItemClick(item: string) {
     setActiveItem(item);
+    setIsVisible(false);
   }
 
   function handleLogout() {
