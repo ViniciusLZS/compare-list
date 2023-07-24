@@ -48,6 +48,16 @@ class UserService {
     return UserMapper.toDomain(user);
   }
 
+  async UpdateDataSecurity(token: string, data: {password: string; newPassword: string;}) {
+    const user = await this.httpClient.put('/user/update/data-security', {
+      body: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return UserMapper.toDomain(user);
+  }
+
   async UpdatePhoto(token: string, photo: string) {
     const user = await this.httpClient.put('/user/update/photo', {
       body: { photo },
