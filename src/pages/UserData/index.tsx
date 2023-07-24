@@ -1,9 +1,11 @@
+import * as S from './styles';
+
+import useUserData from './useUserData';
+
 import Button from '../../components/Button';
 import Form from '../../components/Forms/Form';
 import FormGroup from '../../components/Forms/FormGroup';
 import Input from '../../components/Input';
-import * as S from './styles';
-import useUserData from './useUserData';
 
 export default function UserData() {
   const {

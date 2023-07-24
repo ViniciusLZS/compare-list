@@ -9,7 +9,7 @@ import toast from '../../utils/toast';
 
 export default function useUserData() {
   const authContext = useContext(AuthContext);
-  const { user } = authContext || {};
+  const { user, getToken } = authContext || {};
 
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
@@ -55,6 +55,10 @@ export default function useUserData() {
 
       if (name && email) {
         await UserService.UpdateData(token, { name, email });
+      }
+
+      if (getToken) {
+        getToken(token);
       }
 
       toast({
