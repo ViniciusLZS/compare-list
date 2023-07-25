@@ -1,10 +1,13 @@
 import * as S from './styles';
 
+import useFormSignUp from './useFormSignUp';
+
 import Form from '../../../../components/Forms/Form';
 import FormGroup from '../../../../components/Forms/FormGroup';
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
-import useFormSignUp from './useFormSignUp';
+
+import Check from '../../../../assets/image/icons/signUp/check.svg';
 
 interface SignUpFormData {
   name: string;
@@ -18,16 +21,17 @@ interface FormSignUpProps {
 
 export default function FormSignUp({ onHandleSubmit }: FormSignUpProps) {
   const {
-    handleSubmit,
-    getErrorMessageFieldName,
     name,
-    handleNameChange,
-    isSubmitting,
     email,
+    password,
+    levelPassword,
+    getErrorMessageFieldName,
+    isSubmitting,
+    isFormValid,
+    handleSubmit,
+    handleNameChange,
     handleEmailChange,
     handlePasswordChange,
-    password,
-    isFormValid,
   } = useFormSignUp({ onHandleSubmit });
 
   return (
@@ -70,6 +74,34 @@ export default function FormSignUp({ onHandleSubmit }: FormSignUpProps) {
             disabled={isSubmitting}
           />
         </FormGroup>
+
+        <S.PasswordRequirements>
+          <div>
+            <span>8 digitos</span>
+            {levelPassword?.size
+          && <img src={Check} alt="check" />}
+          </div>
+
+          <div>
+            <span>Numeros</span>
+            {levelPassword?.number && <img src={Check} alt="check" />}
+          </div>
+
+          <div>
+            <span>Letra</span>
+            {levelPassword?.letter && <img src={Check} alt="check" />}
+          </div>
+
+          <div>
+            <span>Letra maiúscula</span>
+            {levelPassword?.capitalLetter && <img src={Check} alt="check" />}
+          </div>
+
+          <div>
+            <span>Caracter especial</span>
+            {levelPassword?.special && <img src={Check} alt="check" />}
+          </div>
+        </S.PasswordRequirements>
 
         <Button
           type="submit"

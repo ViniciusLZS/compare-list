@@ -1,9 +1,10 @@
 import {
-  useEffect, useState, ChangeEvent, FormEvent,
+  useState, ChangeEvent, FormEvent,
 } from 'react';
 
 import useErrors from '../../../../hooks/useErrors';
 import isEmailValid from '../../../../utils/isEmailValid';
+import passwordConfirmation from '../../../../utils/passwordConfirmation';
 
 interface SignUpFormData {
   name: string;
@@ -15,17 +16,33 @@ interface useFormSignUpProps {
   onHandleSubmit: (formData: SignUpFormData) => Promise<void>;
 }
 
+interface LevelPasswordProps {
+  size: boolean;
+  number: boolean;
+  letter: boolean;
+  capitalLetter: boolean;
+  special: boolean;
+}
+
 export default function useFormSignUp({ onHandleSubmit }: useFormSignUpProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [levelPassword, setLevelPassword] = useState<LevelPasswordProps>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
     errors, setError, removeError, getErrorMessageFieldName,
   } = useErrors();
 
-  const isFormValid = (name && email && password && errors.length === 0);
+  const isFormValid = (name
+    && email
+    && levelPassword?.size
+    && levelPassword?.letter
+    && levelPassword?.capitalLetter
+    && levelPassword.number
+    && levelPassword.special
+    && errors.length === 0);
 
   function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
     setName(event.target.value);
@@ -55,10 +72,13 @@ export default function useFormSignUp({ onHandleSubmit }: useFormSignUpProps) {
     setPassword(event.target.value);
 
     if (!event.target.value) {
+      removeError('password');
       setError({ field: 'password', message: 'Senha é obrigatório' });
     } else {
       removeError('password');
     }
+
+    setLevelPassword(passwordConfirmation(event.target.value));
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -73,19 +93,17 @@ export default function useFormSignUp({ onHandleSubmit }: useFormSignUpProps) {
     setIsSubmitting(false);
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  useEffect(() => () => { }, []);
-
   return {
-    handleSubmit,
-    getErrorMessageFieldName,
     name,
-    handleNameChange,
-    isSubmitting,
     email,
+    password,
+    levelPassword,
+    getErrorMessageFieldName,
+    isSubmitting,
+    isFormValid,
+    handleSubmit,
+    handleNameChange,
     handleEmailChange,
     handlePasswordChange,
-    password,
-    isFormValid,
   };
 }
