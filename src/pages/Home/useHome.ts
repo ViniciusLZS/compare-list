@@ -38,12 +38,12 @@ export default function useHome() {
     }
 
     if (!authContext?.login) {
-      window.google.accounts.id.initialize({
+      window.google?.accounts?.id.initialize({
         client_id: '884705100859-kkuhiq1vg602d790rr5qf92fkmvbgoeh.apps.googleusercontent.com',
         callback: handleCredentialResponse,
       });
 
-      window.google.accounts.id.renderButton(
+      window.google?.accounts?.id.renderButton(
         document.getElementById('buttonGoogle'),
         {
           size: 'large',
@@ -56,7 +56,7 @@ export default function useHome() {
       );
     }
 
-    window.google.accounts.id.prompt(); // also display the One Tap dialog
+    window.google?.accounts?.id.prompt(); // also display the One Tap dialog
   }, [authContext]);
 
   useEffect(() => {
