@@ -6,19 +6,21 @@ import Button from '../../components/Button';
 import Form from '../../components/Forms/Form';
 import FormGroup from '../../components/Forms/FormGroup';
 import Input from '../../components/Input';
+import PasswordRequirements from '../../components/PasswordRequeriments';
 
 export default function DataSecurity() {
   const {
-    handleSubmit,
-    getErrorMessageFieldName,
-    isSubmitting,
     password,
     newPassword,
     repeatPassword,
+    passwordLevel,
+    isSubmitting,
+    isFormValid,
+    getErrorMessageFieldName,
     handlePasswordChange,
     handleNewPasswordChange,
     handleRepeatPasswordChange,
-    isFormValid,
+    handleSubmit,
   } = useDataSecurity();
 
   return (
@@ -63,6 +65,8 @@ export default function DataSecurity() {
             disabled={isSubmitting}
           />
         </FormGroup>
+
+        <PasswordRequirements passwordLevel={passwordLevel} />
 
         <Button
           type="submit"

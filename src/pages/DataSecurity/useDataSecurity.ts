@@ -5,11 +5,21 @@ import useErrors from '../../hooks/useErrors';
 
 import toast from '../../utils/toast';
 import UserService from '../../services/UserService';
+import passwordConfirmation from '../../utils/passwordConfirmation';
+
+interface PasswordLevelProps {
+  size: boolean;
+  number: boolean;
+  letter: boolean;
+  capitalLetter: boolean;
+  special: boolean;
+}
 
 export default function useDataSecurity() {
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+  const [passwordLevel, setPasswordLevel] = useState<PasswordLevelProps>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -20,7 +30,13 @@ export default function useDataSecurity() {
   const token = localStorage.getItem('token') || '';
 
   const isFormValid = (
-    (password && newPassword) && (repeatPassword && errors.length === 0)
+    (password && newPassword)
+    && (repeatPassword && errors.length === 0)
+    && passwordLevel?.size
+    && passwordLevel?.letter
+    && passwordLevel?.capitalLetter
+    && passwordLevel.number
+    && passwordLevel.special
   );
 
   function handlePasswordChange(event: ChangeEvent<HTMLInputElement>) {
@@ -35,18 +51,18 @@ export default function useDataSecurity() {
 
   function handleNewPasswordChange(event: ChangeEvent<HTMLInputElement>) {
     setNewPassword(event.target.value);
-
-    if (password === newPassword) {
-      setError({ field: 'newPassword', message: 'Essa senha é igual a atual' });
-    } else {
-      removeError('newPassword');
-    }
-
     if (!event.target.value) {
+      removeError('newPassword');
       setError({ field: 'newPassword', message: 'Nova senha é obrigatório' });
-    } else {
-      removeError('password');
-    }
+    } else
+      if (password === newPassword) {
+        removeError('newPassword');
+        setError({ field: 'newPassword', message: 'Essa senha é igual a atual' });
+      } else {
+        removeError('newPassword');
+      }
+
+    setPasswordLevel(passwordConfirmation(event.target.value));
   }
 
   function handleRepeatPasswordChange(event: ChangeEvent<HTMLInputElement>) {
@@ -90,15 +106,16 @@ export default function useDataSecurity() {
   }
 
   return {
-    handleSubmit,
-    getErrorMessageFieldName,
-    isSubmitting,
     password,
     newPassword,
     repeatPassword,
+    passwordLevel,
+    isSubmitting,
+    isFormValid,
+    getErrorMessageFieldName,
     handlePasswordChange,
     handleNewPasswordChange,
     handleRepeatPasswordChange,
-    isFormValid,
+    handleSubmit,
   };
 }
