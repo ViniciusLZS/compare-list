@@ -16,7 +16,7 @@ interface useFormSignUpProps {
   onHandleSubmit: (formData: SignUpFormData) => Promise<void>;
 }
 
-interface LevelPasswordProps {
+interface PasswordLevelProps {
   size: boolean;
   number: boolean;
   letter: boolean;
@@ -28,7 +28,7 @@ export default function useFormSignUp({ onHandleSubmit }: useFormSignUpProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [levelPassword, setLevelPassword] = useState<LevelPasswordProps>();
+  const [passwordLevel, setPasswordLevel] = useState<PasswordLevelProps>();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -37,11 +37,11 @@ export default function useFormSignUp({ onHandleSubmit }: useFormSignUpProps) {
 
   const isFormValid = (name
     && email
-    && levelPassword?.size
-    && levelPassword?.letter
-    && levelPassword?.capitalLetter
-    && levelPassword.number
-    && levelPassword.special
+    && passwordLevel?.size
+    && passwordLevel?.letter
+    && passwordLevel?.capitalLetter
+    && passwordLevel.number
+    && passwordLevel.special
     && errors.length === 0);
 
   function handleNameChange(event: ChangeEvent<HTMLInputElement>) {
@@ -78,7 +78,7 @@ export default function useFormSignUp({ onHandleSubmit }: useFormSignUpProps) {
       removeError('password');
     }
 
-    setLevelPassword(passwordConfirmation(event.target.value));
+    setPasswordLevel(passwordConfirmation(event.target.value));
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -97,7 +97,7 @@ export default function useFormSignUp({ onHandleSubmit }: useFormSignUpProps) {
     name,
     email,
     password,
-    levelPassword,
+    passwordLevel,
     getErrorMessageFieldName,
     isSubmitting,
     isFormValid,

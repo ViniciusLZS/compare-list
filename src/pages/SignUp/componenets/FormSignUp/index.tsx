@@ -6,8 +6,7 @@ import Form from '../../../../components/Forms/Form';
 import FormGroup from '../../../../components/Forms/FormGroup';
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
-
-import Check from '../../../../assets/image/icons/signUp/check.svg';
+import PasswordRequirements from '../../../../components/PasswordRequeriments';
 
 interface SignUpFormData {
   name: string;
@@ -24,7 +23,7 @@ export default function FormSignUp({ onHandleSubmit }: FormSignUpProps) {
     name,
     email,
     password,
-    levelPassword,
+    passwordLevel,
     getErrorMessageFieldName,
     isSubmitting,
     isFormValid,
@@ -75,33 +74,7 @@ export default function FormSignUp({ onHandleSubmit }: FormSignUpProps) {
           />
         </FormGroup>
 
-        <S.PasswordRequirements>
-          <div>
-            <span>8 digitos</span>
-            {levelPassword?.size
-          && <img src={Check} alt="check" />}
-          </div>
-
-          <div>
-            <span>Numeros</span>
-            {levelPassword?.number && <img src={Check} alt="check" />}
-          </div>
-
-          <div>
-            <span>Letra</span>
-            {levelPassword?.letter && <img src={Check} alt="check" />}
-          </div>
-
-          <div>
-            <span>Letra maiúscula</span>
-            {levelPassword?.capitalLetter && <img src={Check} alt="check" />}
-          </div>
-
-          <div>
-            <span>Caracter especial</span>
-            {levelPassword?.special && <img src={Check} alt="check" />}
-          </div>
-        </S.PasswordRequirements>
+        <PasswordRequirements passwordLevel={passwordLevel} />
 
         <Button
           type="submit"
