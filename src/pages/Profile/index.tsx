@@ -27,7 +27,7 @@ export default function Profile() {
 
           {user?.photo === 'profileGirl' && <img src={ProfileGirl} alt="Foto do perfil" />}
 
-          {(user?.photo !== 'profileMan' || 'profileGirl') && <img src={user?.photo} alt="Foto do perfil" />}
+          {(user?.photo !== 'profileMan' || 'profileGirl') && user?.photo && <img src={user?.photo} alt="Foto do perfil" />}
 
           {!user?.photo && <img src={Edit} alt="Editar" />}
         </button>
