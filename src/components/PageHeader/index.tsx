@@ -1,34 +1,50 @@
 import * as S from './styles';
 
+import InputSearch from '../InputSearch';
+
 import AlfabeticalSorting from '../../assets/image/icons/AlphabeticalSorting.svg';
 import ListView from '../../assets/image/icons/listView.svg';
 import gridView from '../../assets/image/icons/gridView.svg';
 import orderData from '../../assets/image/icons/sort-ascending.svg';
+import Search from '../../assets/image/icons/search.svg';
 
 interface List {
   name: string
 }
 
 interface PageHeaderProps {
-  onHandleOrderBy: () => void;
-  onHandleView: () => void;
+  onOrderBy: () => void;
+  onView: () => void;
+  onVisibleSearch: () => void;
+  isVisibleSearch: boolean;
   view: string;
   orderBy: string;
   list: List;
-  // eslint-disable-next-line react/require-default-props
   disabledOrderButton?: boolean;
   hasError: boolean;
+  searchTerm: string;
+  OnChangeSearchTerm: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function PageHeader({
-  onHandleOrderBy, onHandleView, view, orderBy, list, disabledOrderButton = false, hasError,
+  onOrderBy,
+  onView,
+  onVisibleSearch,
+  isVisibleSearch,
+  view,
+  orderBy,
+  list,
+  disabledOrderButton = false,
+  hasError,
+  searchTerm,
+  OnChangeSearchTerm,
 }: PageHeaderProps) {
   if (!hasError) {
     return (
       <S.Container>
         { !disabledOrderButton && (
         <S.FormatView>
-          <button type="button" onClick={onHandleOrderBy}>
+          <button type="button" onClick={onOrderBy}>
             {orderBy === 'name' ? (
               <img src={orderData} alt="Ordernar por data" />
             ) : (
@@ -38,11 +54,23 @@ export default function PageHeader({
         </S.FormatView>
         )}
 
-        <S.Title>{list.name}</S.Title>
+        {isVisibleSearch
+          ? (
+            <InputSearch
+              value={searchTerm}
+              onChange={OnChangeSearchTerm}
+              placeholder="Pesquise pelos produtos aqui!"
+            />
+          )
+          : <S.Title>{list.name}</S.Title>}
 
         {!disabledOrderButton && (
         <S.FormatView>
-          <button className="gridView" type="button" onClick={onHandleView}>
+          <button type="button" onClick={onVisibleSearch}>
+            <img src={Search} alt="Busca" />
+          </button>
+
+          <button className="gridView" type="button" onClick={onView}>
             {view === 'flex' ? (
               <img src={gridView} alt="Visualizar como grade" />
             ) : (
