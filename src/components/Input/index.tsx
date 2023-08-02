@@ -13,6 +13,7 @@ interface InputProps {
   type: string;
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   error?: string;
   disabled: boolean;
   maxLength?: number;
@@ -20,7 +21,7 @@ interface InputProps {
 }
 
 export default function Input({
-  label, placeholder, type, value, onChange, error, disabled, maxLength, isLoading,
+  label, placeholder, type, value, onChange, onBlur, error, disabled, maxLength, isLoading,
 }: InputProps) {
   const [eye, setEye] = useState(false);
 
@@ -33,6 +34,7 @@ export default function Input({
     <S.Label>
       <span>{label}</span>
       <S.Input
+        onBlur={onBlur}
         onChange={onChange}
         value={value}
         type={eye ? 'text' : type}

@@ -1,10 +1,12 @@
 import * as S from './styles';
 
+import useFormSignUp from './useFormSignUp';
+
 import Form from '../../../../components/Forms/Form';
 import FormGroup from '../../../../components/Forms/FormGroup';
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
-import useFormSignUp from './useFormSignUp';
+import PasswordRequirements from '../../../../components/PasswordRequeriments';
 
 interface SignUpFormData {
   name: string;
@@ -18,16 +20,17 @@ interface FormSignUpProps {
 
 export default function FormSignUp({ onHandleSubmit }: FormSignUpProps) {
   const {
-    handleSubmit,
-    getErrorMessageFieldName,
     name,
-    handleNameChange,
-    isSubmitting,
     email,
+    password,
+    passwordLevel,
+    getErrorMessageFieldName,
+    isSubmitting,
+    isFormValid,
+    handleSubmit,
+    handleNameChange,
     handleEmailChange,
     handlePasswordChange,
-    password,
-    isFormValid,
   } = useFormSignUp({ onHandleSubmit });
 
   return (
@@ -70,6 +73,8 @@ export default function FormSignUp({ onHandleSubmit }: FormSignUpProps) {
             disabled={isSubmitting}
           />
         </FormGroup>
+
+        <PasswordRequirements passwordLevel={passwordLevel} />
 
         <Button
           type="submit"

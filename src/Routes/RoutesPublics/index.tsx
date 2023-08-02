@@ -13,6 +13,9 @@ import NewList from '../../pages/NewList';
 import MyLists from '../../pages/MyLists';
 import List from '../../pages/List';
 import Compare from '../../pages/CompareLists';
+import Settings from '../../pages/Settings';
+import UserData from '../../pages/UserData';
+import DataSecurity from '../../pages/DataSecurity';
 
 export default function RoutesPublics() {
   const authContext = useContext(AuthContext);
@@ -30,6 +33,9 @@ export default function RoutesPublics() {
             <Route path="/mylists" element={<MyLists />} />
             <Route path="/list/:id" element={<List />} />
             <Route path="/compare/:id1/:id2" element={<Compare />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/settings/user-data" element={<UserData />} />
+            <Route path="/settings/data-security" element={<DataSecurity />} />
           </>
         ) : (
           <>

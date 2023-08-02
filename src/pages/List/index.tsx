@@ -11,21 +11,25 @@ import useList from './useList';
 
 export default function List() {
   const {
-    isVisible,
-    modalFormRef,
-    handleCloseModal,
-    handleSubmit,
-    mode,
-    list,
-    handleOrderBy,
-    handleView,
+    filteredContacts,
     view,
+    list,
+    mode,
     orderBy,
     disabledOrderButton,
     hasError,
-    products,
     loadeProducts,
+    modalFormRef,
+    searchTerm,
+    isVisible,
+    isVisibleSearch,
     isLoading,
+    handleChangeSearchTerm,
+    handleCloseModal,
+    handleSubmit,
+    handleOrderBy,
+    handleView,
+    handleVisibleSearch,
     handleEditForm,
     handleDeleteContact,
     handleAddProduct,
@@ -33,7 +37,6 @@ export default function List() {
 
   return (
     <>
-
       <ProductModal
         ref={modalFormRef}
         isVisible={isVisible}
@@ -46,20 +49,24 @@ export default function List() {
         <ProgressBar list={list} />
 
         <PageHeader
-          onHandleOrderBy={() => handleOrderBy()}
-          onHandleView={() => handleView()}
+          onOrderBy={() => handleOrderBy()}
+          onView={() => handleView()}
+          onVisibleSearch={handleVisibleSearch}
+          isVisibleSearch={isVisibleSearch}
           view={view}
           orderBy={orderBy}
           list={list}
           disabledOrderButton={disabledOrderButton}
           hasError={hasError}
+          searchTerm={searchTerm}
+          OnChangeSearchTerm={handleChangeSearchTerm}
         />
       </S.Header>
 
       <S.Content>
         <BodyList
           view={view}
-          products={products}
+          products={filteredContacts}
           onLoadeProducts={loadeProducts}
           hasError={hasError}
           isLoading={isLoading}

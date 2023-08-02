@@ -1,5 +1,6 @@
 import {
-  useCallback, useEffect, useRef, useState,
+  ChangeEvent,
+  useCallback, useDeferredValue, useEffect, useMemo, useRef, useState,
 } from 'react';
 
 import { useParams, useNavigate } from 'react-router-dom';
@@ -47,6 +48,15 @@ export default function useList() {
   const [disabledOrderButton, setDisabledOrderButton] = useState(false);
   const [productId, setProductId] = useState('');
   const [mode, setMode] = useState('');
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [isVisibleSearch, setIsVisibleSearch] = useState(false);
+
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+
+  const filteredContacts = useMemo(() => products.filter((product) => (
+    product.name.toLowerCase().includes(deferredSearchTerm.toLowerCase())
+  )), [products, deferredSearchTerm]);
 
   const { id } = useParams();
 
@@ -126,6 +136,17 @@ export default function useList() {
       setDisabledOrderButton(false);
     }
   }, [submitting, hasError, products]);
+
+  function handleChangeSearchTerm(event: ChangeEvent<HTMLInputElement>) {
+    const { value } = event.target;
+
+    setSearchTerm(value);
+  }
+
+  function handleVisibleSearch() {
+    setIsVisibleSearch((prevState) => !prevState);
+    setSearchTerm('');
+  }
 
   function handleOrderBy() {
     setOrderBy(
@@ -225,21 +246,26 @@ export default function useList() {
   };
 
   return {
-    isVisible,
-    modalFormRef,
-    handleCloseModal,
-    handleSubmit,
-    mode,
-    list,
-    handleOrderBy,
-    handleView,
+    filteredContacts,
     view,
+    list,
+    mode,
     orderBy,
     disabledOrderButton,
     hasError,
     products,
     loadeProducts,
+    modalFormRef,
+    searchTerm,
+    isVisible,
+    isVisibleSearch,
     isLoading,
+    handleChangeSearchTerm,
+    handleCloseModal,
+    handleSubmit,
+    handleOrderBy,
+    handleView,
+    handleVisibleSearch,
     handleEditForm,
     handleDeleteContact,
     handleAddProduct,

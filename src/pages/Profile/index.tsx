@@ -24,8 +24,11 @@ export default function Profile() {
         )}
         <button type="button" onClick={handleVisibledEditPhoto}>
           {user?.photo === 'profileMan' && <img src={ProfileMan} alt="Foto do perfil" />}
+
           {user?.photo === 'profileGirl' && <img src={ProfileGirl} alt="Foto do perfil" />}
-          {(user?.photo !== 'profileMan' || 'profileGirl') && <img src={user?.photo} alt="Foto do perfil" />}
+
+          {(user?.photo !== 'profileMan' || 'profileGirl') && user?.photo && <img src={user?.photo} alt="Foto do perfil" />}
+
           {!user?.photo && <img src={Edit} alt="Editar" />}
         </button>
 
@@ -49,20 +52,20 @@ export default function Profile() {
       <S.Content>
         <Link to="/newlist">
           <S.Card>
-            <span>Nova lista</span>
+            <span>Nova Lista</span>
             <p>
               Crie uma lista com o nome do local
               onde você irá comprar e um valor
-              estimado de quanto deseja gastar.
+              de quanto deseja gastar.
             </p>
           </S.Card>
         </Link>
         <Link to="/mylists">
           <S.Card>
-            <span>Minhas listas</span>
+            <span>Minhas Listas</span>
             <p>
               Todas as suas listas estão aqui!
-              Edite, faça copia e compare para
+              Edite, faça cópia ou compare para
               ter mais controle financeiro.
             </p>
           </S.Card>

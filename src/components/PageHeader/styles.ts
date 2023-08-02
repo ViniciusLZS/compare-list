@@ -1,22 +1,25 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
   width: 100%;
   max-width: 98rem;
+  height: 5rem;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 2rem;
+
   gap: 1rem;
 `;
 
 export const Title = styled.h1`
   width: 100%;
   max-width: 53rem;
+  max-height: 5em;
+
   font-size: 2rem;
   font-weight: 500;
-  max-height: 5rem;
   text-align: center;
   overflow-x: scroll;
   white-space: nowrap;
@@ -30,6 +33,8 @@ export const Title = styled.h1`
 export const FormatView = styled.div`
   display: flex;
   gap: 2rem;
+
+  width: 10rem;
 
   button {
   display: flex;
@@ -53,7 +58,7 @@ export const FormatView = styled.div`
 
   @media(min-width: 700px) {
     img {
-    width: 3rem;
+      width: 3rem;
     }
   }
 `;
