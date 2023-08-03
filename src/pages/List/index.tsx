@@ -18,6 +18,7 @@ export default function List() {
     orderBy,
     disabledOrderButton,
     hasError,
+    products,
     loadeProducts,
     modalFormRef,
     searchTerm,
@@ -66,7 +67,8 @@ export default function List() {
       <S.Content>
         <BodyList
           view={view}
-          products={filteredContacts}
+          products={products}
+          filteredContacts={filteredContacts}
           onLoadeProducts={loadeProducts}
           hasError={hasError}
           isLoading={isLoading}

@@ -13,7 +13,8 @@ import ContainerModal from '../../../../components/Modal/ContainerModal';
 import Trash from '../../../../assets/image/icons/bin.svg';
 import Empty from '../../../../assets/image/empty-box.svg';
 import Sad from '../../../../assets/image/icons/sad.svg';
-import imageNotFound from '../../../../assets/image/imageNotFound.svg';
+import ImageNotFound from '../../../../assets/image/imageNotFound.svg';
+import MagnifierQuestion from '../../../../assets/image/icons/magnifierQuestion.svg';
 
 interface Product {
   id: string;
@@ -28,6 +29,7 @@ interface Product {
 interface BodyListProps {
   view: string;
   products: Product[];
+  filteredContacts: Product[];
   hasError: boolean;
   isLoading: boolean;
   onLoadeProducts: () => void;
@@ -36,7 +38,14 @@ interface BodyListProps {
 }
 
 export default function BodyList({
-  view, products, hasError, isLoading, onLoadeProducts, onEditForm, onDeleteProduct,
+  view,
+  products,
+  filteredContacts,
+  hasError,
+  isLoading,
+  onLoadeProducts,
+  onEditForm,
+  onDeleteProduct,
 }: BodyListProps) {
   const {
     isLoadingDelete,
@@ -90,7 +99,17 @@ export default function BodyList({
             </S.EmptyList>
           )}
 
-          {products.map((product) => (
+          {(products.length > 0 && filteredContacts.length < 1) && (
+          <S.SearchNotFound>
+            <img src={MagnifierQuestion} alt="Magnifier question" />
+
+            <span>
+              Nenhum resultado foi encontrado.
+            </span>
+          </S.SearchNotFound>
+          )}
+
+          {filteredContacts.map((product) => (
             <S.Card key={product.id} view={view}>
               <S.Content view={view}>
                 <button type="button" onClick={() => editForm(product.id)}>
@@ -100,7 +119,7 @@ export default function BodyList({
                     <img
                       src={product.image
                         ? `${product.image}`
-                        : imageNotFound}
+                        : ImageNotFound}
                       alt=""
                     />
                   </S.Image>

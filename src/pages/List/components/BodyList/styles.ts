@@ -61,10 +61,25 @@ export const EmptyList = styled.div`
   }
 `;
 
+export const SearchNotFound = styled.div`
+  width: 100%;
+  height: 42rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+
+  span {
+    color: ${({ theme }) => theme.colors.gray[200]};
+    margin-left: 24px;
+    word-break: break-word;
+  }
+`;
+
 interface CardProps {
   view: string;
 }
-
 export const Card = styled.div<CardProps>`
   width: 100%;
   max-height: 14rem;
