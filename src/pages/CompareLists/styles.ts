@@ -12,7 +12,7 @@ export const Header = styled.div`
   width: 100%;
   max-width: 60rem;
   max-height: 12rem;
-  padding: 3rem 1rem 1rem 1rem;
+  padding: 3rem 0rem 1rem 0rem;
 
   display: flex;
   align-items: center;
@@ -35,14 +35,33 @@ export const Header = styled.div`
 
 
     div {
+      width: 100%;
+      max-width: 30rem;
+      padding: 0 1rem;
+
+      overflow: hidden;
+
       display: flex;
       align-items: center;
       flex-direction: column;
       gap: 1rem;
 
       h2 {
+        width: 100%;
+
+        white-space: nowrap;
+        overflow-x: scroll;
+        text-align: center;
+
         font-size: 1.8rem;
         font-weight: 500;
+
+        &::-webkit-scrollbar{
+          height: 0.5rem;
+        }
+        &::-webkit-scrollbar-thumb{
+          background: ${({ theme }) => theme.colors.gray[100]};
+        }
       }
 
       span {

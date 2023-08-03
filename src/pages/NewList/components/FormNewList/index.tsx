@@ -37,7 +37,7 @@ export default function FormNewList({ onSubmit }: FormNewListProps) {
           placeholder="Nome do estabelecimento ou marca"
           onChange={(event) => handleNameChange(event)}
           value={name}
-          maxLength={30}
+          maxLength={26}
           disabled={isSubmitting}
           error={getErrorMessageFieldName('name')}
         />
