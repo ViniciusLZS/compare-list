@@ -59,7 +59,7 @@ export default function PageHeader({
             <InputSearch
               value={searchTerm}
               onChange={OnChangeSearchTerm}
-              placeholder="Pesquise pelos produtos aqui!"
+              placeholder="Pesquisa entre seus produtos aqui!"
             />
           )
           : <S.Title>{list.name}</S.Title>}
