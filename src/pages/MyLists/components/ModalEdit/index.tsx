@@ -74,7 +74,7 @@ const ModalEdit = forwardRef(({
           <Input
             label="Nome"
             value={name}
-            maxLength={15}
+            maxLength={26}
             onChange={(event) => { handleNameChange(event); }}
             type="text"
             placeholder="Nome da lista"

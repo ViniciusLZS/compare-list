@@ -129,7 +129,9 @@ export default function MyLists() {
           <S.List>
             {lists.map((item) => (
               <S.Card key={item.id}>
-                <S.Title>{item.name}</S.Title>
+                <S.Title>
+                  <h2>{item.name}</h2>
+                </S.Title>
 
                 <S.Content>
                   <Link to={`/list/${item.id}`}>

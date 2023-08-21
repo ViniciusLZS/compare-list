@@ -134,12 +134,28 @@ export const Card = styled.div`
   }
 `;
 
-export const Title = styled.h2`
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 100;
-  padding: 0.2rem;
-  margin-top: 1rem;
+export const Title = styled.div`
+  margin: 0 5rem;
+
+  h2 {
+    width: 100%;
+
+    white-space: nowrap;
+    overflow-x: scroll;
+    text-align: center;
+
+    font-size: 1.8rem;
+    font-weight: 100;
+    padding: 0.2rem;
+    margin-top: 1rem;
+
+    &::-webkit-scrollbar{
+      height: 0.5rem;
+    }
+    &::-webkit-scrollbar-thumb{
+      background: ${({ theme }) => theme.colors.gray[100]};
+    }
+  }
 `;
 
 export const Content = styled.div`
@@ -159,8 +175,6 @@ export const Content = styled.div`
 
   .compare {
     position: absolute;
-
-
     width: 100%;
     height: 100%;
     display: flex;
@@ -183,7 +197,7 @@ export const Info = styled.div`
 export const Options = styled.button`
   position: absolute;
   top: -3.5rem;
-  right: 1rem;
+  right: 0.6rem;
 
   padding: 1rem;
 
